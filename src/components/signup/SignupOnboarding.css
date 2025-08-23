@@ -9,7 +9,7 @@
   min-height: 100%;
   margin: 0 auto;
   position: relative;
-  background-color: #F5F5F5;
+  background-color: var(--color-bg-secondary);
   overflow: visible;
   z-index: 1;
 }
@@ -22,26 +22,26 @@
   overflow-x: hidden;
   position: relative;
   padding-bottom: 0;
-  background-color: #F5F5F5;
+  background-color: var(--color-bg-secondary);
 }
 
 /* ========================================
    헤더 영역 스타일
    ======================================== */
 .header {
-  padding: 16px;
+  padding: var(--spacing-lg);
   position: relative;
-  padding-top: 16px;
+  padding-top: var(--spacing-lg);
 }
 
 /* 우측 상단 로그인 버튼 */
 .login-button {
   position: absolute;
-  top: 16px;
-  right: 16px;
-  color: #007BEB;
-  font-size: 16px;
-  font-weight: 400;
+  top: var(--spacing-lg);
+  right: var(--spacing-lg);
+  color: var(--color-button-primary);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-regular);
   background: none;
   border: none;
   cursor: pointer;
@@ -49,25 +49,25 @@
 
 /* 메인 타이틀 영역 */
 .main-title {
-  margin-top: 24px;
+  margin-top: var(--spacing-2xl);
   text-align: left;
 }
 
 /* 메인 타이틀 제목 (h1) */
 .main-title h1 {
-  font-size: 24px;
-  font-weight: 600;
-  color: #15161A;
-  margin-bottom: 6px;
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-sm);
   line-height: 1.5; /* 150% */
   letter-spacing: -0.02em; /* 자간 -> 프리텐다드 폰트 최적화 */
 }
 
 /* 메인 타이틀 부제목 (h2) */
 .main-title h2 {
-  font-size: 24px;
-  font-weight: 600;
-  color: #15161A;
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
   line-height: 1.5;
   letter-spacing: -0.02em;
 }
@@ -80,8 +80,8 @@
   width: 100%;
   height: 400px; /* 이미지 높이에 맞춰 조정 */
   overflow: hidden;
-  margin: 16px 0;
-  padding: 0 20px; /* 투명 영역 고려하여 여백 줄임 */
+  margin: var(--spacing-lg) 0;
+  padding: 0 var(--spacing-xl); /* 투명 영역 고려하여 여백 줄임 */
 }
 
 /* 슬라이드 래퍼 배치 */
@@ -149,20 +149,19 @@
   width: 36px;
   height: 10px;
   border-radius: 5px;
-  background-color: #ddd;
   transition: background-color 0.3s ease;
   border: none;
 }
 
 /* 활성화된 진행 바 */
 .step-bar.active {
-  background-color: #007BEB;
+  background-color: var(--color-button-primary);
   border: none;
 }
 
 /* 단계별 원형 인디케이터 */
 .step-circle {
-  width: 12px; /* 12x12 */
+  width: 12px;
   height: 12px;
   border-radius: 50%;
   background-color: #C9CED6;
@@ -172,7 +171,7 @@
 
 /* 활성화된 원형 인디케이터 */
 .step-circle.active {
-  background-color: #007BEB;
+  background-color: var(--color-button-primary);
   border: none;
 }
 
@@ -181,14 +180,14 @@
    ======================================== */
 /* 하단 바 */
 .bottom-bar {
-  background: #F5F5F5;
-  border-top: 1px solid #f0f0f0;
-  padding: 0 20px;
+  background: var(--color-bg-secondary);
+  border-top: 1px solid var(--color-border-secondary);
+  padding: 0 var(--spacing-xl);
   position: relative; /* main-content 안에 존재해야 하기 때문에 relative 유지 */
   width: 100%;
   height: 52px;
   z-index: 1000;
-  margin-top: 4px;
+  margin-top: var(--spacing-xs);
 }
 
 /* 하단 버튼 컨테이너 */
@@ -203,32 +202,36 @@
 /* 다음으로/시작하기 버튼 */
 .next-button {
   width: 100%;
-  background-color: #8A94A6; /* 버튼 기본 색상 */
+  background-color: var(--color-button-secondary); /* 버튼 기본 색상 */
   color: white;
   border: none;
-  border-radius: 12px;
-  padding: 16px;
-  font-size: 20px;
-  font-weight: 600;
-  margin-bottom: 12px;
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  margin-bottom: var(--spacing-md);
   cursor: pointer;
-  transition: background-color 0.2s ease;
+}
+
+/* 모든 상태에서 색상 변화 방지 */
+.next-button:hover,
+.next-button:active,
+.next-button:focus {
+  background-color: var(--color-button-secondary) !important;
+}
+
+/* 시작하기 버튼일 때도 모든 상태에서 파란색 유지 */
+.next-button[data-slide="2"]:hover,
+.next-button[data-slide="2"]:active,
+.next-button[data-slide="2"]:focus {
+  background-color: var(--color-button-primary) !important;
 }
 
 /* 시작하기 버튼일 때만 파란색으로 변경 */
 .next-button[data-slide="2"] {
-  background-color: #007BEB;
+  background-color: var(--color-button-primary);
 }
 
-/* 버튼 클릭 시 상태 */
-.next-button:active {
-  background-color: #8A94A6;
-}
-
-/* 시작하기 버튼 클릭 시 상태 */
-.next-button[data-slide="2"]:active {
-  background-color: #007BEB;
-}
 
 /* ========================================
    반응형 디자인
