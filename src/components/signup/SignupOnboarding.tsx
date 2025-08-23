@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import './SignupOnboarding.css'
 // 회원가입 온보딩 단계별 이미지 import
 import step1Image from '../../assets/images/signup/step-1.png'
@@ -11,6 +12,7 @@ import step3Image from '../../assets/images/signup/step-3.png'
 const SignupOnboarding = () => {
   // 현재 활성화된 슬라이드 인덱스 (0: 첫 번째, 1: 두 번째, 2: 세 번째)
   const [currentSlide, setCurrentSlide] = useState(0)
+  const navigate = useNavigate()
 
   // 온보딩 슬라이드 데이터 정의
   const slides = [
@@ -39,6 +41,11 @@ const SignupOnboarding = () => {
     if (currentSlide < slides.length - 1) {
       setCurrentSlide(currentSlide + 1)
     }
+  }
+
+  // 회원가입 폼으로 이동하는 함수
+  const handleStartSignup = () => {
+    navigate('/signup')
   }
 
   // 이전 슬라이드로 이동하는 함수 (첫 번째 슬라이드에서는 이동하지 않음)
@@ -165,7 +172,7 @@ const SignupOnboarding = () => {
             <div className="bottom-content">
               <button 
                 className="next-button" 
-                onClick={handleNextSlide}
+                onClick={currentSlide === slides.length - 1 ? handleStartSignup : handleNextSlide}
                 data-slide={currentSlide} // CSS에서 버튼 스타일 구분을 위한 속성
               >
                 {/* 마지막 슬라이드에서는 '시작하기', 그 외에는 '다음으로' */}
