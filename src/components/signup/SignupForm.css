@@ -1,0 +1,417 @@
+/* ========================================
+   회원가입 폼 컨테이너
+   ======================================== */
+.signup-container {
+  height: 100vh;    
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 393px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+/* ========================================
+   헤더 영역 스타일
+   ======================================== */
+/* 회원가입 화면의 상단 헤더 영역 */
+.signup-header {
+  display: flex;
+  align-items: center;
+  padding: 28px 16px;
+  position: relative;
+}
+
+/* 뒤로가기 버튼 */
+.back-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 뒤로가기 아이콘 */
+.back-icon {
+  width: 18px;
+  height: 17px;
+}
+
+/* 회원가입 제목 */
+.signup-title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+
+/* ========================================
+   메인 콘텐츠 영역
+   ======================================== */
+/* 회원가입 폼의 메인 콘텐츠 영역 */    
+.signup-content {
+  padding: 24px 16px;
+}
+
+/* 각 단계별 입력 폼 컨테이너 */
+.signup-step {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+/* 단계별 제목 */
+.step-title {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-3xl);
+  text-align: left;
+}
+
+/* ========================================
+   입력 폼 스타일
+   ======================================== */
+/* 입력 폼 그룹 컨테이너 */
+.input-group {
+  margin-bottom: 24px;
+}
+
+/* 입력 요소들을 가로로 배치하는 행 */
+.input-row {
+  margin-bottom: 12px;
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+/* 아이디 입력 컨테이너 */
+.input-container {
+  background-color: var(--color-bg-primary);
+  border: 1px solid var(--color-border-primary);
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-md);
+  width: 260px;
+  height: 76px;
+  flex-shrink: 0;
+}
+
+/* 비밀번호 입력 컨테이너 (중복확인 버튼이 없으니까 더 넓게) */
+.password-input-container {
+  width: 334px;
+}
+
+/* 입력 필드 라벨 */
+.input-label {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-xs);
+  font-weight: var(--font-weight-regular);
+}
+
+/* 입력 필드 */
+.input-field {
+  width: 100%;
+  height: 40px;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-md);
+  color: var(--color-text-secondary);
+  background-color: var(--color-bg-primary);
+  font-weight: var(--font-weight-regular);
+}
+
+.input-field:focus {
+  outline: none;
+  background-color: var(--color-bg-primary);
+}
+
+/* 유효한 아이디 입력 컨테이너 스타일 */
+.input-container-valid {
+  border-color: var(--color-success) !important;
+}
+
+/* '아이디를 입력해 주세요' 플레이스홀더 */
+.input-field::placeholder {
+  color: #666666;
+}
+
+/* 중복확인 버튼 */
+.duplicate-check-btn {
+  width: 74px;
+  height: 74px;
+  background-color: #B5BBC6;
+  color: white;
+  border: none;
+  border-radius: var(--radius-xl);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-regular);
+  cursor: pointer;
+  transition: background-color 0.2s;
+  white-space: nowrap;
+  flex-shrink: 0;
+  align-self: flex-start;
+}
+
+/* 유효한 아이디일 때 중복확인 버튼 스타일 */
+.duplicate-check-btn-valid {
+  background-color: #4DAEFF;
+}
+
+/* 비활성화된 중복확인 버튼 스타일 */
+.duplicate-check-btn-disabled {
+  background-color: #B5BBC6;
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* 입력 힌트 */
+.input-hint {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-lg);
+  font-weight: var(--font-weight-regular);
+}
+
+/* 입력 힌트 - 에러 상태 */
+.input-hint.error {
+  color: var(--color-error);
+}
+
+/* 입력 힌트 - 성공 상태 */
+.input-hint.success {
+  color: var(--color-success);
+}
+
+/* 하단 버튼 영역 단계별 여백 설정 */
+/* 아이디 단계 */
+.signup-bottom.step-0 {
+  margin-top: 315px;
+}
+
+/* 비밀번호 단계 */
+.signup-bottom.step-1 {
+  margin-top: 187px;
+}
+
+/* 닉네임 단계 */
+.signup-bottom.step-2 {
+  margin-top: 315px;
+}
+
+.next-button {
+  width: 100%;
+  height: 56px;
+  background-color: var(--color-button-secondary);
+  color: white;
+  border: none;
+  border-radius: var(--radius-xl);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+}
+
+/* 다음으로 버튼 비활성화 상태 */
+.next-button:disabled {
+  background-color: var(--color-button-secondary);
+  cursor: not-allowed;
+}
+
+/* 다음으로 버튼 활성화 상태 */
+.next-button:enabled {
+  background-color: var(--color-button-primary);
+}
+
+/* 모든 상태에서 호버 효과 방지 */
+.next-button:hover,
+.next-button:active,
+.next-button:focus {
+  background-color: var(--color-button-secondary) !important;
+}
+
+.next-button:enabled:hover,
+.next-button:enabled:active,
+.next-button:enabled:focus {
+  background-color: var(--color-button-primary) !important;
+}
+
+/* ========================================
+   약관 동의 모달 스타일
+   ======================================== */
+/* 약관 동의 모달 오버레이 */
+.terms-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  display: flex;
+  align-items: flex-end;
+}
+
+/* 약관 동의 모달 */
+.terms-modal {
+  background-color: white;
+  border-radius: 20px 20px 0 0;
+  width: 100%;
+  max-width: 393px;
+  margin: 0 auto;
+  padding: 20px 16px 32px;
+  position: relative;
+}
+
+/* 모달 드래그 핸들 */
+.modal-drag-handle {
+  width: 40px;
+  height: 4px;
+  background-color: #D1D5DB;
+  border-radius: 2px;
+  margin: 0 auto 24px;
+}
+
+/* 약관 동의 모달 제목 */
+.modal-title {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+/* 약관 동의 모달 약관 목록 */
+.agreements-list {
+  margin-bottom: 32px;
+}
+
+/* 약관 동의 모달 약관 아이템 */
+.agreement-item {
+  display: flex;
+  align-items: center;
+  padding: 16px 0;
+}
+.agreement-item:last-child {
+  border-bottom: none;
+}
+/* 약관 동의 모달 약관 체크박스 */
+.agreement-checkbox {
+  width: 24px;
+  height: 24px;
+  margin-right: 12px;
+  cursor: pointer;
+}
+
+/* 약관 체크박스 아이콘 */
+.check-icon {
+  width: 100%;
+  height: 100%;
+}
+
+/* 약관 동의 모달 약관 텍스트 */
+.agreement-text {
+  flex: 1;
+  cursor: pointer;
+}
+
+/* 약관 동의 모달 약관 제목 */
+.agreement-title {
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-text-primary);
+}
+
+/* 약관 동의 모달 약관 내용 보기 */
+.agreement-view {
+  font-size: var(--font-size-sm);
+  color: #666666;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.signup-button {
+  width: 100%;
+  height: 56px;
+  background-color: var(--color-button-secondary);
+  color: white;
+  border: none;
+  border-radius: var(--radius-xl);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.signup-button:disabled {
+  cursor: not-allowed;
+}
+
+.signup-button-active {
+  background-color: var(--color-button-primary);
+}
+
+/* ========================================
+   회원가입 완료 화면 스타일
+   ======================================== */
+/* 회원가입 완료 아이콘 */
+.signup-complete-icon {
+  display: flex;
+  justify-content: center;
+  margin: 40px 0;
+}
+
+/* 아이콘 배경 원 */
+.signup-complete-circle {
+  width: 120px;
+  height: 120px;
+  background-color: #E3F2FD;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 아이콘 이모지 */
+.signup-complete-emoji {
+  font-size: 60px;
+}
+
+/* 회원가입 완료 타이틀 */
+.signup-complete-title {
+  text-align: center;
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin-bottom: 16px;
+}
+
+/* 회원가입 완료 메시지 */
+.signup-complete-message {
+  text-align: center;
+  margin-bottom: 40px;
+}
+/* 회원가입 완료 메시지 텍스트 */
+.signup-complete-message p {
+  margin: 8px 0;
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-md);
+}
+
+/* 회원가입 완료 버튼 */
+.signup-complete-button {
+  width: 100%;
+  height: 56px;
+  background-color: var(--color-button-primary);
+  color: white;
+  border: none;
+  border-radius: var(--radius-xl);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+}
