@@ -571,7 +571,7 @@ const SignupForm = () => {
       case 2:
         return renderNicknameStep()  // 닉네임 입력 단계
       case 3:
-        return renderLocationSettingStep()  // 동네 위치 설정 단계
+        return renderLocationStep()  // 동네 위치 설정 단계
       case 4:
         return renderSignupCompleteStep()   // 회원가입 완료 단계
       default:

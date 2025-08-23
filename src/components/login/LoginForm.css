@@ -1,0 +1,214 @@
+/* ========================================
+   로그인 컨테이너
+   ======================================== */
+.login-container {
+  width: 393px;
+  height: 100vh;
+  margin: 0 auto;
+  position: relative;
+  background-color: var(--color-bg-secondary);
+  overflow: hidden;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ========================================
+   로그인 콘텐츠 영역
+   ======================================== */
+.login-content {
+  flex: 1;
+  width: 100%;
+  overflow-x: hidden;
+  position: relative;
+  background-color: var(--color-bg-secondary);
+  display: flex;
+  flex-direction: column;
+}
+
+/* ========================================
+   헤더 영역 스타일
+   ======================================== */
+.header {
+  padding: var(--spacing-lg) !important;
+  position: relative !important;
+  padding-top: var(--spacing-lg) !important;
+  padding-left: var(--spacing-lg) !important;
+  padding-right: var(--spacing-lg) !important;
+}
+
+/* 우측 상단 회원가입 버튼 */
+.signup-button {
+  position: absolute !important;
+  top: 24px !important;
+  right: 28px !important;
+  color: var(--color-button-primary) !important;
+  font-size: 15px !important;
+  font-weight: var(--font-weight-regular) !important;
+  background: none !important;
+  border: none !important;
+  cursor: pointer !important;
+  white-space: nowrap !important;
+  z-index: 10 !important;
+  max-width: 100px !important;
+  text-align: right !important;
+}
+
+/* ========================================
+   로고 및 타이틀 영역
+   ======================================== */
+.logo-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 30px 0 10px 0; /* 상단 30px, 하단 10px */
+}
+
+/* 로고 이미지 */
+.logo-image {
+  width: 165px;
+  height: 194px;
+}
+
+/* ========================================
+   로그인 폼
+   ======================================== */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* ========================================
+   입력 필드 그룹
+   ======================================== */
+/* 로그인 입력 컨테이너 */
+.login-input-container {
+  background-color: var(--color-bg-primary);
+  border: 1px solid var(--color-border-primary);
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-md);
+  width: 100%;
+  height: 76px;
+  flex-shrink: 0;
+  transition: border-color 0.2s ease;
+}
+
+/* 유효한 입력 컨테이너 */
+.login-input-container.login-input-valid {
+  border-color: var(--color-button-primary);
+}
+
+/* 에러 상태 입력 컨테이너 */
+.login-input-container.login-input-error {
+  border-color: var(--color-error);
+}
+
+/* 입력 필드 라벨 */
+.login-input-label {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-xs);
+  font-weight: var(--font-weight-regular);
+}
+
+/* 입력 필드 */
+.login-input-field {
+  width: 100%;
+  height: 40px;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-md);
+  color: var(--color-text-secondary);
+  background-color: var(--color-bg-primary);
+  font-weight: var(--font-weight-regular);
+}
+
+.login-input-field:focus {
+  outline: none;
+  background-color: var(--color-bg-primary);
+}
+
+.login-input-field::placeholder {
+  color: #666666;
+}
+
+/* 에러 메시지 */
+.login-error-message {
+  font-size: var(--font-size-sm);
+  color: var(--color-error);
+  margin-bottom: var(--spacing-lg);
+  font-weight: var(--font-weight-regular);
+}
+
+/* ========================================
+   도움말 링크
+   ======================================== */
+.login-help-links {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin: 16px 0;
+}
+
+/* 헬퍼 링크 버튼 */
+.login-help-link {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  padding: 4px 0;
+}
+
+.login-help-link:hover {
+  color: var(--color-text-primary);
+}
+
+/* 구분자 */
+.login-separator {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
+
+/* ========================================
+   로그인 버튼
+   ======================================== */
+.submit-button {
+  width: 100%;
+  height: 56px;
+  background-color: var(--color-button-secondary);
+  color: white;
+  border: none;
+  border-radius: var(--radius-xl);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+/* 활성화된 로그인 버튼 */
+.submit-button:not(.submit-button-disabled) {
+  background-color: var(--color-button-primary);
+}
+
+/* 비활성화된 로그인 버튼 */
+.submit-button.submit-button-disabled {
+  background-color: var(--color-button-secondary);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* 모든 상태에서 호버 효과 방지 */
+.submit-button:hover,
+.submit-button:active,
+.submit-button:focus {
+  background-color: var(--color-button-secondary) !important;
+}
+
+.submit-button:not(.submit-button-disabled):hover,
+.submit-button:not(.submit-button-disabled):active,
+.submit-button:not(.submit-button-disabled):focus {
+  background-color: var(--color-button-primary) !important;
+}

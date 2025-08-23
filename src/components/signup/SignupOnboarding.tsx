@@ -139,7 +139,7 @@ const SignupOnboarding = () => {
           {/* 헤더 영역 - 로그인 버튼과 메인 타이틀 */}
           <div className="header">
             {/* 우측 상단 로그인 버튼 */}
-            <div className="login-button">로그인</div>
+            <div className="login-button" onClick={() => navigate('/login')}>로그인</div>
             {/* 메인 타이틀 - 현재 슬라이드에 따라 동적으로 변경 */}
             <div className="main-title">
               <h1>{slides[currentSlide].title}</h1>
