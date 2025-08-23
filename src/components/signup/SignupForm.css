@@ -1,0 +1,225 @@
+/* ========================================
+   회원가입 폼 컨테이너
+   ======================================== */
+.signup-container {
+  height: 100vh;    
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 393px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+/* ========================================
+   헤더 영역 스타일
+   ======================================== */
+/* 회원가입 화면의 상단 헤더 영역 */
+.signup-header {
+  display: flex;
+  align-items: center;
+  padding: 28px 16px;
+  position: relative;
+}
+
+/* 뒤로가기 버튼 */
+.back-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 뒤로가기 아이콘 */
+.back-icon {
+  width: 18px;
+  height: 17px;
+}
+
+/* 회원가입 제목 */
+.signup-title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+
+/* ========================================
+   메인 콘텐츠 영역
+   ======================================== */
+/* 회원가입 폼의 메인 콘텐츠 영역 */    
+.signup-content {
+  padding: 24px 16px;
+}
+
+/* 각 단계별 입력 폼 컨테이너 */
+.signup-step {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+/* 단계별 제목 */
+.step-title {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-3xl);
+  text-align: left;
+}
+
+/* ========================================
+   입력 폼 스타일
+   ======================================== */
+/* 입력 폼 그룹 컨테이너 */
+.input-group {
+  margin-bottom: 24px;
+}
+
+/* 입력 요소들을 가로로 배치하는 행 */
+.input-row {
+  margin-bottom: 12px;
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+/* 아이디 입력 컨테이너 */
+.input-container {
+  background-color: var(--color-bg-primary);
+  border: 1px solid var(--color-border-primary);
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-md);
+  width: 260px;
+  height: 76px;
+  flex-shrink: 0;
+}
+
+/* 입력 필드 라벨 */
+.input-label {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-xs);
+  font-weight: var(--font-weight-regular);
+}
+
+/* 입력 필드 */
+.input-field {
+  width: 100%;
+  height: 40px;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-md);
+  color: var(--color-text-secondary);
+  background-color: var(--color-bg-primary);
+  font-weight: var(--font-weight-regular);
+}
+
+.input-field:focus {
+  outline: none;
+  background-color: var(--color-bg-primary);
+}
+
+/* 유효한 아이디 입력 컨테이너 스타일 */
+.input-container-valid {
+  border-color: var(--color-success) !important;
+}
+
+/* '아이디를 입력해 주세요' 플레이스홀더 */
+.input-field::placeholder {
+  color: #666666;
+}
+
+/* 중복확인 버튼 */
+.duplicate-check-btn {
+  width: 74px;
+  height: 74px;
+  background-color: #B5BBC6;
+  color: white;
+  border: none;
+  border-radius: var(--radius-xl);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-regular);
+  cursor: pointer;
+  transition: background-color 0.2s;
+  white-space: nowrap;
+  flex-shrink: 0;
+  align-self: flex-start;
+}
+
+/* 유효한 아이디일 때 중복확인 버튼 스타일 */
+.duplicate-check-btn-valid {
+  background-color: #4DAEFF;
+}
+
+/* 비활성화된 중복확인 버튼 스타일 */
+.duplicate-check-btn-disabled {
+  background-color: #B5BBC6;
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* 입력 힌트 */
+.input-hint {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-lg);
+  font-weight: var(--font-weight-regular);
+}
+
+/* 입력 힌트 - 에러 상태 */
+.input-hint.error {
+  color: var(--color-error);
+}
+
+/* 입력 힌트 - 성공 상태 */
+.input-hint.success {
+  color: var(--color-success);
+}
+
+/* 하단 버튼 영역 */
+.signup-bottom {
+  margin-top: 315px;
+}
+
+.next-button {
+  width: 100%;
+  height: 56px;
+  background-color: var(--color-button-secondary);
+  color: white;
+  border: none;
+  border-radius: var(--radius-xl);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+}
+
+/* 다음으로 버튼 비활성화 상태 */
+.next-button:disabled {
+  background-color: var(--color-button-secondary);
+  cursor: not-allowed;
+}
+
+/* 다음으로 버튼 활성화 상태 */
+.next-button:enabled {
+  background-color: var(--color-button-primary);
+}
+
+/* 모든 상태에서 호버 효과 방지 */
+.next-button:hover,
+.next-button:active,
+.next-button:focus {
+  background-color: var(--color-button-secondary) !important;
+}
+
+.next-button:enabled:hover,
+.next-button:enabled:active,
+.next-button:enabled:focus {
+  background-color: var(--color-button-primary) !important;
+}
