@@ -1,0 +1,275 @@
+/* 회원가입 온보딩 컴포넌트 스타일링 */
+
+/* ========================================
+   모바일 컨테이너 및 레이아웃
+   ======================================== */
+/* 모바일 화면 크기 설정 (W393 x H852 - 아이폰 16 Pro 기준) */
+.mobile-container {
+  width: 393px;
+  min-height: 100%;
+  margin: 0 auto;
+  position: relative;
+  background-color: #F5F5F5;
+  overflow: visible;
+  z-index: 1;
+}
+
+/* 메인 콘텐츠 영역 */
+.main-content {
+  min-height: calc(100vh - 52px);
+  width: 100%;
+  overflow-y: visible;
+  overflow-x: hidden;
+  position: relative;
+  padding-bottom: 0;
+  background-color: #F5F5F5;
+}
+
+/* ========================================
+   헤더 영역 스타일
+   ======================================== */
+.header {
+  padding: 16px;
+  position: relative;
+  padding-top: 16px;
+}
+
+/* 우측 상단 로그인 버튼 */
+.login-button {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  color: #007BEB;
+  font-size: 16px;
+  font-weight: 400;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* 메인 타이틀 영역 */
+.main-title {
+  margin-top: 24px;
+  text-align: left;
+}
+
+/* 메인 타이틀 제목 (h1) */
+.main-title h1 {
+  font-size: 24px;
+  font-weight: 600;
+  color: #15161A;
+  margin-bottom: 6px;
+  line-height: 1.5; /* 150% */
+  letter-spacing: -0.02em; /* 자간 -> 프리텐다드 폰트 최적화 */
+}
+
+/* 메인 타이틀 부제목 (h2) */
+.main-title h2 {
+  font-size: 24px;
+  font-weight: 600;
+  color: #15161A;
+  line-height: 1.5;
+  letter-spacing: -0.02em;
+}
+
+/* ========================================
+   이미지 슬라이드 영역 스타일
+   ======================================== */
+.slide-container {
+  position: relative;
+  width: 100%;
+  height: 400px; /* 이미지 높이에 맞춰 조정 */
+  overflow: hidden;
+  margin: 16px 0;
+  padding: 0 20px; /* 투명 영역 고려하여 여백 줄임 */
+}
+
+/* 슬라이드 래퍼 배치 */
+.slide-wrapper {
+  display: flex;
+  width: 300%; /* 3개 슬라이드 * 100% */
+  height: 100%;
+  transition: transform 0.3s ease-in-out;
+  transform: translateX(0);
+}
+
+/* 개별 슬라이드 */
+.slide {
+  flex: 0 0 33.333%; /* 각 슬라이드는 33.333% 너비 */
+  width: 33.333%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+/* 슬라이드 이미지 */
+.slide-image {
+  width: 100%; /* 컨테이너 너비에 맞춤 */
+  max-width: 308px; /* 최대 너비 제한 */
+  height: auto; /* 비율 유지 */
+  max-height: 368px; /* 최대 높이 제한 */
+  object-fit: contain;
+  border-radius: 16px;
+}
+
+/* ========================================
+   인디케이터 스타일
+   ======================================== */
+.step-indicators {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin-top: 16px;
+  padding: 12px;
+  border-radius: 12px;
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-bottom: 4px;
+}
+
+/* 인디케이터 컨테이너 */
+.step-indicator {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* 인디케이터 아이템 */
+.step-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* 단계별 진행 바 */
+.step-bar {
+  width: 36px;
+  height: 10px;
+  border-radius: 5px;
+  background-color: #ddd;
+  transition: background-color 0.3s ease;
+  border: none;
+}
+
+/* 활성화된 진행 바 */
+.step-bar.active {
+  background-color: #007BEB;
+  border: none;
+}
+
+/* 단계별 원형 인디케이터 */
+.step-circle {
+  width: 12px; /* 12x12 */
+  height: 12px;
+  border-radius: 50%;
+  background-color: #C9CED6;
+  transition: background-color 0.3s ease;
+  border: none;
+}
+
+/* 활성화된 원형 인디케이터 */
+.step-circle.active {
+  background-color: #007BEB;
+  border: none;
+}
+
+/* ========================================
+   하단 버튼 영역 스타일
+   ======================================== */
+/* 하단 바 */
+.bottom-bar {
+  background: #F5F5F5;
+  border-top: 1px solid #f0f0f0;
+  padding: 0 20px;
+  position: relative; /* main-content 안에 존재해야 하기 때문에 relative 유지 */
+  width: 100%;
+  height: 52px;
+  z-index: 1000;
+  margin-top: 4px;
+}
+
+/* 하단 버튼 컨테이너 */
+.bottom-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  justify-content: center;
+}
+
+/* 다음으로/시작하기 버튼 */
+.next-button {
+  width: 100%;
+  background-color: #8A94A6; /* 버튼 기본 색상 */
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 16px;
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+/* 시작하기 버튼일 때만 파란색으로 변경 */
+.next-button[data-slide="2"] {
+  background-color: #007BEB;
+}
+
+/* 버튼 클릭 시 상태 */
+.next-button:active {
+  background-color: #8A94A6;
+}
+
+/* 시작하기 버튼 클릭 시 상태 */
+.next-button[data-slide="2"]:active {
+  background-color: #007BEB;
+}
+
+/* ========================================
+   반응형 디자인
+   ======================================== */
+@media (max-width: 768px) {
+  /* 모바일에서 슬라이드 컨테이너 높이 조정 */
+  .slide-container {
+    height: 320px; /* 원래 높이로 복구 */
+    padding: 0 16px; /* 모바일에서는 더 작은 여백 */
+  }
+  
+  /* 모바일에서 헤더 패딩 조정 */
+  .header {
+    padding: 12px;
+    padding-top: 12px;
+  }
+  
+  /* 모바일에서 로그인 버튼 위치 조정 */
+  .login-button {
+    top: 24x;
+    right: 28px;
+    font-size: 15px;
+  }
+  
+  /* 모바일에서 슬라이드 패딩 조정 */
+  .slide {
+    padding: 0;
+  }
+  
+  /* 모바일에서 인디케이터 여백 조정 */
+  .step-indicators {
+    padding: 12px;
+    margin-left: 16px;
+    margin-right: 16px;
+  }
+  
+  /* 모바일에서 이미지 크기 조정 - 투명 영역 고려 */
+  .slide-image {
+    width: 100%;
+    max-width: 280px; /* 모바일에서는 약간 작게 */
+    height: auto;
+    max-height: 335px;
+  }
+}
