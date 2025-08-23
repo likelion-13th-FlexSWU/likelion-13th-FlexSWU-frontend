@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import './SignupForm.css'
 import BackArrowIcon from '../../assets/back-arrow.png'
+import UncheckedIcon from '../../assets/unchecked.png'
+import CheckedIcon from '../../assets/checked.png'
 
 /**
  * 회원가입 폼 컴포넌트 (단계별 입력)
@@ -31,6 +33,18 @@ const SignupForm = () => {
   // 비밀번호 관련 상태 관리
   const [passwordValidationStatus, setPasswordValidationStatus] = useState(0)  // 비밀번호 유효성 상태 (0: 초기, 1: 유효하지 않음, 2: 유효함)
   const [passwordMatchStatus, setPasswordMatchStatus] = useState(0)           // 비밀번호 일치 상태 (0: 초기, 1: 불일치, 2: 일치)
+
+  // 닉네임 관련 상태 관리
+  const [nicknameValidationStatus, setNicknameValidationStatus] = useState(0)  // 닉네임 유효성 상태 (0: 초기, 1: 유효하지 않음, 2: 유효함)
+
+  // 약관 동의 관련 상태 관리
+  const [showTermsModal, setShowTermsModal] = useState(false)  // 약관 동의 모달 표시 여부
+  const [agreements, setAgreements] = useState({
+    serviceTerms: false,      // 서비스 이용약관 (필수)
+    privacyPolicy: false,     // 개인정보 처리방침 (필수)
+    locationService: false,   // 위치기반 서비스 이용약관 (필수)
+    marketing: false          // 마케팅 정보 수신 동의 (선택)
+  })
 
   // 아이디 입력값 변경 핸들러
   const handleUserIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -101,6 +115,53 @@ const SignupForm = () => {
     }
   }
 
+  // 닉네임 입력값 변경 핸들러
+  const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement> | React.FormEvent<HTMLInputElement>) => {
+    const value = (e.target as HTMLInputElement).value
+    
+    // 15자로 제한
+    if (value.length > 15) {
+      setNicknameValidationStatus(1) // 15자 초과 시 에러 상태로 설정
+      return // 입력은 무시
+    }
+    
+    setFormData(prev => ({ ...prev, nickname: value }))
+    
+    // 실시간 닉네임 유효성 검사
+    if (value.length === 0) {
+      setNicknameValidationStatus(0)
+    } else if (value.trim() === '') {
+      setNicknameValidationStatus(1)
+    } else {
+      setNicknameValidationStatus(2)
+    }
+  }
+
+  // 약관 동의 체크박스 핸들러
+  const handleAgreementChange = (key: keyof typeof agreements) => {
+    setAgreements(prev => ({
+      ...prev,
+      [key]: !prev[key]
+    }))
+  }
+
+  // 약관 동의 모달 열기
+  const openTermsModal = () => {
+    setShowTermsModal(true)
+  }
+
+  // 약관 동의 모달 닫기
+  const closeTermsModal = () => {
+    setNicknameValidationStatus(0)
+  }
+
+  // 필수 약관 동의 확인
+  const isRequiredAgreementsChecked = () => {
+    return agreements.serviceTerms && agreements.privacyPolicy && agreements.locationService
+  }
+
+
+
   // 다음 단계로 이동 핸들러
   const handleNextStep = () => {
     if (currentStep === 0) {
@@ -119,6 +180,10 @@ const SignupForm = () => {
         alert('비밀번호가 일치하지 않습니다.')
         return
       }
+    } else if (currentStep === 2) {
+      // 닉네임 단계: 약관 동의 모달 열기
+      openTermsModal()
+      return
     }
     
     // 모든 조건이 만족되면 다음 단계로 이동
@@ -237,6 +302,40 @@ const SignupForm = () => {
     </div>
   )
 
+  // 닉네임 입력 단계 렌더링
+  const renderNicknameStep = () => (
+    <div className="signup-step">
+      <div className="step-title">뭐라고 불러 드릴까요?</div>
+      
+      {/* 닉네임 입력 */}
+      <div className={`input-container password-input-container ${
+        nicknameValidationStatus === 2 ? 'input-container-valid' : ''
+      }`}>
+        <div className="input-label">닉네임</div>
+        <input
+          type="text"
+          className="input-field"
+          placeholder="닉네임을 입력해 주세요."
+          value={formData.nickname}
+          onChange={handleNicknameChange}
+          onInput={handleNicknameChange}
+          onKeyDown={(e) => {
+            if (formData.nickname.length >= 15 && e.key !== 'Backspace' && e.key !== 'Delete') {
+              e.preventDefault()
+              setNicknameValidationStatus(1) // 15자 초과 시 에러 상태
+            }
+          }}
+        />
+      </div>
+      
+      <div className={`input-hint ${
+        nicknameValidationStatus === 1 ? 'error' : ''
+      }`}>
+        {nicknameValidationStatus === 1 ? '닉네임은 최대 15자입니다.' : '닉네임은 최대 15자입니다.'}
+      </div>
+    </div>
+  )
+
   // 현재 단계에 따른 제목과 내용 렌더링
   const renderCurrentStep = () => {
     switch (currentStep) {
@@ -245,7 +344,7 @@ const SignupForm = () => {
       case 1:
         return renderPasswordStep()  // 비밀번호 입력 단계
       case 2:
-        return <div className="signup-step">뭐라고 불러 드릴까요?</div>  // TODO: 구현 예정
+        return renderNicknameStep()  // 닉네임 입력 단계
       case 3:
         return <div className="signup-step">동네 설정</div>  // TODO: 구현 예정
       default:
@@ -276,7 +375,8 @@ const SignupForm = () => {
             className="next-button"
             disabled={
               (currentStep === 0 && (idValidationStatus !== 2 || idDuplicateStatus !== 2)) ||
-              (currentStep === 1 && (passwordValidationStatus !== 2 || passwordMatchStatus !== 2))
+              (currentStep === 1 && (passwordValidationStatus !== 2 || passwordMatchStatus !== 2)) ||
+              (currentStep === 2 && nicknameValidationStatus !== 2)
             }
             onClick={currentStep === 3 ? handleSignupComplete : handleNextStep}
           >
@@ -285,6 +385,91 @@ const SignupForm = () => {
           </button>
         </div>
       </div>
+      
+      {/* 약관 동의 모달 */}
+      {showTermsModal && (
+        <div className="terms-modal-overlay" onClick={closeTermsModal}>
+          <div className="terms-modal" onClick={(e) => e.stopPropagation()}>
+            {/* 드래그 핸들 */}
+            <div className="modal-drag-handle"></div>
+            
+            {/* 모달 제목 */}
+            <div className="modal-title">서비스 약관 동의</div>
+            
+            {/* 약관 목록 */}
+            <div className="agreements-list">
+              {/* 서비스 이용약관 */}
+              <div className="agreement-item">
+                <div className="agreement-checkbox" onClick={() => handleAgreementChange('serviceTerms')}>
+                  <img 
+                    src={agreements.serviceTerms ? CheckedIcon : UncheckedIcon} 
+                    alt="체크" 
+                    className="check-icon"
+                  />
+                </div>
+                <div className="agreement-text" onClick={() => handleAgreementChange('serviceTerms')}>
+                  <span className="agreement-title">서비스 이용약관 (필수)</span>
+                </div>
+                <span className="agreement-view">보기</span>
+              </div>
+              
+              {/* 개인정보 처리방침 */}
+              <div className="agreement-item">
+                <div className="agreement-checkbox" onClick={() => handleAgreementChange('privacyPolicy')}>
+                  <img 
+                    src={agreements.privacyPolicy ? CheckedIcon : UncheckedIcon} 
+                    alt="체크" 
+                    className="check-icon"
+                  />
+                </div>
+                <div className="agreement-text" onClick={() => handleAgreementChange('privacyPolicy')}>
+                  <span className="agreement-title">개인정보 처리방침 (필수)</span>
+                </div>
+                <span className="agreement-view">보기</span>
+              </div>
+              
+              {/* 위치기반 서비스 이용약관 */}
+              <div className="agreement-item">
+                <div className="agreement-checkbox" onClick={() => handleAgreementChange('locationService')}>
+                  <img 
+                    src={agreements.locationService ? CheckedIcon : UncheckedIcon} 
+                    alt="체크" 
+                    className="check-icon"
+                  />
+                </div>
+                <div className="agreement-text" onClick={() => handleAgreementChange('locationService')}>
+                  <span className="agreement-title">위치기반 서비스 이용약관 (필수)</span>
+                </div>
+                <span className="agreement-view">보기</span>
+              </div>
+              
+              {/* 마케팅 정보 수신 동의 */}
+              <div className="agreement-item">
+                <div className="agreement-checkbox" onClick={() => handleAgreementChange('marketing')}>
+                  <img 
+                    src={agreements.marketing ? CheckedIcon : UncheckedIcon} 
+                    alt="체크" 
+                    className="check-icon"
+                  />
+                </div>
+                <div className="agreement-text" onClick={() => handleAgreementChange('marketing')}>
+                  <span className="agreement-title">마케팅 정보 수신 동의 (선택)</span>
+                </div>
+                <span className="agreement-view">보기</span>
+              </div>
+            </div>
+            
+            {/* 회원가입 버튼 */}
+            <button 
+              className={`signup-button ${isRequiredAgreementsChecked() ? 'signup-button-active' : ''}`}
+              disabled={!isRequiredAgreementsChecked()}
+              onClick={handleSignupComplete}
+            >
+              회원가입하기
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
