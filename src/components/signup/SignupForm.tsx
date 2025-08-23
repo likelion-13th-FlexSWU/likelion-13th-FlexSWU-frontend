@@ -4,19 +4,28 @@ import './SignupForm.css'
 import BackArrowIcon from '../../assets/back-arrow.png'
 import UncheckedIcon from '../../assets/unchecked.png'
 import CheckedIcon from '../../assets/checked.png'
+import { cityData } from '../../types/location'
+import type { CityName, DistrictName } from '../../types/location'
 
 /**
  * 회원가입 폼 컴포넌트 (단계별 입력)
  */
 const SignupForm = () => {
-  // 현재 단계 (0: 아이디, 1: 비밀번호, 2: 닉네임, 3: 지역)
+  // 현재 단계 (0: 아이디, 1: 비밀번호, 2: 닉네임, 3: 약관동의, 4: 동네위치설정, 5: 회원가입완료)
   const [currentStep, setCurrentStep] = useState(0)
   
   // 페이지 이동을 위해 사용하는 함수
   const navigate = useNavigate()
   
   // 사용자가 입력한 폼 데이터를 저장하는 상태
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<{
+    userId: string
+    password: string
+    confirmPassword: string
+    nickname: string
+    city: CityName | ''
+    district: DistrictName | ''
+  }>({
     userId: '',
     password: '',
     confirmPassword: '',
@@ -45,6 +54,24 @@ const SignupForm = () => {
     locationService: false,   // 위치기반 서비스 이용약관 (필수)
     marketing: false          // 마케팅 정보 수신 동의 (선택)
   })
+
+  // 지역 선택 관련 상태 관리
+  const [searchQuery, setSearchQuery] = useState('')  // 검색어
+
+  // 지역 관련 상태 관리
+  const [cityValidationStatus, setCityValidationStatus] = useState(0)      // 시 선택 상태 (0: 미선택, 1: 선택됨)
+  const [districtValidationStatus, setDistrictValidationStatus] = useState(0)  // 구 선택 상태 (0: 미선택, 1: 선택됨)
+
+  // 검색 결과 필터링
+  const filteredCities = Object.keys(cityData).filter(city => 
+    city.includes(searchQuery)
+  )
+  
+  const filteredDistricts = formData.city 
+    ? cityData[formData.city].filter(district => 
+        district.includes(searchQuery)
+      )
+    : []
 
   // 아이디 입력값 변경 핸들러
   const handleUserIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -161,6 +188,33 @@ const SignupForm = () => {
   }
 
 
+  // 시 선택 핸들러
+  const handleCityChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const value = e.target.value as CityName | ''
+    setFormData(prev => ({ ...prev, city: value, district: '' })) // 시가 변경되면 구 초기화
+    
+    if (value) {
+      setCityValidationStatus(1)
+      setDistrictValidationStatus(0) // 구 선택 상태 초기화
+    } else {
+      setCityValidationStatus(0)
+      setDistrictValidationStatus(0)
+    }
+  }
+
+  // 구 선택 핸들러
+  const handleDistrictChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const value = e.target.value as DistrictName | ''
+    setFormData(prev => ({ ...prev, district: value }))
+    
+    if (value) {
+      setDistrictValidationStatus(1)
+    } else {
+      setDistrictValidationStatus(0)
+    }
+  }
+
+
 
   // 다음 단계로 이동 핸들러
   const handleNextStep = () => {
@@ -184,10 +238,16 @@ const SignupForm = () => {
       // 닉네임 단계: 약관 동의 모달 열기
       openTermsModal()
       return
+    } else if (currentStep === 3) {
+      // 지역 단계: 시와 구가 모두 선택되었는지 확인
+      if (!formData.city || !formData.district) {
+        alert('시와 구를 모두 선택해주세요.')
+        return
+      }
     }
     
     // 모든 조건이 만족되면 다음 단계로 이동
-    if (currentStep < 3) {
+    if (currentStep < 4) {
       setCurrentStep(currentStep + 1)
     }
   }
@@ -201,6 +261,12 @@ const SignupForm = () => {
       // 다른 단계에서는 이전 단계로 이동
       setCurrentStep(currentStep - 1)
     }
+  }
+
+  // 약관 동의 후 동네 위치 설정으로 이동
+  const handleTermsAgreement = () => {
+    setCurrentStep(4) // 동네 위치 설정 단계로 이동
+    setShowTermsModal(false) // 모달 닫기
   }
 
   // 회원가입 완료 핸들러
@@ -336,6 +402,165 @@ const SignupForm = () => {
     </div>
   )
 
+  // 동네 위치 설정 화면 렌더링 (지역 선택 UI 포함)
+  const renderLocationSettingStep = () => (
+    <div className="signup-step">
+      <div className="step-title">동네 설정</div>
+      
+      {/* 검색 바 */}
+      <div className="location-search-bar">
+        <input 
+          type="text" 
+          placeholder="지역명을 검색하세요."
+          className="location-search-input"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+        <span className="location-search-icon">🔍</span>
+      </div>
+
+      {/* 지역 선택 영역 */}
+      <div className="location-content">
+        <div className="location-column">
+          <div className="location-column-header">시·도</div>
+          <div className="location-list">
+            {(searchQuery ? filteredCities : Object.keys(cityData)).map(city => (
+              <div 
+                key={city} 
+                className={`location-item ${formData.city === city ? 'selected' : ''}`}
+                onClick={() => handleCityChange({ target: { value: city } } as React.ChangeEvent<HTMLSelectElement>)}
+              >
+                {city}
+              </div>
+            ))}
+            {searchQuery && filteredCities.length === 0 && (
+              <div className="location-no-results">검색 결과가 없습니다.</div>
+            )}
+          </div>
+        </div>
+        
+        <div className="location-column">
+          <div className="location-column-header">시·군·구</div>
+          <div className="location-list">
+            {formData.city && (searchQuery ? filteredDistricts : cityData[formData.city])?.map(district => (
+              <div 
+                key={district} 
+                className={`location-item ${formData.district === district ? 'selected' : ''}`}
+                onClick={() => handleDistrictChange({ target: { value: district } } as React.ChangeEvent<HTMLSelectElement>)}
+              >
+                {district}
+              </div>
+            ))}
+            {searchQuery && formData.city && filteredDistricts.length === 0 && (
+              <div className="location-no-results">검색 결과가 없습니다.</div>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* 하단 버튼 */}
+      <div className="location-modal-buttons">
+        <button className="location-cancel-btn" onClick={() => setCurrentStep(2)}>
+          이전
+        </button>
+        <button 
+          className="location-confirm-btn"
+          disabled={!formData.city || !formData.district}
+                          onClick={() => {
+                  if (formData.city && formData.district) {
+                    // 지역 확인 알림 표시
+                    if (window.confirm(`${formData.district}로 지역을 설정하시겠습니까?`)) {
+                      // 회원가입 완료 단계로 이동
+                      setCurrentStep(4)
+                    }
+                  }
+                }}
+        >
+          다음
+        </button>
+      </div>
+    </div>
+  )
+
+  // 회원가입 완료 화면 렌더링
+  const renderSignupCompleteStep = () => (
+    <div className="signup-step">
+      {/* 중앙 아이콘 */}
+      <div className="signup-complete-icon">
+        <div className="signup-complete-circle">
+          <div className="signup-complete-emoji">🥳</div>
+        </div>
+      </div>
+      
+      {/* 제목 */}
+      <div className="signup-complete-title">회원 가입 완료</div>
+      
+      {/* 안내 메시지 */}
+      <div className="signup-complete-message">
+        <p>가치:가게 회원 가입을</p>
+        <p>완료했어요!</p>
+      </div>
+      
+      {/* 시작하기 버튼 */}
+      <button 
+        className="signup-complete-button"
+        onClick={() => {
+          // TODO: 메인 페이지로 이동
+          console.log('가치:가게 시작!')
+          alert('가치:가게를 시작합니다!')
+        }}
+      >
+        시작하기
+      </button>
+    </div>
+  )
+
+  // 지역 선택 단계 렌더링 (기존 함수는 유지)
+  const renderLocationStep = () => (
+    <div className="signup-step">
+      <div className="step-title">어느 동네에 계신가요?</div>
+      
+      {/* 시 선택 */}
+      <div className={`input-container ${
+        cityValidationStatus === 1 ? 'input-container-valid' : ''
+      }`}>
+        <div className="input-label">시/도</div>
+        <select
+          className="input-field"
+          value={formData.city}
+          onChange={handleCityChange}
+        >
+          <option value="">시/도를 선택해주세요</option>
+          {Object.keys(cityData).map(city => (
+            <option key={city} value={city}>{city}</option>
+          ))}
+        </select>
+      </div>
+      
+      {/* 구 선택 */}
+      <div className={`input-container ${
+        districtValidationStatus === 1 ? 'input-container-valid' : ''
+      }`}>
+        <div className="input-label">구/군</div>
+        <select
+          className="input-field"
+          value={formData.district}
+          onChange={handleDistrictChange}
+          disabled={!formData.city} // 시가 선택되지 않으면 비활성화
+        >
+          <option value="">구/군을 선택해주세요</option>
+                            {formData.city && cityData[formData.city]?.map(district => (
+                    <option key={district} value={district}>{district}</option>
+                  ))}
+        </select>
+      </div>
+      
+      <div className="input-hint">
+        시/도와 구/군을 모두 선택해주세요.
+      </div>
+    </div>
+  )
+
   // 현재 단계에 따른 제목과 내용 렌더링
   const renderCurrentStep = () => {
     switch (currentStep) {
@@ -346,7 +571,9 @@ const SignupForm = () => {
       case 2:
         return renderNicknameStep()  // 닉네임 입력 단계
       case 3:
-        return <div className="signup-step">동네 설정</div>  // TODO: 구현 예정
+        return renderLocationSettingStep()  // 동네 위치 설정 단계
+      case 4:
+        return renderSignupCompleteStep()   // 회원가입 완료 단계
       default:
         return null
     }
@@ -376,9 +603,11 @@ const SignupForm = () => {
             disabled={
               (currentStep === 0 && (idValidationStatus !== 2 || idDuplicateStatus !== 2)) ||
               (currentStep === 1 && (passwordValidationStatus !== 2 || passwordMatchStatus !== 2)) ||
-              (currentStep === 2 && nicknameValidationStatus !== 2)
+              (currentStep === 2 && nicknameValidationStatus !== 2) ||
+              (currentStep === 3 && (cityValidationStatus !== 1 || districtValidationStatus !== 1))
             }
             onClick={currentStep === 3 ? handleSignupComplete : handleNextStep}
+            style={{ display: currentStep === 4 ? 'none' : 'block' }}
           >
             {/* 마지막 단계에서는 '가입완료', 그 외에는 '다음으로' */}
             {currentStep === 3 ? '회원가입하기' : '다음으로'}
@@ -463,13 +692,14 @@ const SignupForm = () => {
             <button 
               className={`signup-button ${isRequiredAgreementsChecked() ? 'signup-button-active' : ''}`}
               disabled={!isRequiredAgreementsChecked()}
-              onClick={handleSignupComplete}
+              onClick={handleTermsAgreement}
             >
               회원가입하기
             </button>
           </div>
         </div>
       )}
+
     </div>
   )
 }

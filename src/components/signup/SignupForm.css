@@ -355,3 +355,63 @@
 .signup-button-active {
   background-color: var(--color-button-primary);
 }
+
+/* ========================================
+   회원가입 완료 화면 스타일
+   ======================================== */
+/* 회원가입 완료 아이콘 */
+.signup-complete-icon {
+  display: flex;
+  justify-content: center;
+  margin: 40px 0;
+}
+
+/* 아이콘 배경 원 */
+.signup-complete-circle {
+  width: 120px;
+  height: 120px;
+  background-color: #E3F2FD;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 아이콘 이모지 */
+.signup-complete-emoji {
+  font-size: 60px;
+}
+
+/* 회원가입 완료 타이틀 */
+.signup-complete-title {
+  text-align: center;
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin-bottom: 16px;
+}
+
+/* 회원가입 완료 메시지 */
+.signup-complete-message {
+  text-align: center;
+  margin-bottom: 40px;
+}
+/* 회원가입 완료 메시지 텍스트 */
+.signup-complete-message p {
+  margin: 8px 0;
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-md);
+}
+
+/* 회원가입 완료 버튼 */
+.signup-complete-button {
+  width: 100%;
+  height: 56px;
+  background-color: var(--color-button-primary);
+  color: white;
+  border: none;
+  border-radius: var(--radius-xl);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+}
