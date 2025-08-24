@@ -1,0 +1,245 @@
+/* 미션 인증 페이지 컨테이너 */
+.mission-auth-container {
+  min-height: 100vh;
+  background-color: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 상단바 */
+.mission-auth-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid #F0F0F0;
+  background-color: #FFFFFF;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.mission-auth-back-button {
+  background: none;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  color: #333333;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+}
+
+.mission-auth-back-button:hover {
+  background-color: #F5F5F5;
+}
+
+.mission-auth-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333333;
+  margin: 0;
+  flex: 1;
+  text-align: center;
+}
+
+.mission-auth-spacer {
+  width: 40px;
+}
+
+/* 메인 콘텐츠 */
+.mission-auth-main {
+  flex: 1;
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+/* 안내 텍스트 */
+.mission-auth-instruction {
+  text-align: left;
+}
+
+.mission-auth-instruction-text {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--text-color-primary);
+  margin: 0 0 8px 0;
+  line-height: 1.4;
+}
+
+.mission-auth-instruction-text:last-child {
+  margin-bottom: 0;
+}
+
+/* 영수증 촬영 영역 */
+.mission-auth-capture-area {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.mission-auth-capture-frame {
+  position: relative;
+  width: 290px;
+  height: 358px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* L자 모서리 프레임 */
+.mission-auth-frame-corner {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border: 3px solid #333333;
+}
+
+.mission-auth-frame-corner.top-left {
+  top: 0;
+  left: 0;
+  border-right: none;
+  border-bottom: none;
+}
+
+.mission-auth-frame-corner.top-right {
+  top: 0;
+  right: 0;
+  border-left: none;
+  border-bottom: none;
+}
+
+.mission-auth-frame-corner.bottom-left {
+  bottom: 0;
+  left: 0;
+  border-right: none;
+  border-top: none;
+}
+
+.mission-auth-frame-corner.bottom-right {
+  bottom: 0;
+  right: 0;
+  border-left: none;
+  border-top: none;
+}
+
+.mission-auth-example-image,
+.mission-auth-selected-image {
+  width: 264px;
+  height: 310px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+/* 촬영 옵션 */
+.mission-auth-options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.mission-auth-camera-button,
+.mission-auth-gallery-button {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  border: 1px solid #E0E0E0;
+  border-radius: 12px;
+  background-color: #FFFFFF;
+  color: #333333;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.mission-auth-camera-button:hover,
+.mission-auth-gallery-button:hover {
+  border-color: #007BEB;
+  background-color: #F8FBFF;
+}
+
+.mission-auth-camera-button svg,
+.mission-auth-gallery-button svg {
+  color: #666666;
+}
+
+.mission-auth-camera-button:hover svg,
+.mission-auth-gallery-button:hover svg {
+  color: #007BEB;
+}
+
+/* 하단 인증하기 버튼 */
+.mission-auth-bottom {
+  padding: 20px;
+  background-color: #FFFFFF;
+  border-top: 1px solid #F0F0F0;
+}
+
+.mission-auth-submit-button {
+  width: 100%;
+  padding: 16px 24px;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.mission-auth-submit-button.active {
+  background-color: #007BEB;
+  color: #FFFFFF;
+}
+
+.mission-auth-submit-button.active:hover {
+  background-color: #0066CC;
+}
+
+.mission-auth-submit-button.disabled {
+  background-color: #E0E0E0;
+  color: #999999;
+  cursor: not-allowed;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 480px) {
+  .mission-auth-main {
+    padding: 20px 16px;
+    gap: 24px;
+  }
+  
+  .mission-auth-capture-frame {
+    width: 320px; /* 모바일에서 더 크게 */
+    height: 400px;
+  }
+  
+  .mission-auth-example-image,
+  .mission-auth-selected-image {
+    width: 290px; /* 모바일에서 더 크게 */
+    height: 340px;
+  }
+}
+
+/* 작은 모바일 화면 */
+@media (max-width: 375px) {
+  .mission-auth-instruction-text {
+    font-size: 26px;
+  }
+  
+  .mission-auth-capture-frame {
+    width: 300px;
+    height: 380px;
+  }
+  
+  .mission-auth-example-image,
+  .mission-auth-selected-image {
+    width: 270px;
+    height: 320px;
+  }
+}
