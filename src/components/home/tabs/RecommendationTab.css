@@ -16,7 +16,7 @@
   position: relative;
   padding: var(--spacing-lg);
   padding-bottom: var(--spacing-2xl);
-  background-image: url('../../assets/backgrounds/bg-hero-section.png');
+  background-image: url('../../../assets/backgrounds/bg-hero-section.png');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
