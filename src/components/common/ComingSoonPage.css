@@ -1,0 +1,123 @@
+/* 준비 중 페이지 컨테이너 */
+.coming-soon-page {
+  min-height: 100vh;
+  background-color: #f8f9fa;
+}
+
+/* 상단 헤더 */
+.coming-soon-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  background-color: white;
+  border-bottom: 1px solid #e9ecef;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.coming-soon-back-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+}
+
+.coming-soon-back-button:hover {
+  background-color: #f8f9fa;
+}
+
+.coming-soon-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #4B4B4B;
+  margin: 0;
+}
+
+.coming-soon-header-spacer {
+  width: 40px;
+}
+
+/* 메인 콘텐츠 */
+.coming-soon-content {
+  padding: 40px 20px;
+  text-align: center;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.coming-soon-illustration {
+  margin-bottom: 32px;
+}
+
+.coming-soon-icon {
+  font-size: 80px;
+  margin-bottom: 16px;
+}
+
+.coming-soon-heading {
+  font-size: 24px;
+  font-weight: 700;
+  color: #4B4B4B;
+  margin: 0 0 16px 0;
+}
+
+.coming-soon-description {
+  font-size: 16px;
+  color: #6c757d;
+  margin: 0 0 32px 0;
+  line-height: 1.5;
+}
+
+.coming-soon-features {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.coming-soon-feature {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 16px;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.coming-soon-feature-icon {
+  font-size: 20px;
+}
+
+.coming-soon-feature span:last-child {
+  font-size: 14px;
+  color: #4B4B4B;
+  font-weight: 500;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 480px) {
+  .coming-soon-header {
+    padding: 12px 16px;
+  }
+  
+  .coming-soon-content {
+    padding: 32px 16px;
+  }
+  
+  .coming-soon-icon {
+    font-size: 64px;
+  }
+  
+  .coming-soon-heading {
+    font-size: 22px;
+  }
+  
+  .coming-soon-description {
+    font-size: 15px;
+  }
+}

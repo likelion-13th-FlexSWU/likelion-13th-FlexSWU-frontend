@@ -1,0 +1,169 @@
+/* 닉네임 변경 페이지 컨테이너 */
+.nickname-change-page {
+  min-height: 100vh;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 상단 헤더 */
+.nickname-change-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  background-color: white;
+  border-bottom: 1px solid #e9ecef;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.nickname-change-back-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+}
+
+.nickname-change-back-button:hover {
+  background-color: #f8f9fa;
+}
+
+.nickname-change-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #4B4B4B;
+  margin: 0;
+}
+
+.nickname-change-header-spacer {
+  width: 40px;
+}
+
+/* 메인 콘텐츠 */
+.nickname-change-content {
+  flex: 1;
+  padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.nickname-change-description {
+  text-align: center;
+}
+
+.nickname-change-heading {
+  font-size: 20px;
+  font-weight: 600;
+  color: #4B4B4B;
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* 폼 영역 */
+.nickname-change-form {
+  flex: 1;
+}
+
+.nickname-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.nickname-label {
+  font-size: 16px;
+  font-weight: 600;
+  color: #4B4B4B;
+}
+
+.nickname-input {
+  width: 100%;
+  padding: 16px;
+  border: 2px solid #e9ecef;
+  border-radius: 12px;
+  font-size: 16px;
+  color: #4B4B4B;
+  background-color: white;
+  transition: border-color 0.2s ease;
+  box-sizing: border-box;
+}
+
+.nickname-input:focus {
+  outline: none;
+  border-color: #007BEB;
+}
+
+.nickname-input::placeholder {
+  color: #adb5bd;
+}
+
+.nickname-constraint {
+  font-size: 14px;
+  color: #6c757d;
+  margin: 0;
+}
+
+/* 하단 버튼 */
+.nickname-change-footer {
+  padding: 20px;
+  background-color: white;
+  border-top: 1px solid #e9ecef;
+}
+
+.nickname-change-button {
+  width: 100%;
+  padding: 16px;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.nickname-change-button.active {
+  background-color: #007BEB;
+  color: white;
+}
+
+.nickname-change-button.active:hover {
+  background-color: #0056b3;
+  transform: translateY(-1px);
+}
+
+.nickname-change-button.disabled {
+  background-color: #e9ecef;
+  color: #adb5bd;
+  cursor: not-allowed;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 480px) {
+  .nickname-change-header {
+    padding: 12px 16px;
+  }
+  
+  .nickname-change-content {
+    padding: 32px 16px;
+    gap: 32px;
+  }
+  
+  .nickname-change-heading {
+    font-size: 18px;
+  }
+  
+  .nickname-input {
+    padding: 14px;
+    font-size: 15px;
+  }
+  
+  .nickname-change-button {
+    padding: 14px;
+    font-size: 15px;
+  }
+}

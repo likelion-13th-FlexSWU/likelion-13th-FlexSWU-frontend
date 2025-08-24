@@ -1,0 +1,227 @@
+/* 지역 변경 페이지 컨테이너 */
+.region-change-page {
+  min-height: 100vh;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 상단 헤더 */
+.region-change-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  background-color: white;
+  border-bottom: 1px solid #e9ecef;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.region-change-back-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+}
+
+.region-change-back-button:hover {
+  background-color: #f8f9fa;
+}
+
+.region-change-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #4B4B4B;
+  margin: 0;
+}
+
+.region-change-header-spacer {
+  width: 40px;
+}
+
+/* 메인 콘텐츠 */
+.region-change-content {
+  flex: 1;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* 검색 바 */
+.region-change-search-bar {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.region-change-search-input {
+  width: 100%;
+  padding: 16px 48px 16px 16px;
+  border: 2px solid #e9ecef;
+  border-radius: 12px;
+  font-size: 16px;
+  color: #4B4B4B;
+  background-color: white;
+  transition: border-color 0.2s ease;
+  box-sizing: border-box;
+}
+
+.region-change-search-input:focus {
+  outline: none;
+  border-color: #007BEB;
+}
+
+.region-change-search-input::placeholder {
+  color: #adb5bd;
+}
+
+.region-change-search-icon {
+  position: absolute;
+  right: 16px;
+  font-size: 18px;
+  color: #6c757d;
+}
+
+/* 지역 선택 영역 */
+.region-change-location-content {
+  display: flex;
+  gap: 16px;
+  height: 400px;
+}
+
+.region-change-location-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #e9ecef;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.region-change-location-column-header {
+  padding: 16px;
+  background-color: #f8f9fa;
+  font-size: 16px;
+  font-weight: 600;
+  color: #4B4B4B;
+  text-align: center;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.region-change-location-list {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.region-change-location-item {
+  padding: 16px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  border-bottom: 1px solid #f8f9fa;
+}
+
+.region-change-location-item:hover {
+  background-color: #f8f9fa;
+}
+
+.region-change-location-item.selected {
+  background-color: #007BEB;
+  color: white;
+}
+
+.region-change-location-item:last-child {
+  border-bottom: none;
+}
+
+.region-change-location-no-results {
+  padding: 16px;
+  text-align: center;
+  color: #6c757d;
+  font-style: italic;
+}
+
+/* 하단 버튼 */
+.region-change-bottom-buttons {
+  display: flex;
+  gap: 12px;
+  padding: 20px;
+  background-color: white;
+  border-top: 1px solid #e9ecef;
+}
+
+.region-change-cancel-btn,
+.region-change-confirm-btn {
+  flex: 1;
+  padding: 16px;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.region-change-cancel-btn {
+  background-color: #f8f9fa;
+  color: #4B4B4B;
+}
+
+.region-change-cancel-btn:hover {
+  background-color: #e9ecef;
+}
+
+.region-change-confirm-btn {
+  background-color: #007BEB;
+  color: white;
+}
+
+.region-change-confirm-btn:hover:not(:disabled) {
+  background-color: #0056b3;
+}
+
+.region-change-confirm-btn:disabled {
+  background-color: #e9ecef;
+  color: #adb5bd;
+  cursor: not-allowed;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 480px) {
+  .region-change-header {
+    padding: 12px 16px;
+  }
+  
+  .region-change-content {
+    padding: 16px;
+    gap: 20px;
+  }
+  
+  .region-change-search-input {
+    padding: 14px 44px 14px 14px;
+    font-size: 15px;
+  }
+  
+  .region-change-location-content {
+    height: 350px;
+    gap: 12px;
+  }
+  
+  .region-change-location-item {
+    padding: 14px;
+  }
+  
+  .region-change-bottom-buttons {
+    padding: 16px;
+  }
+  
+  .region-change-cancel-btn,
+  .region-change-confirm-btn {
+    padding: 14px;
+    font-size: 15px;
+  }
+}

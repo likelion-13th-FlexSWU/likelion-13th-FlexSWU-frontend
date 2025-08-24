@@ -1,0 +1,239 @@
+/* 내 리뷰 페이지 컨테이너 */
+.my-reviews-page {
+  min-height: 100vh;
+  background-color: white;
+}
+
+/* 상단 헤더 */
+.my-reviews-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  background-color: white;
+  border-bottom: 1px solid #e9ecef;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.my-reviews-back-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+}
+
+.my-reviews-back-button:hover {
+  background-color: #f8f9fa;
+}
+
+.my-reviews-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #4B4B4B;
+  margin: 0;
+}
+
+.my-reviews-header-spacer {
+  width: 40px;
+}
+
+/* 리뷰 콘텐츠 */
+.my-reviews-content {
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.reviews-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 343px;
+}
+
+/* 리뷰 아이템 */
+.review-item {
+  background-color: #F1F2F4;
+  border-radius: 16px;
+  padding: 20px;
+  position: relative;
+  width: 343px;
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+
+.review-restaurant-info {
+  flex: 1;
+}
+
+.review-restaurant-name {
+  font-size: 18px;
+  font-weight: 600;
+  color: #4B4B4B;
+  margin: 0 0 8px 0;
+}
+
+.review-date {
+  font-size: 14px;
+  color: #6c757d;
+}
+
+/* 리뷰 옵션 */
+.review-options {
+  position: relative;
+}
+
+.review-options-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 4px;
+  font-size: 20px;
+  color: #6c757d;
+  transition: background-color 0.2s ease;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  line-height: 1;
+}
+
+.review-options-button:hover {
+  background-color: #e9ecef;
+}
+
+.review-options-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 8px 0;
+  z-index: 100;
+  min-width: 120px;
+}
+
+.review-delete-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 12px 16px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #dc3545;
+  font-size: 14px;
+  transition: background-color 0.2s ease;
+}
+
+.review-delete-button:hover {
+  background-color: #f8f9fa;
+}
+
+.review-delete-button img {
+  width: 16px;
+  height: 16px;
+}
+
+/* 리뷰 내용 */
+.review-content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.review-text {
+  font-size: 14px;
+  color: #4B4B4B;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.review-keywords {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.review-keyword {
+  background-color: white;
+  color: #4B4B4B;
+  padding: 8px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  border: 1px solid #e9ecef;
+}
+
+/* 리뷰가 없을 때 */
+.no-reviews {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.no-reviews-icon {
+  font-size: 64px;
+  margin-bottom: 24px;
+}
+
+.no-reviews-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #4B4B4B;
+  margin: 0 0 12px 0;
+}
+
+.no-reviews-description {
+  font-size: 16px;
+  color: #6c757d;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 480px) {
+  .my-reviews-header {
+    padding: 12px 16px;
+  }
+
+  .my-reviews-content {
+    padding: 16px;
+  }
+
+  .reviews-list {
+    width: 100%;
+    max-width: 343px;
+  }
+
+  .review-item {
+    padding: 16px;
+    width: 100%;
+  }
+
+  .review-restaurant-name {
+    font-size: 16px;
+  }
+
+  .review-content {
+    gap: 12px;
+  }
+
+  .review-text {
+    font-size: 13px;
+  }
+
+  .review-keyword {
+    font-size: 11px;
+    padding: 4px 10px;
+  }
+}

@@ -1,0 +1,181 @@
+/* 쿠폰 페이지 컨테이너 */
+.coupon-page {
+  min-height: 100vh;
+  background-color: white;
+}
+
+/* 상단 헤더 */
+.coupon-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  background-color: white;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.coupon-back-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+}
+
+.coupon-back-button:hover {
+  background-color: #f8f9fa;
+}
+
+.coupon-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #4B4B4B;
+  margin: 0;
+}
+
+.coupon-header-spacer {
+  width: 40px;
+}
+
+/* 쿠폰 콘텐츠 */
+.coupon-content {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.coupon-section-header {
+  margin-bottom: 20px;
+}
+
+.coupon-section-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #4B4B4B;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.coupon-new-dot {
+  width: 8px;
+  height: 8px;
+  background-color: #ff4757;
+  border-radius: 50%;
+}
+
+/* 쿠폰 목록 */
+.coupon-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  max-width: 400px;
+}
+
+.coupon-item {
+  background-color: #EFF2F5;
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+/* 티켓 구멍 영역 */
+.coupon-item::before,
+.coupon-item::after {
+  content: '';
+  position: absolute;
+  left: 96px;
+  width: 24px;
+  height: 24px;
+  background: white;
+  border-radius: 50%;
+  z-index: 1;
+}
+
+.coupon-item::before {
+  top: -12px;
+}
+
+.coupon-item::after {
+  bottom: -12px;
+}
+
+.coupon-left {
+  flex-shrink: 0;
+  margin-right: 20px;
+}
+
+.coupon-image {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.coupon-divider {
+  width: 1px;
+  height: 80px;
+  background-color: #d1d5db;
+  margin-left: 5px;
+}
+
+.coupon-right {
+  flex: 1;
+}
+
+.coupon-restaurant-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: #4B4B4B;
+  margin: 0 0 8px 0;
+}
+
+.coupon-discount {
+  font-size: 18px;
+  font-weight: 700;
+  color: #007BEB;
+  margin: 0 0 8px 0;
+}
+
+.coupon-expiration {
+  font-size: 14px;
+  color: #6c757d;
+  margin: 0;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 480px) {
+  .coupon-header {
+    padding: 12px 16px;
+  }
+
+  .coupon-content {
+    padding: 16px;
+  }
+
+  .coupon-list {
+    max-width: 100%;
+  }
+
+  .coupon-item {
+    padding: 16px;
+    gap: 16px;
+  }
+
+  .coupon-image {
+    width: 50px;
+    height: 50px;
+  }
+
+  .coupon-divider {
+    height: 70px;
+  }
+}

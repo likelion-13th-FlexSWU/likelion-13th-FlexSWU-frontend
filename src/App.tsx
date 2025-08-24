@@ -15,6 +15,12 @@ import MissionAuthResultPage from './components/home/mission/MissionAuthResultPa
 import MissionAuthCompletePage from './components/home/mission/MissionAuthCompletePage'
 import MissionReviewPage from './components/home/mission/MissionReviewPage'
 import MyInfoPage from './components/home/mypage/MyInfoPage'
+import CouponPage from './components/home/mypage/CouponPage'
+import SettingPage from './components/home/mypage/SettingPage'
+import NicknameChangePage from './components/home/mypage/NicknameChangePage'
+import RegionChangePage from './components/home/mypage/RegionChangePage'
+import MyReviewsPage from './components/home/mypage/MyReviewsPage'
+import ComingSoonPage from './components/common/ComingSoonPage'
 
 function App() {
   return (
@@ -35,6 +41,15 @@ function App() {
         <Route path="/mission-complete" element={<MissionAuthCompletePage />} />
         <Route path="/mission-review" element={<MissionReviewPage />} />
         <Route path="/home/mypage" element={<MyInfoPage />} />
+        <Route path="/coupon" element={<CouponPage />} />
+        <Route path="/setting" element={<SettingPage />} />
+        <Route path="/profile-change" element={<NicknameChangePage />} />
+        <Route path="/region-change" element={<RegionChangePage />} />
+        <Route path="/my-reviews" element={<MyReviewsPage />} />
+        <Route path="/notice" element={<ComingSoonPage title="공지사항" description="공지사항은 아직 준비 중이에요!" />} />
+        <Route path="/terms" element={<ComingSoonPage title="이용약관" description="이용약관은 아직 준비 중이에요!" />} />
+        <Route path="/mission-review" element={<MissionReviewPage />} />
+        <Route path="/privacy" element={<ComingSoonPage title="개인정보 처리방침" description="개인정보 처리방침은 아직 준비 중이에요!" />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Router>
