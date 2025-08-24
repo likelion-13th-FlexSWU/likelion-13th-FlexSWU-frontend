@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
+import { missionAPI } from '../../../services/api'
+import type { MissionReviewRequest } from '../../../types/mission'
 import './MissionReviewPage.css'
 
 // 분위기 옵션 인터페이스
@@ -31,11 +33,14 @@ const ATMOSPHERE_OPTIONS: AtmosphereOption[] = [
 
 const MissionReviewPage: React.FC = () => {
   const navigate = useNavigate()
+  const location = useLocation()
+  const { missionId, receiptData } = location.state || {}
   const [selectedKeywords, setSelectedKeywords] = useState<string[]>([])
   const [reviewText, setReviewText] = useState('')
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const handleBackClick = () => {
-    navigate(-1)
+    navigate('/home/mission/auth/complete')
   }
 
   const handleKeywordChange = (keywords: string[]) => {
@@ -50,13 +55,31 @@ const MissionReviewPage: React.FC = () => {
     navigate('/home')
   }
 
-  const handleComplete = () => {
-    // TODO: 리뷰 저장 로직 구현
-    console.log('선택된 키워드:', selectedKeywords)
-    console.log('리뷰 텍스트:', reviewText)
-    
-    // 홈으로 이동
-    navigate('/home')
+  const handleComplete = async () => {
+    if (!missionId) {
+      alert('미션 정보를 찾을 수 없습니다.')
+      return
+    }
+
+    try {
+      setIsSubmitting(true)
+      
+      const reviewData: MissionReviewRequest = {
+        mission_id: missionId,
+        tags: selectedKeywords,
+        content: reviewText.trim() || null
+      }
+
+      await missionAPI.createReview(reviewData)
+      
+      alert('리뷰가 성공적으로 작성되었습니다!')
+      navigate('/home')
+      
+    } catch (error: any) {
+      alert(`리뷰 작성 실패: ${error.message}`)
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -129,9 +152,9 @@ const MissionReviewPage: React.FC = () => {
         <button 
           className={`mission-review-complete-button ${selectedKeywords.length > 0 ? 'active' : 'disabled'}`}
           onClick={handleComplete}
-          disabled={selectedKeywords.length === 0}
+          disabled={selectedKeywords.length === 0 || isSubmitting}
         >
-          완료하기
+          {isSubmitting ? '작성 중...' : '완료하기'}
         </button>
       </div>
     </div>

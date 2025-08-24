@@ -29,7 +29,7 @@ const NicknameChangePage: React.FC = () => {
   }
 
   const handleBackClick = () => {
-    navigate('/setting')
+    navigate('/home/mypage/setting')
   }
 
   const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {

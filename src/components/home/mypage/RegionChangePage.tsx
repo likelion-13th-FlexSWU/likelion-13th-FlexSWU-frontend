@@ -38,7 +38,7 @@ const RegionChangePage: React.FC = () => {
   }
 
   const handleBackClick = () => {
-    navigate('/setting')
+    navigate('/home/mypage/setting')
   }
 
   const handleCityChange = (city: CityName) => {
@@ -51,7 +51,7 @@ const RegionChangePage: React.FC = () => {
   }
 
   const handleCancel = () => {
-    navigate('/setting')
+    navigate('/home/mypage/setting')
   }
 
   const handleConfirm = async () => {

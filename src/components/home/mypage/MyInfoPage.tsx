@@ -39,19 +39,19 @@ const MyInfoPage: React.FC = () => {
 
   const handleCouponClick = () => {
     // 쿠폰 페이지로 이동
-    navigate('/coupon')
+    navigate('/home/mypage/coupon')
     // 쿠폰을 봤으므로 빨간 점 제거
     setHasUnreadCoupon(false)
   }
 
   const handleSettingClick = () => {
     // 설정 페이지로 이동
-    navigate('/setting')
+    navigate('/home/mypage/setting')
   }
 
   const handleReviewClick = () => {
     // 내가 적은 리뷰 페이지로 이동
-    navigate('/my-reviews')
+    navigate('/home/mypage/reviews')
   }
 
   const formatMonth = (monthStr: string) => {

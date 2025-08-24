@@ -13,7 +13,7 @@ const SettingPage: React.FC = () => {
 
   const handleProfileChange = () => {
     // 프로필 변경 페이지로 이동
-    navigate('/profile-change')
+    navigate('/home/mypage/profile-change')
   }
 
   const handleRegionChange = () => {
@@ -24,7 +24,7 @@ const SettingPage: React.FC = () => {
   const handleRegionAlertConfirm = () => {
     // 알러트 닫고 지역 설정 페이지로 이동
     setShowRegionAlert(false)
-    navigate('/region-change')
+    navigate('/home/mypage/region-change')
   }
 
   const handleRegionAlertCancel = () => {
