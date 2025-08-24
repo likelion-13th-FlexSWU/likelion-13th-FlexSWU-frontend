@@ -1,25 +1,348 @@
+/* 내 정보 페이지 컨테이너 */
 .myinfo-tab {
-  padding: var(--spacing-lg);
-  padding-bottom: 100px;
-  background-color: var(--color-bg-secondary);
-  min-height: 100%;
+  min-height: 100vh;
+  background-color: #f8f9fa;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 200px; /* 하단 네비게이션바 여백 */
+}
+
+/* 로딩 및 에러 메시지 */
+.loading-message,
+.error-message {
+  text-align: center;
+  padding: 60px 20px;
+  color: #666666;
+  font-size: 16px;
+  background-color: white;
+  border-radius: 16px;
+  margin: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.error-message {
+  color: #e74c3c;
+}
+
+/* 1. 프로필 섹션 */
+.myinfo-profile-section {
+  position: relative;
+  margin-bottom: 24px;
+}
+
+.myinfo-profile-background {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding: 24px 20px 32px;
+  position: relative;
+  border-radius: 0 0 24px 24px;
+  overflow: hidden;
+}
+
+/* 상단 우측 버튼들 */
+.myinfo-top-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.myinfo-coupon-button,
+.myinfo-setting-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.myinfo-header {
+.myinfo-coupon-button:hover,
+.myinfo-setting-button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.myinfo-coupon-button img,
+.myinfo-setting-button img {
+  width: 24px;
+  height: 24px;
+  filter: brightness(0) invert(1); /* 흰색으로 변경 */
+}
+
+/* 쿠폰 알림 점 */
+.myinfo-coupon-dot {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 8px;
+  height: 8px;
+  background-color: #ff4757;
+  border-radius: 50%;
+}
+
+/* 프로필 정보 */
+.myinfo-profile-info {
+  margin-bottom: 32px;
+}
+
+.myinfo-profile-avatar {
+  margin-bottom: 16px;
+}
+
+.myinfo-profile-avatar img {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+}
+
+.myinfo-profile-details {
   text-align: center;
 }
 
-.myinfo-header h2 {
-  font-size: var(--font-size-2xl);
-  font-weight: var(--font-weight-bold);
-  color: var(--color-text-primary);
-  margin-bottom: var(--spacing-md);
+.myinfo-username {
+  font-size: 28px;
+  font-weight: 700;
+  color: white;
+  margin: 0 0 8px 0;
+  line-height: 1.2;
 }
 
-.myinfo-header p {
-  font-size: var(--font-size-md);
-  color: var(--color-text-secondary);
+.myinfo-location {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+  margin: 0;
+}
+
+.myinfo-location span {
+  color: white;
+}
+
+.myinfo-location img {
+  width: 16px;
+  height: 16px;
+  filter: brightness(0) invert(1);
+}
+
+/* 내가 적은 리뷰 버튼 */
+.myinfo-review-button {
+  background-color: white;
+  color: #4B4B4B;
+  border: none;
+  border-radius: 12px;
+  padding: 16px 24px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.myinfo-review-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+.myinfo-review-button svg {
+  color: #4B4B4B;
+}
+
+/* 2. 취향 유형 섹션 */
+.myinfo-taste-section {
+  padding: 0 20px;
+  margin-bottom: 24px;
+}
+
+.myinfo-taste-card {
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 16px;
+  padding: 24px;
+  text-align: center;
+}
+
+.myinfo-taste-emoji {
+  font-size: 32px;
+  margin-bottom: 16px;
+  display: block;
+}
+
+.myinfo-taste-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #4B4B4B;
+  margin: 0 0 8px 0;
+}
+
+.myinfo-taste-description {
+  font-size: 14px;
+  color: #6c757d;
+  margin: 0;
+}
+
+/* 3. 지역기여도 섹션 */
+.myinfo-contribution-section {
+  padding: 0 20px;
+  margin-bottom: 24px;
+}
+
+.myinfo-contribution-card {
+  background-color: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.myinfo-contribution-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #4B4B4B;
+  margin: 0 0 24px 0;
+  text-align: center;
+}
+
+/* 차트 컨테이너 */
+.myinfo-chart-container {
+  position: relative;
+  padding: 20px 0;
+}
+
+/* 통계 섹션 */
+.myinfo-stats-section {
+  padding: 0 20px 24px;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.stat-item {
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.stat-number {
+  font-size: 24px;
+  font-weight: 700;
+  color: #4DA9FF;
+  margin-bottom: 8px;
+}
+
+.stat-label {
+  font-size: 14px;
+  color: #666666;
+  font-weight: 500;
+}
+
+/* 차트 섹션 */
+.myinfo-chart-section {
+  padding: 0 20px 24px;
+}
+
+.chart-section-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #4B4B4B;
+  margin: 0 0 16px 0;
+  text-align: center;
+}
+
+.chart-container {
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 액션 버튼들 */
+.myinfo-actions-section {
+  padding: 0 20px 24px;
+}
+
+.action-button {
+  width: 100%;
+  background: white;
+  border: none;
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.action-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.action-icon {
+  font-size: 24px;
+}
+
+.action-text {
+  font-size: 16px;
+  font-weight: 500;
+  color: #4B4B4B;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 480px) {
+  .myinfo-profile-background {
+    padding: 20px 16px 28px;
+  }
+  
+  .myinfo-username {
+    font-size: 24px;
+  }
+  
+  .myinfo-taste-section,
+  .myinfo-contribution-section {
+    padding: 0 16px;
+  }
+  
+  .myinfo-chart-bars {
+    height: 160px;
+  }
+}
+
+@media (max-width: 375px) {
+  .myinfo-profile-background {
+    padding: 16px 12px 24px;
+  }
+  
+  .myinfo-username {
+    font-size: 22px;
+  }
+  
+  .myinfo-taste-section,
+  .myinfo-contribution-section {
+    padding: 0 12px;
+  }
+  
+  .myinfo-chart-bars {
+    height: 140px;
+  }
 }

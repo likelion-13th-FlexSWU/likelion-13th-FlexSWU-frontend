@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import './Home.css'
 import RecommendationTab from './tabs/RecommendationTab'
 import MissionTab from './tabs/MissionTab'
-import MyInfoPage from './mypage/MyInfoPage'
+import MyInfoTab from './tabs/MyInfoTab'
 
 // 네비게이션 아이콘 import
 import recommendationActive from '../../assets/icons/nav-recommendation-active.svg'
@@ -22,7 +22,7 @@ const Home: React.FC = () => {
       case 'mission':
         return <MissionTab />
       case 'myinfo':
-        return <MyInfoPage />
+        return <MyInfoTab />
       default:
         return <RecommendationTab />
     }

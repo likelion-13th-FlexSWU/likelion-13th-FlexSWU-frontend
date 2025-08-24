@@ -1,16 +1,32 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { authAPI } from '../../../services/api'
+import Toast from '../../common/Toast'
 import './NicknameChangePage.css'
 
 const NicknameChangePage: React.FC = () => {
   const navigate = useNavigate()
   const [nickname, setNickname] = useState('')
   const [isValid, setIsValid] = useState(false)
+  const [toast, setToast] = useState({
+    message: '',
+    isVisible: false,
+    type: 'success' as 'success' | 'error' | 'info'
+  })
 
   // 닉네임 유효성 검사
   useEffect(() => {
     setIsValid(nickname.trim().length > 0 && nickname.length <= 15)
   }, [nickname])
+
+  // 토스트 메시지 표시 함수
+  const showToast = (message: string, type: 'success' | 'error' | 'info' = 'success') => {
+    setToast({
+      message,
+      isVisible: true,
+      type
+    })
+  }
 
   const handleBackClick = () => {
     navigate('/setting')
@@ -23,12 +39,21 @@ const NicknameChangePage: React.FC = () => {
     }
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (isValid) {
-      // TODO: API 호출로 닉네임 변경
-      console.log('닉네임 변경:', nickname)
-      // 변경 완료 후 설정 페이지로 이동
-      navigate('/setting')
+      try {
+        // 닉네임 변경 API 호출
+        await authAPI.updateNickname({ username: nickname.trim() })
+        
+        // 성공 토스트 표시 후 설정 페이지로 이동
+        showToast('닉네임이 성공적으로 변경되었습니다!', 'success')
+        setTimeout(() => {
+          navigate('/setting')
+        }, 1500) // 토스트가 보인 후 이동
+      } catch (error: any) {
+        // 에러 토스트 표시
+        showToast(`닉네임 변경 실패: ${error.message}`, 'error')
+      }
     }
   }
 
@@ -84,6 +109,14 @@ const NicknameChangePage: React.FC = () => {
           변경하기
         </button>
       </div>
+      
+      {/* 토스트 메시지 */}
+      <Toast
+        message={toast.message}
+        isVisible={toast.isVisible}
+        type={toast.type}
+        onClose={() => setToast(prev => ({ ...prev, isVisible: false }))}
+      />
     </div>
   )
 }

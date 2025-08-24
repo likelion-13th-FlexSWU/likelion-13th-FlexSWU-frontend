@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { cityData } from '../../../types/location'
 import type { CityName, DistrictName } from '../../../types/location'
+import { authAPI } from '../../../services/api'
+import Toast from '../../common/Toast'
 import './RegionChangePage.css'
 
 const RegionChangePage: React.FC = () => {
@@ -9,6 +11,11 @@ const RegionChangePage: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedCity, setSelectedCity] = useState<CityName | ''>('')
   const [selectedDistrict, setSelectedDistrict] = useState<DistrictName | ''>('')
+  const [toast, setToast] = useState({
+    message: '',
+    isVisible: false,
+    type: 'success' as 'success' | 'error' | 'info'
+  })
 
   // 검색 결과 필터링
   const filteredCities = Object.keys(cityData).filter(city => 
@@ -20,6 +27,15 @@ const RegionChangePage: React.FC = () => {
         district.includes(searchQuery)
       )
     : []
+
+  // 토스트 메시지 표시 함수
+  const showToast = (message: string, type: 'success' | 'error' | 'info' = 'success') => {
+    setToast({
+      message,
+      isVisible: true,
+      type
+    })
+  }
 
   const handleBackClick = () => {
     navigate('/setting')
@@ -38,12 +54,28 @@ const RegionChangePage: React.FC = () => {
     navigate('/setting')
   }
 
-  const handleConfirm = () => {
+  const handleConfirm = async () => {
     if (selectedCity && selectedDistrict) {
-      // TODO: API 호출로 지역 변경
-      console.log('지역 변경:', selectedCity, selectedDistrict)
-      // 변경 완료 후 설정 페이지로 이동
-      navigate('/setting')
+      try {
+        await authAPI.updateRegion({
+          sido: selectedCity,
+          gugun: selectedDistrict
+        })
+        
+        // 성공 토스트 표시 후 설정 페이지로 이동
+        showToast('지역이 성공적으로 변경되었습니다!', 'success')
+        setTimeout(() => {
+          navigate('/setting')
+        }, 1500) // 토스트가 보인 후 이동
+      } catch (error: any) {
+        // 2개월 제한 에러인지 확인
+        if (error.message.includes('2개월')) {
+          showToast('지역 변경은 마지막 변경일로부터 2개월 후에 가능합니다.', 'info')
+        } else {
+          // 기타 에러 토스트 표시
+          showToast(`지역 변경 실패: ${error.message}`, 'error')
+        }
+      }
     }
   }
 
@@ -127,6 +159,14 @@ const RegionChangePage: React.FC = () => {
           확인
         </button>
       </div>
+
+      {/* 토스트 메시지 */}
+      <Toast
+        message={toast.message}
+        isVisible={toast.isVisible}
+        type={toast.type}
+        onClose={() => setToast(prev => ({ ...prev, isVisible: false }))}
+      />
     </div>
   )
 }

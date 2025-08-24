@@ -78,6 +78,29 @@ export interface TodayStoreInfo {
   url: string
 }
 
+// 사용자 정보 타입
+export interface UserInfo {
+  sido: string
+  gugun: string
+  username: string
+  type: string | null
+  monthly: Array<{
+    month: string
+    score: number
+  }>
+}
+
+// 닉네임 변경 요청 타입
+export interface UpdateNicknameRequest {
+  username: string
+}
+
+// 지역 변경 요청 타입
+export interface UpdateRegionRequest {
+  sido: string
+  gugun: string
+}
+
 // API 에러 응답 타입
 export interface ApiError {
   message: string
