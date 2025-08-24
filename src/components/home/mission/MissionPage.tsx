@@ -28,13 +28,9 @@ const MissionPage: React.FC = () => {
     const weeksDiff = Math.floor((currentDate.getTime() - startDate.getTime()) / (7 * 24 * 60 * 60 * 1000))
     setCurrentWeek(weeksDiff)
     
-    // SVG 경로 디버깅
-    console.log('regionContribution path:', regionContribution)
-    console.log('myContribution path:', myContribution)
   }, [])
 
   const handleMissionCertify = (missionId: string) => {
-    console.log('미션 인증:', missionId)
     // 미션 인증 페이지로 이동
     navigate('/home/mission/auth')
   }

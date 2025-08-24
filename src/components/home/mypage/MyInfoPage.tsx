@@ -1,23 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
+import { authAPI } from '../../../services/api'
+import type { UserInfo } from '../../../types/auth'
 import witchIcon from '../../../assets/icons/witch.svg'
 import couponIcon from '../../../assets/icons/coupon.svg'
 import settingIcon from '../../../assets/icons/setting.svg'
 import mypageBg from '../../../assets/backgrounds/mypage-bg.svg'
 import './MyInfoPage.css'
 
-// 사용자 정보 타입
-interface UserInfo {
-  sido: string
-  gugun: string
-  username: string
-  type: string | null
-  monthly: Array<{
-    month: string
-    score: number
-  }>
-}
 
 const MyInfoPage: React.FC = () => {
   const navigate = useNavigate()
@@ -25,22 +16,25 @@ const MyInfoPage: React.FC = () => {
   const [hasUnreadCoupon, setHasUnreadCoupon] = useState(true) // 쿠폰 읽음 여부
 
 
-  // 임시 사용자 데이터 (API 연동 시 제거)
+  // API에서 사용자 정보 가져오기
   useEffect(() => {
-    setUserInfo({
-      sido: "서울",
-      gugun: "노원구",
-      username: "빌려온 고양이님",
-      type: null,
-      monthly: [
-        { month: "2025-03", score: 800 },
-        { month: "2025-04", score: 1200 },
-        { month: "2025-05", score: 1800 },
-        { month: "2025-06", score: 1500 },
-        { month: "2025-07", score: 1100 },
-        { month: "2025-08", score: 900 }
-      ]
-    })
+    const fetchUserInfo = async () => {
+      try {
+        const data = await authAPI.getUserInfo()
+        setUserInfo(data)
+      } catch (err: any) {
+        // 에러 발생 시 기본값 설정
+        setUserInfo({
+          sido: "서울",
+          gugun: "노원구",
+          username: "사용자",
+          type: null,
+          monthly: []
+        })
+      }
+    }
+
+    fetchUserInfo()
   }, [])
 
   const handleCouponClick = () => {

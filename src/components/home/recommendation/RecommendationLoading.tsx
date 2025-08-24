@@ -54,10 +54,6 @@ const RecommendationLoading: React.FC = () => {
       })
       
     } catch (error: any) {
-      console.error('추천 받기 실패:', error)
-      console.error('에러 타입:', typeof error)
-      console.error('에러 객체:', error)
-      
       // 추천 결과가 없는 경우
       if (error.message === 'NO_RESULTS') {
         navigate('/home/recommendation/no-result')

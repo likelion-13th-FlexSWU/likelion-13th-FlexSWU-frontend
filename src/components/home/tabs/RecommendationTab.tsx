@@ -38,7 +38,6 @@ const RecommendationTab: React.FC = () => {
         setRecommendationData(data)
         setError(null)
       } catch (err: any) {
-        console.error('추천 데이터 가져오기 실패:', err)
         setError(err.message)
       } finally {
         setLoading(false)

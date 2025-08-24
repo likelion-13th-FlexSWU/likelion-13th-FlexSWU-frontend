@@ -9,7 +9,12 @@ import type {
   RecommendationResponse,
   RecommendationRequest,
   TodayRecommendationResponse,
-  ApiError 
+  TodayStoreInfo,
+  StoreInfo,
+  ApiError,
+  UserInfo,
+  UpdateNicknameRequest,
+  UpdateRegionRequest
 } from '../types/auth'
 
 // API 기본 설정
@@ -107,7 +112,6 @@ export const authAPI = {
       const response = await api.post('/user/check', data)
       return response.data
     } catch (error: any) {
-      console.error('아이디 중복 확인 API 오류:', error.response?.status, error.response?.data)
       throw new Error(error.response?.data?.message || `아이디 중복 확인에 실패했습니다. (${error.response?.status})`)
     }
   },
@@ -139,6 +143,34 @@ export const authAPI = {
       return response.data
     } catch (error: any) {
       throw new Error(error.response?.data?.message || '추천 데이터를 가져오는데 실패했습니다.')
+    }
+  },
+
+  // 사용자 정보 가져오기
+  getUserInfo: async (): Promise<UserInfo> => {
+    try {
+      const response = await api.get('/user')
+      return response.data
+    } catch (error: any) {
+      throw new Error(error.response?.data?.message || '사용자 정보를 가져오는데 실패했습니다.')
+    }
+  },
+
+  // 닉네임 변경
+  updateNickname: async (data: UpdateNicknameRequest): Promise<void> => {
+    try {
+      await api.patch('/user/update/nick', data)
+    } catch (error: any) {
+      throw new Error(error.response?.data?.message || '닉네임 변경에 실패했습니다.')
+    }
+  },
+
+  // 지역 변경
+  updateRegion: async (data: UpdateRegionRequest): Promise<void> => {
+    try {
+      await api.patch('/user/update/region', data)
+    } catch (error: any) {
+      throw new Error(error.response?.data?.message || '지역 변경에 실패했습니다.')
     }
   },
 

@@ -42,7 +42,6 @@ const RecommendationResult: React.FC = () => {
         navigate('/home/recommendation')
       }
     } catch (error: any) {
-      console.error('다시하기 실패:', error)
       alert(error.message || '다시하기에 실패했습니다.')
     } finally {
       setIsLoading(false)
@@ -65,7 +64,6 @@ const RecommendationResult: React.FC = () => {
         navigate('/home')
       }
     } catch (error: any) {
-      console.error('추천 저장 실패:', error)
       alert(error.message || '추천을 저장하는데 실패했습니다.')
     } finally {
       setIsLoading(false)

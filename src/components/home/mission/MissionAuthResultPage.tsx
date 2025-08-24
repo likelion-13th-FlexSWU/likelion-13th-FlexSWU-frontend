@@ -77,7 +77,6 @@ const MissionAuthResultPage: React.FC = () => {
       img.src = imageUrl
       
     } catch (error) {
-      console.error('OCR 처리 중 오류:', error)
       setIsProcessing(false)
     }
   }

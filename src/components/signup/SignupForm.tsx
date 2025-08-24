@@ -110,7 +110,6 @@ const SignupForm = () => {
         setIsIdChecked(true)
       }
     } catch (error: any) {
-      console.error('아이디 중복 확인 실패:', error)
       alert(error.message || '아이디 중복 확인에 실패했습니다.')
     }
   }
@@ -280,15 +279,12 @@ const SignupForm = () => {
         marketing_agree: agreements.marketing
       }
 
-      console.log('회원가입 데이터:', signupData)
-
       // 회원가입 API 호출
       await authAPI.signup(signupData)
       
       // 성공 시 회원가입 완료 단계로 이동
       setCurrentStep(4)
     } catch (error: any) {
-      console.error('회원가입 실패:', error)
       alert(error.message || '회원가입에 실패했습니다.')
     }
   }

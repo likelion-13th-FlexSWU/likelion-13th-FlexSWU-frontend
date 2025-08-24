@@ -46,7 +46,6 @@ const StoreRecommendationForm: React.FC = () => {
 
   const handleNext = () => {
     if (selectedCategory) {
-      console.log('선택된 카테고리:', selectedCategory)
       // 분위기 선택 화면으로 이동
       navigate('/home/recommendation/atmosphere')
     }

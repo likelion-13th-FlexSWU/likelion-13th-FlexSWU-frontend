@@ -62,7 +62,6 @@ const StoreOverlapForm: React.FC = () => {
         })
         
       } catch (error: any) {
-        console.error('추천 받기 실패:', error)
         alert(error.message || '추천을 받는데 실패했습니다.')
       } finally {
         setIsLoading(false)

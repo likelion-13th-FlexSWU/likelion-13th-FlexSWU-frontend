@@ -78,7 +78,6 @@ const LoginForm = () => {
       // 로그인 성공 시 홈 페이지로 이동
       navigate('/home')
     } catch (error: any) {
-      console.error('로그인 실패:', error)
       setIsLoginError(true)
       setLoginErrorMessage(error.message || '아이디 또는 비밀번호 오류입니다.')
     }
@@ -91,10 +90,10 @@ const LoginForm = () => {
 
   // 아이디 & 비밀번호 찾기 (기능 미구현)
   const handleFindId = () => {
-    console.log('아이디 찾기')
+    // TODO: 아이디 찾기 기능 구현
   }
   const handleFindPassword = () => {
-    console.log('비밀번호 찾기')
+    // TODO: 비밀번호 찾기 기능 구현
   }
 
   return (

@@ -33,7 +33,6 @@ const MissionAuthPage: React.FC = () => {
   const handleAuthClick = () => {
     if (selectedImage) {
       // TODO: 인증 처리 로직 구현
-      console.log('인증 처리')
       navigate(-1)
     }
   }
