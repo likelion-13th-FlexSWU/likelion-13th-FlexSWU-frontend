@@ -1,5 +1,6 @@
 import './App.css'
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
+import { AuthProvider } from './contexts/AuthContext'
 import SignupOnboarding from './components/signup/SignupOnboarding'
 import SignupForm from './components/signup/SignupForm'
 import LoginForm from './components/login/LoginForm'
@@ -24,35 +25,37 @@ import ComingSoonPage from './components/common/ComingSoonPage'
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<SignupOnboarding />} />
-        <Route path="/signup" element={<SignupForm />} />
-        <Route path="/login" element={<LoginForm />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/home/recommendation" element={<RecommendationForm />} />
-        <Route path="/home/recommendation/category" element={<RecommendationCategoryForm />} />
-        <Route path="/home/recommendation/atmosphere" element={<RecommendationAtmosphereForm />} />
-        <Route path="/home/recommendation/options" element={<RecommendationOptionsForm />} />
-        <Route path="/home/recommendation/loading" element={<RecommendationLoading />} />
-        <Route path="/home/recommendation/result" element={<RecommendationResult />} />
-        <Route path="/home/mission/auth" element={<MissionAuthPage />} />
-        <Route path="/home/mission/auth/result" element={<MissionAuthResultPage />} />
-        <Route path="/mission-complete" element={<MissionAuthCompletePage />} />
-        <Route path="/mission-review" element={<MissionReviewPage />} />
-        <Route path="/home/mypage" element={<MyInfoPage />} />
-        <Route path="/coupon" element={<CouponPage />} />
-        <Route path="/setting" element={<SettingPage />} />
-        <Route path="/profile-change" element={<NicknameChangePage />} />
-        <Route path="/region-change" element={<RegionChangePage />} />
-        <Route path="/my-reviews" element={<MyReviewsPage />} />
-        <Route path="/notice" element={<ComingSoonPage title="공지사항" description="공지사항은 아직 준비 중이에요!" />} />
-        <Route path="/terms" element={<ComingSoonPage title="이용약관" description="이용약관은 아직 준비 중이에요!" />} />
-        <Route path="/mission-review" element={<MissionReviewPage />} />
-        <Route path="/privacy" element={<ComingSoonPage title="개인정보 처리방침" description="개인정보 처리방침은 아직 준비 중이에요!" />} />
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
-    </Router>
+    <AuthProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={<SignupOnboarding />} />
+          <Route path="/signup" element={<SignupForm />} />
+          <Route path="/login" element={<LoginForm />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/home/recommendation" element={<RecommendationForm />} />
+          <Route path="/home/recommendation/category" element={<RecommendationCategoryForm />} />
+          <Route path="/home/recommendation/atmosphere" element={<RecommendationAtmosphereForm />} />
+          <Route path="/home/recommendation/options" element={<RecommendationOptionsForm />} />
+          <Route path="/home/recommendation/loading" element={<RecommendationLoading />} />
+          <Route path="/home/recommendation/result" element={<RecommendationResult />} />
+          <Route path="/home/mission/auth" element={<MissionAuthPage />} />
+          <Route path="/home/mission/auth/result" element={<MissionAuthResultPage />} />
+          <Route path="/mission-complete" element={<MissionAuthCompletePage />} />
+          <Route path="/mission-review" element={<MissionReviewPage />} />
+          <Route path="/home/mypage" element={<MyInfoPage />} />
+          <Route path="/coupon" element={<CouponPage />} />
+          <Route path="/setting" element={<SettingPage />} />
+          <Route path="/profile-change" element={<NicknameChangePage />} />
+          <Route path="/region-change" element={<RegionChangePage />} />
+          <Route path="/my-reviews" element={<MyReviewsPage />} />
+          <Route path="/notice" element={<ComingSoonPage title="공지사항" description="공지사항은 아직 준비 중이에요!" />} />
+          <Route path="/terms" element={<ComingSoonPage title="이용약관" description="이용약관은 아직 준비 중이에요!" />} />
+          <Route path="/mission-review" element={<MissionReviewPage />} />
+          <Route path="/privacy" element={<ComingSoonPage title="개인정보 처리방침" description="개인정보 처리방침은 아직 준비 중이에요!" />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </Router>
+    </AuthProvider>
   )
 }
 

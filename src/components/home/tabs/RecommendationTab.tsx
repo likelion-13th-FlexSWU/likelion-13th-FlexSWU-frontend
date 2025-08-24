@@ -1,5 +1,7 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { authAPI } from '../../../services/api'
+import type { RecommendationResponse, StoreInfo } from '../../../types/auth'
 import './RecommendationTab.css'
 import arrowIcon from '../../../assets/icons/icon-arrow-right.svg'
 import cafeBg1 from '../../../assets/backgrounds/cafe-bg-1.png'
@@ -16,12 +18,56 @@ import store08 from '../../../assets/stores/store-08.png'
 
 const RecommendationTab: React.FC = () => {
   const navigate = useNavigate()
-  // 임시 사용자 데이터 (TODO: 나중에 실제 데이터로 교체)
-  const userNickname = "빌려온고양이"
-  const userDistrict = "노원구"
+  const [recommendationData, setRecommendationData] = useState<RecommendationResponse | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  // 추천 데이터 가져오기
+  useEffect(() => {
+    const fetchRecommendationData = async () => {
+      try {
+        setLoading(true)
+        const data = await authAPI.getRecommendation()
+        setRecommendationData(data)
+        setError(null)
+      } catch (err: any) {
+        console.error('추천 데이터 가져오기 실패:', err)
+        setError(err.message)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    // userInfo가 있든 없든 API 호출 시도
+    fetchRecommendationData()
+  }, []) // userInfo 의존성 제거
+
+  // 사용자 정보가 없으면 기본값 사용
+  const userNickname = recommendationData?.username || "노원구히어로"
+  const userDistrict = recommendationData?.gugun || "노원구"
+
+  // 디버깅용 콘솔 로그
+  console.log('Debug - recommendationData:', recommendationData)
+  console.log('Debug - userNickname:', userNickname)
+  console.log('Debug - userDistrict:', userDistrict)
 
   const handleRecommendationClick = () => {
     navigate('/home/recommendation')
+  }
+
+  // 카테고리별 배경 이미지 반환
+  const getCategoryBackground = (category: string) => {
+    switch (category) {
+      case '한식':
+        return koreanBg1
+      case '카페':
+      case '커피':
+        return cafeBg1
+      case '양식':
+        return koreanBg2
+      default:
+        return koreanBg1
+    }
   }
 
   return (
@@ -37,7 +83,12 @@ const RecommendationTab: React.FC = () => {
         <div className="hero-cta-card" onClick={handleRecommendationClick}>
           <div className="hero-cta-content">
             <div className="hero-location-text">{userDistrict}</div>
-            <div className="hero-cta-text">오늘의 가게 추천 받기</div>
+            <div className="hero-cta-text">
+              {recommendationData?.today_recommend?.stores && recommendationData.today_recommend.stores.length > 0 
+                ? '오늘의 가게 추천' 
+                : '오늘의 가게 추천 받기'
+              }
+            </div>
           </div>
           <div className="hero-arrow-button">
             <img src={arrowIcon} alt="추천 받기" width="24" height="24" />
@@ -50,49 +101,35 @@ const RecommendationTab: React.FC = () => {
         <div className="history-section-title">
           🔮 지난 추천 기반
         </div>
-        <p className="history-section-desc">
-          최근 김밥을 좋아하셨어요!
-        </p>
-        <div className="history-store-grid">
-          <div className="history-store-item">
-            <div className="history-store-bg">
-              <img src={cafeBg1} alt="카페 배경" />
+        {loading ? (
+          <p className="history-section-desc">추천 데이터를 불러오는 중...</p>
+        ) : error ? (
+          <p className="history-section-desc">추천 데이터를 불러올 수 없습니다.</p>
+        ) : recommendationData?.past_recommend && recommendationData.past_recommend.length > 0 ? (
+          <>
+            <p className="history-section-desc">
+              최근 {recommendationData.past_recommend[0]?.category}을(를) 좋아하셨어요!
+            </p>
+            <div className="history-store-grid">
+              {recommendationData.past_recommend.slice(0, 3).map((store, index) => (
+                <div key={index} className="history-store-item">
+                  <div className="history-store-bg">
+                    <img src={getCategoryBackground(store.category)} alt={`${store.category} 배경`} />
+                  </div>
+                  <div className="history-store-info">
+                    <div className="history-store-name">{store.name}</div>
+                    <div className="history-store-address">{store.address}</div>
+                  </div>
+                  <div className="history-store-arrow">
+                    <img src={arrowIcon} alt="화살표" />
+                  </div>
+                </div>
+              ))}
             </div>
-            <div className="history-store-info">
-              <div className="history-store-name">웨이스테이션</div>
-              <div className="history-store-address">서울 노원구 동일로 174길, 37-8</div>
-            </div>
-            <div className="history-store-arrow">
-              <img src={arrowIcon} alt="화살표" />
-            </div>
-          </div>
-          
-          <div className="history-store-item">
-            <div className="history-store-bg">
-              <img src={koreanBg1} alt="한식 배경" />
-            </div>
-            <div className="history-store-info">
-              <div className="history-store-name">오봉집</div>
-              <div className="history-store-address">서울 노원구 동일로 172길, 15-3</div>
-            </div>
-            <div className="history-store-arrow">
-              <img src={arrowIcon} alt="화살표" />
-            </div>
-          </div>
-          
-          <div className="history-store-item">
-            <div className="history-store-bg">
-              <img src={koreanBg2} alt="한식 배경" />
-            </div>
-            <div className="history-store-info">
-              <div className="history-store-name">진미김밥</div>
-              <div className="history-store-address">서울 노원구 동일로 170길, 22-1</div>
-            </div>
-            <div className="history-store-arrow">
-              <img src={arrowIcon} alt="화살표" />
-            </div>
-          </div>
-        </div>
+          </>
+        ) : (
+          <p className="history-section-desc">아직 추천 기록이 없습니다.</p>
+        )}
       </section>
 
       {/* 3섹션: 광고 가게 추천 */}

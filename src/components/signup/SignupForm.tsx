@@ -6,6 +6,7 @@ import UncheckedIcon from '../../assets/icons/icon-unchecked.svg'
 import CheckedIcon from '../../assets/icons/icon-checked.svg'
 import { cityData } from '../../types/location'
 import type { CityName, DistrictName } from '../../types/location'
+import { authAPI } from '../../services/api'
 
 /**
  * 회원가입 폼 컴포넌트 (단계별 입력)
@@ -97,11 +98,21 @@ const SignupForm = () => {
   }
 
   // 아이디 중복 확인 핸들러
-  const handleIdCheck = () => {
-    // TODO: 실제 API 호출로 중복 확인
-    // 개발 단계에서는 항상 사용가능한 아이디로 처리
-    setIdDuplicateStatus(2)  // 사용가능 상태로 설정
-    setIsIdChecked(true)     // 중복확인 완료로 설정
+  const handleIdCheck = async () => {
+    try {
+      const isDuplicate = await authAPI.checkId({ identify: formData.userId })
+      
+      if (isDuplicate) {
+        setIdDuplicateStatus(1)  // 중복 상태
+        setIsIdChecked(true)
+      } else {
+        setIdDuplicateStatus(2)  // 사용가능 상태
+        setIsIdChecked(true)
+      }
+    } catch (error: any) {
+      console.error('아이디 중복 확인 실패:', error)
+      alert(error.message || '아이디 중복 확인에 실패했습니다.')
+    }
   }
 
   // 비밀번호 입력값 변경 핸들러
@@ -186,15 +197,13 @@ const SignupForm = () => {
 
 
   // 시 선택 핸들러
-  const handleCityChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const value = e.target.value as CityName | ''
-    setFormData(prev => ({ ...prev, city: value, district: '' })) // 시가 변경되면 구 초기화
+  const handleCityChange = (city: string) => {
+    setFormData(prev => ({ ...prev, city: city as CityName, district: '' })) // 시가 변경되면 구 초기화
   }
 
   // 구 선택 핸들러
-  const handleDistrictChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const value = e.target.value as DistrictName | ''
-    setFormData(prev => ({ ...prev, district: value }))
+  const handleDistrictChange = (district: string) => {
+    setFormData(prev => ({ ...prev, district: district as DistrictName }))
   }
 
 
@@ -248,8 +257,40 @@ const SignupForm = () => {
 
   // 약관 동의 후 동네 위치 설정으로 이동
   const handleTermsAgreement = () => {
-    setCurrentStep(3) // 동네 위치 설정 단계로 이동
+    setCurrentStep(3) // 동네 위치 설정으로 이동
     setShowTermsModal(false) // 모달 닫기
+  }
+
+  // 회원가입 제출 핸들러
+  const handleSignupSubmit = async () => {
+    try {
+      // 데이터 유효성 검사
+      if (!formData.city || !formData.district) {
+        alert('시와 구를 모두 선택해주세요.')
+        return
+      }
+
+      // API 요청 데이터 구성
+      const signupData = {
+        identify: formData.userId,
+        password: formData.password,
+        username: formData.nickname,
+        sido: formData.city,
+        gugun: formData.district,
+        marketing_agree: agreements.marketing
+      }
+
+      console.log('회원가입 데이터:', signupData)
+
+      // 회원가입 API 호출
+      await authAPI.signup(signupData)
+      
+      // 성공 시 회원가입 완료 단계로 이동
+      setCurrentStep(4)
+    } catch (error: any) {
+      console.error('회원가입 실패:', error)
+      alert(error.message || '회원가입에 실패했습니다.')
+    }
   }
 
   // 아이디 입력 단계 렌더링
@@ -447,7 +488,7 @@ const SignupForm = () => {
                     <div 
                       key={city} 
                       className={`location-item ${formData.city === city ? 'selected' : ''}`}
-                      onClick={() => handleCityChange({ target: { value: city } } as React.ChangeEvent<HTMLSelectElement>)}
+                      onClick={() => handleCityChange(city)}
                     >
                       {city}
                     </div>
@@ -465,7 +506,7 @@ const SignupForm = () => {
                     <div 
                       key={district} 
                       className={`location-item ${formData.district === district ? 'selected' : ''}`}
-                      onClick={() => handleDistrictChange({ target: { value: district } } as React.ChangeEvent<HTMLSelectElement>)}
+                      onClick={() => handleDistrictChange(district)}
                     >
                       {district}
                     </div>
@@ -490,9 +531,8 @@ const SignupForm = () => {
                 if (formData.city && formData.district) {
                   // 지역 확인 알림 표시
                   if (window.confirm(`${formData.district}로 지역을 설정하시겠습니까?`)) {
-                    // 회원가입 완료 단계로 이동
-                    setShowLocationModal(false)
-                    setCurrentStep(4)
+                    // 회원가입 API 호출
+                    handleSignupSubmit()
                   }
                 }
               }}
