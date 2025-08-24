@@ -57,10 +57,7 @@ const SignupForm = () => {
 
   // 지역 선택 관련 상태 관리
   const [searchQuery, setSearchQuery] = useState('')  // 검색어
-
-  // 지역 관련 상태 관리
-  const [cityValidationStatus, setCityValidationStatus] = useState(0)      // 시 선택 상태 (0: 미선택, 1: 선택됨)
-  const [districtValidationStatus, setDistrictValidationStatus] = useState(0)  // 구 선택 상태 (0: 미선택, 1: 선택됨)
+  const [showLocationModal, setShowLocationModal] = useState(false)  // 위치 설정 모달 표시 여부
 
   // 검색 결과 필터링
   const filteredCities = Object.keys(cityData).filter(city => 
@@ -192,26 +189,12 @@ const SignupForm = () => {
   const handleCityChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value as CityName | ''
     setFormData(prev => ({ ...prev, city: value, district: '' })) // 시가 변경되면 구 초기화
-    
-    if (value) {
-      setCityValidationStatus(1)
-      setDistrictValidationStatus(0) // 구 선택 상태 초기화
-    } else {
-      setCityValidationStatus(0)
-      setDistrictValidationStatus(0)
-    }
   }
 
   // 구 선택 핸들러
   const handleDistrictChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value as DistrictName | ''
     setFormData(prev => ({ ...prev, district: value }))
-    
-    if (value) {
-      setDistrictValidationStatus(1)
-    } else {
-      setDistrictValidationStatus(0)
-    }
   }
 
 
@@ -265,15 +248,8 @@ const SignupForm = () => {
 
   // 약관 동의 후 동네 위치 설정으로 이동
   const handleTermsAgreement = () => {
-    setCurrentStep(4) // 동네 위치 설정 단계로 이동
+    setCurrentStep(3) // 동네 위치 설정 단계로 이동
     setShowTermsModal(false) // 모달 닫기
-  }
-
-  // 회원가입 완료 핸들러
-  const handleSignupComplete = () => {
-    // TODO: 실제 회원가입 API 호출
-    console.log('회원가입 완료:', formData)
-    alert('회원가입이 완료되었습니다!')
   }
 
   // 아이디 입력 단계 렌더링
@@ -402,85 +378,132 @@ const SignupForm = () => {
     </div>
   )
 
-  // 동네 위치 설정 화면 렌더링 (지역 선택 UI 포함)
-  const renderLocationSettingStep = () => (
-    <div className="signup-step">
-      <div className="step-title">동네 설정</div>
-      
-      {/* 검색 바 */}
-      <div className="location-search-bar">
-        <input 
-          type="text" 
-          placeholder="지역명을 검색하세요."
-          className="location-search-input"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
-        <span className="location-search-icon">🔍</span>
-      </div>
-
-      {/* 지역 선택 영역 */}
-      <div className="location-content">
-        <div className="location-column">
-          <div className="location-column-header">시·도</div>
-          <div className="location-list">
-            {(searchQuery ? filteredCities : Object.keys(cityData)).map(city => (
-              <div 
-                key={city} 
-                className={`location-item ${formData.city === city ? 'selected' : ''}`}
-                onClick={() => handleCityChange({ target: { value: city } } as React.ChangeEvent<HTMLSelectElement>)}
-              >
-                {city}
-              </div>
-            ))}
-            {searchQuery && filteredCities.length === 0 && (
-              <div className="location-no-results">검색 결과가 없습니다.</div>
-            )}
+  // 동네 위치 설정 안내 화면 렌더링
+  const renderLocationSettingStep = () => {
+    // 안내 화면과 지역 선택 화면을 구분
+    if (!showLocationModal) {
+      return (
+        <div className="signup-step">
+          <div className="step-title">동네 위치 설정</div>
+          
+          {/* 중앙 아이콘 */}
+          <div className="location-icon">
+            <div className="location-icon-circle">
+              <div className="location-icon-target">🎯</div>
+            </div>
           </div>
-        </div>
-        
-        <div className="location-column">
-          <div className="location-column-header">시·군·구</div>
-          <div className="location-list">
-            {formData.city && (searchQuery ? filteredDistricts : cityData[formData.city])?.map(district => (
-              <div 
-                key={district} 
-                className={`location-item ${formData.district === district ? 'selected' : ''}`}
-                onClick={() => handleDistrictChange({ target: { value: district } } as React.ChangeEvent<HTMLSelectElement>)}
-              >
-                {district}
-              </div>
-            ))}
-            {searchQuery && formData.city && filteredDistricts.length === 0 && (
-              <div className="location-no-results">검색 결과가 없습니다.</div>
-            )}
+          
+          {/* 설명 텍스트 */}
+          <div className="location-description">
+            <p>더 원활한 사용을 위해</p>
+            <p>나의 동네를 설정해 주세요.</p>
           </div>
+          
+          {/* 위치 설정하기 버튼 */}
+          <button 
+            className="location-setting-button"
+            onClick={() => {
+              setShowLocationModal(true)
+              setSearchQuery('') // 검색어 초기화
+            }}
+          >
+            위치 설정 하기
+          </button>
         </div>
-      </div>
+      )
+    } else {
+      // 지역 선택 페이지
+      return (
+        <div className="location-selection-page">
+          {/* 상단 헤더 */}
+          <div className="location-header">
+            <button className="location-back-button" onClick={() => setShowLocationModal(false)}>
+              <img src={BackArrowIcon} alt="뒤로가기" className="back-icon" />
+            </button>
+            <h1 className="location-title">동네 설정</h1>
+            <div className="location-header-spacer"></div>
+          </div>
 
-      {/* 하단 버튼 */}
-      <div className="location-modal-buttons">
-        <button className="location-cancel-btn" onClick={() => setCurrentStep(2)}>
-          이전
-        </button>
-        <button 
-          className="location-confirm-btn"
-          disabled={!formData.city || !formData.district}
-                          onClick={() => {
-                  if (formData.city && formData.district) {
-                    // 지역 확인 알림 표시
-                    if (window.confirm(`${formData.district}로 지역을 설정하시겠습니까?`)) {
-                      // 회원가입 완료 단계로 이동
-                      setCurrentStep(4)
-                    }
+          {/* 메인 콘텐츠 */}
+          <div className="location-content-page">
+            {/* 검색 바 */}
+            <div className="location-search-bar">
+              <input 
+                type="text" 
+                placeholder="지역명을 검색하세요."
+                className="location-search-input"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+              <span className="location-search-icon">🔍</span>
+            </div>
+
+            {/* 지역 선택 영역 */}
+            <div className="location-content">
+              <div className="location-column">
+                <div className="location-column-header">시·도</div>
+                <div className="location-list">
+                  {(searchQuery ? filteredCities : Object.keys(cityData)).map(city => (
+                    <div 
+                      key={city} 
+                      className={`location-item ${formData.city === city ? 'selected' : ''}`}
+                      onClick={() => handleCityChange({ target: { value: city } } as React.ChangeEvent<HTMLSelectElement>)}
+                    >
+                      {city}
+                    </div>
+                  ))}
+                  {searchQuery && filteredCities.length === 0 && (
+                    <div className="location-no-results">검색 결과가 없습니다.</div>
+                  )}
+                </div>
+              </div>
+              
+              <div className="location-column">
+                <div className="location-column-header">시·군·구</div>
+                <div className="location-list">
+                  {formData.city && (searchQuery ? filteredDistricts : cityData[formData.city])?.map(district => (
+                    <div 
+                      key={district} 
+                      className={`location-item ${formData.district === district ? 'selected' : ''}`}
+                      onClick={() => handleDistrictChange({ target: { value: district } } as React.ChangeEvent<HTMLSelectElement>)}
+                    >
+                      {district}
+                    </div>
+                  ))}
+                  {searchQuery && formData.city && filteredDistricts.length === 0 && (
+                    <div className="location-no-results">검색 결과가 없습니다.</div>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* 하단 버튼 */}
+          <div className="location-bottom-buttons">
+            <button className="location-cancel-btn" onClick={() => setShowLocationModal(false)}>
+              취소
+            </button>
+            <button 
+              className="location-confirm-btn"
+              disabled={!formData.city || !formData.district}
+              onClick={() => {
+                if (formData.city && formData.district) {
+                  // 지역 확인 알림 표시
+                  if (window.confirm(`${formData.district}로 지역을 설정하시겠습니까?`)) {
+                    // 회원가입 완료 단계로 이동
+                    setShowLocationModal(false)
+                    setCurrentStep(4)
                   }
-                }}
-        >
-          다음
-        </button>
-      </div>
-    </div>
-  )
+                }
+              }}
+            >
+              확인
+            </button>
+          </div>
+        </div>
+      )
+    }
+  }
 
   // 회원가입 완료 화면 렌더링
   const renderSignupCompleteStep = () => (
@@ -505,9 +528,8 @@ const SignupForm = () => {
       <button 
         className="signup-complete-button"
         onClick={() => {
-          // TODO: 메인 페이지로 이동
-          console.log('가치:가게 시작!')
-          alert('가치:가게를 시작합니다!')
+          // 홈 페이지로 이동
+          navigate('/home')
         }}
       >
         시작하기
@@ -515,51 +537,7 @@ const SignupForm = () => {
     </div>
   )
 
-  // 지역 선택 단계 렌더링 (기존 함수는 유지)
-  const renderLocationStep = () => (
-    <div className="signup-step">
-      <div className="step-title">어느 동네에 계신가요?</div>
-      
-      {/* 시 선택 */}
-      <div className={`input-container ${
-        cityValidationStatus === 1 ? 'input-container-valid' : ''
-      }`}>
-        <div className="input-label">시/도</div>
-        <select
-          className="input-field"
-          value={formData.city}
-          onChange={handleCityChange}
-        >
-          <option value="">시/도를 선택해주세요</option>
-          {Object.keys(cityData).map(city => (
-            <option key={city} value={city}>{city}</option>
-          ))}
-        </select>
-      </div>
-      
-      {/* 구 선택 */}
-      <div className={`input-container ${
-        districtValidationStatus === 1 ? 'input-container-valid' : ''
-      }`}>
-        <div className="input-label">구/군</div>
-        <select
-          className="input-field"
-          value={formData.district}
-          onChange={handleDistrictChange}
-          disabled={!formData.city} // 시가 선택되지 않으면 비활성화
-        >
-          <option value="">구/군을 선택해주세요</option>
-                            {formData.city && cityData[formData.city]?.map(district => (
-                    <option key={district} value={district}>{district}</option>
-                  ))}
-        </select>
-      </div>
-      
-      <div className="input-hint">
-        시/도와 구/군을 모두 선택해주세요.
-      </div>
-    </div>
-  )
+  
 
   // 현재 단계에 따른 제목과 내용 렌더링
   const renderCurrentStep = () => {
@@ -571,7 +549,7 @@ const SignupForm = () => {
       case 2:
         return renderNicknameStep()  // 닉네임 입력 단계
       case 3:
-        return renderLocationStep()  // 동네 위치 설정 단계
+        return renderLocationSettingStep()  // 동네 위치 설정 단계
       case 4:
         return renderSignupCompleteStep()   // 회원가입 완료 단계
       default:
@@ -583,36 +561,37 @@ const SignupForm = () => {
   // 메인 렌더링 (Main Render)
   return (
     <div className="signup-container">
-      {/* 헤더 */}
-      <div className="signup-header">
-        <button className="back-button" onClick={handlePrevStep}>
-          <img src={BackArrowIcon} alt="뒤로가기" className="back-icon" />
-        </button>
-        <h1 className="signup-title">회원가입</h1>
-      </div>
+      {/* 헤더 - 동네 위치 설정과 회원가입 완료 단계에서는 숨김 */}
+      {currentStep !== 3 && currentStep !== 4 && (
+        <div className="signup-header">
+          <button className="back-button" onClick={handlePrevStep}>
+            <img src={BackArrowIcon} alt="뒤로가기" className="back-icon" />
+          </button>
+          <h1 className="signup-title">회원가입</h1>
+        </div>
+      )}
 
       {/* 메인 콘텐츠 */}
       <div className="signup-content">
         {/* 현재 단계에 따른 UI 렌더링 */}
         {renderCurrentStep()}
         
-        {/* 하단 버튼 */}
-        <div className={`signup-bottom step-${currentStep}`}>
-          <button 
-            className="next-button"
-            disabled={
-              (currentStep === 0 && (idValidationStatus !== 2 || idDuplicateStatus !== 2)) ||
-              (currentStep === 1 && (passwordValidationStatus !== 2 || passwordMatchStatus !== 2)) ||
-              (currentStep === 2 && nicknameValidationStatus !== 2) ||
-              (currentStep === 3 && (cityValidationStatus !== 1 || districtValidationStatus !== 1))
-            }
-            onClick={currentStep === 3 ? handleSignupComplete : handleNextStep}
-            style={{ display: currentStep === 4 ? 'none' : 'block' }}
-          >
-            {/* 마지막 단계에서는 '가입완료', 그 외에는 '다음으로' */}
-            {currentStep === 3 ? '회원가입하기' : '다음으로'}
-          </button>
-        </div>
+        {/* 하단 버튼 - 지역 설정 단계, 회원가입 완료 단계, 약관 모달이 열린 상태에서는 숨김 */}
+        {currentStep !== 3 && currentStep !== 4 && !showTermsModal && (
+          <div className={`signup-bottom step-${currentStep}`}>
+            <button 
+              className="next-button"
+              disabled={
+                (currentStep === 0 && (idValidationStatus !== 2 || idDuplicateStatus !== 2)) ||
+                (currentStep === 1 && (passwordValidationStatus !== 2 || passwordMatchStatus !== 2)) ||
+                (currentStep === 2 && nicknameValidationStatus !== 2)
+              }
+              onClick={handleNextStep}
+            >
+              다음으로
+            </button>
+          </div>
+        )}
       </div>
       
       {/* 약관 동의 모달 */}
@@ -690,7 +669,7 @@ const SignupForm = () => {
             
             {/* 회원가입 버튼 */}
             <button 
-              className={`signup-button ${isRequiredAgreementsChecked() ? 'signup-button-active' : ''}`}
+              className={`terms-signup-button ${isRequiredAgreementsChecked() ? 'terms-signup-button-active' : ''}`}
               disabled={!isRequiredAgreementsChecked()}
               onClick={handleTermsAgreement}
             >
@@ -699,6 +678,8 @@ const SignupForm = () => {
           </div>
         </div>
       )}
+
+
 
     </div>
   )
