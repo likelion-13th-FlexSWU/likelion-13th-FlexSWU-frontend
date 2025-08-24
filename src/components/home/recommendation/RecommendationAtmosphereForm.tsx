@@ -6,13 +6,13 @@ import selected2Icon from '../../../assets/icons/step-2-active.svg'
 import selected1Icon from '../../../assets/icons/step-1-inactive.svg'
 import selected3Icon from '../../../assets/icons/step-3-inactive.svg'
 
-interface AtmosphereOption {
+export interface AtmosphereOption {
   id: string
   name: string
   emoji: string
 }
 
-const ATMOSPHERE_OPTIONS: AtmosphereOption[] = [
+export const ATMOSPHERE_OPTIONS: AtmosphereOption[] = [
   { id: 'solo', name: '혼밥 하기 편해요', emoji: '👤' },
   { id: 'date', name: '데이트하기 좋아요', emoji: '👫' },
   { id: 'family', name: '가족과 가기 좋아요', emoji: '🏠' },

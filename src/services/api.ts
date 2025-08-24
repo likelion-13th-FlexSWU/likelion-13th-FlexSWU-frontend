@@ -16,7 +16,13 @@ import type {
   UpdateNicknameRequest,
   UpdateRegionRequest
 } from '../types/auth'
-import type { MissionResponse } from '../types/mission'
+import type { 
+  MissionResponse, 
+  MissionCheckRequest,
+  MissionReviewRequest,
+  MissionReviewResponse,
+  ReviewListResponse
+} from '../types/mission'
 
 // API 기본 설정
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
@@ -226,6 +232,44 @@ export const missionAPI = {
     } catch (error: any) {
       throw new Error(error.response?.data?.message || '미션 데이터를 가져오는데 실패했습니다.')
     }
+  },
+
+  // 미션 인증
+  checkMission: async (data: MissionCheckRequest): Promise<void> => {
+    try {
+      await api.post('/mission/check', data)
+    } catch (error: any) {
+      throw new Error(error.response?.data?.message || '미션 인증에 실패했습니다.')
+    }
+  },
+
+  // 리뷰 작성
+  createReview: async (data: MissionReviewRequest): Promise<MissionReviewResponse> => {
+    try {
+      const response = await api.post('/mission/review', data)
+      return response.data
+    } catch (error: any) {
+      throw new Error(error.response?.data?.message || '리뷰 작성에 실패했습니다.')
+    }
+  },
+
+  // 리뷰 목록 조회
+  getReviews: async (): Promise<ReviewListResponse> => {
+    try {
+      const response = await api.get('/mission/review')
+      return response.data
+    } catch (error: any) {
+      throw new Error(error.response?.data?.message || '리뷰 목록을 가져오는데 실패했습니다.')
+    }
+  },
+
+  // 리뷰 삭제
+  deleteReview: async (reviewId: string): Promise<void> => {
+    try {
+      await api.delete(`/mission/review/delete/${reviewId}`)
+    } catch (error: any) {
+      throw new Error(error.response?.data?.message || '리뷰 삭제에 실패했습니다.')
+    }
   }
 }
 
@@ -256,6 +300,16 @@ export const tokenUtils = {
 
   // 로그인 상태 확인
   isLoggedIn: () => !!localStorage.getItem('accessToken')
+}
+
+// OCR 관련 API 함수들
+export const ocrAPI = {
+  // Tesseract.js를 사용한 OCR (클라이언트 사이드)
+  tesseractOCR: async (imageUrl: string): Promise<string> => {
+    // 이 함수는 클라이언트 사이드에서 직접 호출
+    // Tesseract.js를 사용하여 OCR 처리
+    return ''
+  }
 }
 
 export default api
