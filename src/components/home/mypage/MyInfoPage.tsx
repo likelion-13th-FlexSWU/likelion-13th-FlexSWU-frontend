@@ -14,6 +14,8 @@ const MyInfoPage: React.FC = () => {
   const navigate = useNavigate()
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null)
   const [hasUnreadCoupon, setHasUnreadCoupon] = useState(true) // 쿠폰 읽음 여부
+  const [hoveredBar, setHoveredBar] = useState<number | null>(null)
+  const [clickedBar, setClickedBar] = useState<number | null>(null)
 
 
   // API에서 사용자 정보 가져오기
@@ -59,12 +61,32 @@ const MyInfoPage: React.FC = () => {
     return `${parseInt(month)}월`
   }
 
-  // Recharts용 차트 데이터 변환
-  const chartData = userInfo?.monthly.map(item => ({
-    name: formatMonth(item.month),
-    score: item.score
-  })) || []
+  // 지역기여도 차트 데이터 (하이브리드 방식)
+  const BASE_MAX = 60000 // 기본 최대값: 6만점
+  const chartData = userInfo?.monthly && userInfo.monthly.length > 0 
+    ? (() => {
+        const dynamicMax = Math.max(...userInfo.monthly.map(item => item.score))
+        const maxScore = Math.max(BASE_MAX, dynamicMax) // 6만점 vs 실제 최대값
+        
+        return userInfo.monthly.map(item => ({
+          month: formatMonth(item.month),
+          score: item.score,
+          height: `${(item.score / maxScore) * 100}%`
+        }))
+      })()
+    : [
+        { month: '3', score: 25000, height: '41.7%' },  // 25000/60000 = 41.7%
+        { month: '4', score: 35000, height: '58.3%' },  // 35000/60000 = 58.3%
+        { month: '5', score: 50000, height: '83.3%' },  // 50000/60000 = 83.3%
+        { month: '6', score: 30000, height: '50.0%' },  // 30000/60000 = 50.0%
+        { month: '7', score: 42500, height: '70.8%' },  // 42500/60000 = 70.8%
+        { month: '8', score: 50000, height: '83.3%' }   // 50000/60000 = 83.3%
+      ]
 
+  // 막대 클릭 핸들러
+  const handleBarClick = (index: number) => {
+    setClickedBar(clickedBar === index ? null : index) // 같은 막대 클릭 시 해제
+  }
 
 
   return (
@@ -119,9 +141,8 @@ const MyInfoPage: React.FC = () => {
       {/* 2. 취향 유형 섹션 */}
       <section className="myinfo-taste-section">
         <div className="myinfo-taste-card">
-          <span className="myinfo-taste-emoji">🐧</span>
           <h2 className="myinfo-taste-title">
-            나는 어떤 취향 유형일까?
+            🐧 나는 어떤 취향 유형일까?
           </h2>
           <p className="myinfo-taste-description">
             AI추천 10번 받으면 확인 가능해요!
@@ -129,50 +150,29 @@ const MyInfoPage: React.FC = () => {
         </div>
       </section>
 
-      {/* 3. 지역기여도 섹션 */}
-      <section className="myinfo-contribution-section">
-        <div className="myinfo-contribution-card">
-          <h2 className="myinfo-contribution-title">
-            6개월 간의 지역기여도
-          </h2>
-          
-                    {userInfo?.monthly && (
-            <div className="myinfo-chart-container">
-              <ResponsiveContainer width="100%" height={200}>
-                <BarChart data={chartData} margin={{ top: 20, right: 20, left: 20, bottom: 20 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#e9ecef" />
-                  <XAxis 
-                    dataKey="name" 
-                    axisLine={false}
-                    tickLine={false}
-                    tick={{ fontSize: 12, fill: '#6c757d' }}
-                  />
-                  <YAxis 
-                    axisLine={false}
-                    tickLine={false}
-                    tick={{ fontSize: 11, fill: '#6c757d' }}
-                    domain={[0, 2000]}
-                  />
-                  <Tooltip 
-                    contentStyle={{
-                      backgroundColor: '#4B4B4B',
-                      color: 'white',
-                      border: 'none',
-                      borderRadius: '8px',
-                      boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)'
-                    }}
-                    formatter={(value) => [`${value}점`, '점수']}
-                    labelStyle={{ color: 'white' }}
-                  />
-                  <Bar 
-                    dataKey="score" 
-                    fill="#007BEB"
-                    radius={[6, 6, 0, 0]}
-                  />
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
-          )}
+      {/* 3. 지역기여도 차트 섹션 */}
+      <section className="myinfo-chart-section">
+        <div className="myinfo-chart-container">
+          <h2 className="myinfo-chart-title">6개월 간의 지역기여도</h2>
+          <div className="myinfo-chart-bars">
+            {chartData.map((data, index) => (
+              <div 
+                key={data.month}
+                className={`myinfo-chart-bar ${hoveredBar === index ? 'hovered' : ''} ${clickedBar === index ? 'clicked' : ''}`}
+                style={{ height: data.height }}
+                onMouseEnter={() => setHoveredBar(index)}
+                onMouseLeave={() => setHoveredBar(null)}
+                onClick={() => handleBarClick(index)}
+              >
+                {hoveredBar === index && (
+                  <div className="myinfo-chart-tooltip">
+                    {data.score.toLocaleString()}점
+                  </div>
+                )}
+                <span className="myinfo-chart-month">{data.month}월</span>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
     </div>

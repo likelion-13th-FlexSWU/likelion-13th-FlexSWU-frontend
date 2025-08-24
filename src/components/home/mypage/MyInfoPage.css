@@ -125,15 +125,13 @@
   color: #4B4B4B;
 }
 
-/* 2. 취향 유형 섹션 */
+/* 취향 유형 섹션 */
 .myinfo-taste-section {
-  padding: 0 20px;
   margin-bottom: 24px;
 }
 
 .myinfo-taste-card {
-  background-color: #f8f9fa;
-  border: 1px solid #e9ecef;
+  background-color: #F1F2F4;
   border-radius: 16px;
   padding: 24px;
   text-align: center;
@@ -148,41 +146,144 @@
 .myinfo-taste-title {
   font-size: 18px;
   font-weight: 600;
-  color: #4B4B4B;
+  color: #333;
   margin: 0 0 8px 0;
 }
 
 .myinfo-taste-description {
   font-size: 14px;
-  color: #6c757d;
+  color: #666;
   margin: 0;
 }
 
-/* 3. 지역기여도 섹션 */
-.myinfo-contribution-section {
-  padding: 0 20px;
+/* 지역기여도 차트 섹션 */
+.myinfo-chart-section {
   margin-bottom: 24px;
 }
 
-.myinfo-contribution-card {
-  background-color: white;
-  border-radius: 16px;
-  padding: 24px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-}
-
-.myinfo-contribution-title {
+.myinfo-chart-title {
   font-size: 18px;
   font-weight: 600;
-  color: #4B4B4B;
-  margin: 0 0 24px 0;
-  text-align: center;
+  color: #333;
+  margin: 0 0 20px 0;
+  text-align: left;
+  padding-left: 0;
 }
 
-/* 차트 컨테이너 */
 .myinfo-chart-container {
+  background-color: #FAFCFE;
+  padding: 24px;
   position: relative;
-  padding: 20px 0;
+  width: 343px;
+  height: 373px;
+  margin: 0 auto;
+  border: 1px solid rgba(109, 116, 130, 0.15);
+}
+
+.myinfo-chart-container::before {
+  content: '';
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  right: 24px;
+  bottom: 24px;
+  background-image: 
+    linear-gradient(to bottom, #E1E4EB 0%, #E1E4EB 1px, transparent 1px, transparent 14.28%),
+    linear-gradient(to bottom, #E1E4EB 0%, #E1E4EB 1px, transparent 1px, transparent 14.28%),
+    linear-gradient(to bottom, #E1E4EB 0%, #E1E4EB 1px, transparent 1px, transparent 14.28%),
+    linear-gradient(to bottom, #E1E4EB 0%, #E1E4EB 1px, transparent 1px, transparent 14.28%),
+    linear-gradient(to bottom, #E1E4EB 0%, #E1E4EB 1px, transparent 1px, transparent 14.28%),
+    linear-gradient(to bottom, #E1E4EB 0%, #E1E4EB 1px, transparent 1px, transparent 14.28%),
+    linear-gradient(to bottom, #E1E4EB 0%, #E1E4EB 1px, transparent 1px, transparent 14.28%),
+    linear-gradient(to bottom, #E1E4EB 0%, #E1E4EB 1px, transparent 1px, transparent 14.28%);
+  background-size: 
+    100% 14.28%,
+    100% 14.28%,
+    100% 14.28%,
+    100% 14.28%,
+    100% 14.28%,
+    100% 14.28%,
+    100% 14.28%,
+    100% 14.28%;
+  background-position:
+    0 0%,
+    0 14.28%,
+    0 28.56%,
+    0 42.84%,
+    0 57.12%,
+    0 71.4%,
+    0 85.68%,
+    0 100%;
+  background-repeat: no-repeat;
+  pointer-events: none;
+}
+
+.myinfo-chart-bars {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  height: 280px;
+  gap: 16px;
+  position: relative;
+  z-index: 1;
+  margin-bottom: 40px;
+}
+
+/* 차트 바 기본 스타일 */
+.myinfo-chart-bar {
+  width: 20px;
+  background-color: #E1E4EB;
+  border-radius: 12px 12px 0 0;
+  position: relative;
+  transition: background-color 0.2s ease;
+  cursor: pointer;
+  min-height: 20px;
+}
+
+/* 호버 상태 */
+.myinfo-chart-bar.hovered {
+  background-color: #007BEB;
+}
+
+/* 클릭된 막대 호버 시에도 파란색 유지 */
+.myinfo-chart-bar.clicked.hovered {
+  background-color: #4285F4;
+}
+
+.myinfo-chart-tooltip {
+  position: absolute;
+  top: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: white;
+  color: #333;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  white-space: nowrap;
+  z-index: 10;
+}
+
+.myinfo-chart-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: white;
+}
+
+.myinfo-chart-month {
+  position: absolute;
+  bottom: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 12px;
+  color: #666;
+  white-space: nowrap;
 }
 
 /* 반응형 디자인 */
