@@ -2,6 +2,17 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import './RecommendationTab.css'
 import arrowIcon from '../../../assets/icons/icon-arrow-right.svg'
+import cafeBg1 from '../../../assets/backgrounds/cafe-bg-1.png'
+import koreanBg1 from '../../../assets/backgrounds/korean-bg-1.png'
+import koreanBg2 from '../../../assets/backgrounds/korean-bg-2.png'
+import store01 from '../../../assets/stores/store-01.png'
+import store02 from '../../../assets/stores/store-02.png'
+import store03 from '../../../assets/stores/store-03.png'
+import store04 from '../../../assets/stores/store-04.png'
+import store05 from '../../../assets/stores/store-05.png'
+import store06 from '../../../assets/stores/store-06.png'
+import store07 from '../../../assets/stores/store-07.png'
+import store08 from '../../../assets/stores/store-08.png'
 
 const RecommendationTab: React.FC = () => {
   const navigate = useNavigate()
@@ -45,40 +56,40 @@ const RecommendationTab: React.FC = () => {
         <div className="history-store-grid">
           <div className="history-store-item">
             <div className="history-store-bg">
-              <img src="/src/assets/backgrounds/cafe-bg-1.png" alt="카페 배경" />
+              <img src={cafeBg1} alt="카페 배경" />
             </div>
             <div className="history-store-info">
               <div className="history-store-name">웨이스테이션</div>
               <div className="history-store-address">서울 노원구 동일로 174길, 37-8</div>
             </div>
             <div className="history-store-arrow">
-              <img src="/src/assets/icons/icon-arrow.png" alt="화살표" />
+              <img src={arrowIcon} alt="화살표" />
             </div>
           </div>
           
           <div className="history-store-item">
             <div className="history-store-bg">
-              <img src="/src/assets/backgrounds/korean-bg-1.png" alt="한식 배경" />
+              <img src={koreanBg1} alt="한식 배경" />
             </div>
             <div className="history-store-info">
               <div className="history-store-name">오봉집</div>
               <div className="history-store-address">서울 노원구 동일로 172길, 15-3</div>
             </div>
             <div className="history-store-arrow">
-              <img src="/src/assets/icons/icon-arrow.png" alt="화살표" />
+              <img src={arrowIcon} alt="화살표" />
             </div>
           </div>
           
           <div className="history-store-item">
             <div className="history-store-bg">
-              <img src="/src/assets/backgrounds/korean-bg-2.png" alt="한식 배경" />
+              <img src={koreanBg2} alt="한식 배경" />
             </div>
             <div className="history-store-info">
               <div className="history-store-name">진미김밥</div>
               <div className="history-store-address">서울 노원구 동일로 170길, 22-1</div>
             </div>
             <div className="history-store-arrow">
-              <img src="/src/assets/icons/icon-arrow.png" alt="화살표" />
+              <img src={arrowIcon} alt="화살표" />
             </div>
           </div>
         </div>
@@ -91,14 +102,14 @@ const RecommendationTab: React.FC = () => {
           💡 이런 가게는 어때요?
         </div>
         <div className="sponsored-store-grid">
-          <img src="/src/assets/stores/store-01.png" alt="반층야" className="sponsored-store-item" />
-          <img src="/src/assets/stores/store-02.png" alt="오봉집" className="sponsored-store-item" />
-          <img src="/src/assets/stores/store-03.png" alt="웨이스테이션" className="sponsored-store-item" />
-          <img src="/src/assets/stores/store-04.png" alt="위플랜트위커피" className="sponsored-store-item" />
-          <img src="/src/assets/stores/store-05.png" alt="제일콩집" className="sponsored-store-item" />
-          <img src="/src/assets/stores/store-06.png" alt="진미김밥" className="sponsored-store-item" />
-          <img src="/src/assets/stores/store-07.png" alt="코너집" className="sponsored-store-item" />
-          <img src="/src/assets/stores/store-08.png" alt="테르미니" className="sponsored-store-item" />
+          <img src={store01} alt="반층야" className="sponsored-store-item" />
+          <img src={store02} alt="오봉집" className="sponsored-store-item" />
+          <img src={store03} alt="웨이스테이션" className="sponsored-store-item" />
+          <img src={store04} alt="위플랜트위커피" className="sponsored-store-item" />
+          <img src={store05} alt="제일콩집" className="sponsored-store-item" />
+          <img src={store06} alt="진미김밥" className="sponsored-store-item" />
+          <img src={store07} alt="코너집" className="sponsored-store-item" />
+          <img src={store08} alt="테르미니" className="sponsored-store-item" />
         </div>
       </section>
     </div>
