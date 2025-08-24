@@ -1,0 +1,237 @@
+/* 리뷰 작성 페이지 컨테이너 */
+.mission-review-container {
+  min-height: 100vh;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 상단바 */
+.mission-review-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #e9ecef;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.mission-review-back-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mission-review-back-button:hover {
+  background-color: #f8f9fa;
+}
+
+.mission-review-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #4B4B4B;
+  margin: 0;
+}
+
+.mission-review-spacer {
+  width: 40px;
+}
+
+/* 메인 콘텐츠 */
+.mission-review-main {
+  flex: 1;
+  padding: 24px 20px;
+}
+
+/* 키워드 선택 섹션 */
+.mission-review-keywords-section {
+  margin-bottom: 40px;
+}
+
+.mission-review-section-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #4B4B4B;
+  margin: 0 0 8px 0;
+}
+
+.mission-review-section-subtitle {
+  font-size: 14px;
+  color: #6c757d;
+  margin: 0 0 24px 0;
+}
+
+/* 리뷰 작성 섹션 */
+.mission-review-text-section {
+  margin-bottom: 40px;
+}
+
+.mission-review-textarea {
+  width: 100%;
+  min-height: 120px;
+  padding: 16px;
+  border: 1px solid #e9ecef;
+  border-radius: 12px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #4B4B4B;
+  background-color: #ffffff;
+  resize: vertical;
+  font-family: inherit;
+  white-space: pre-line;
+}
+
+.mission-review-textarea:focus {
+  outline: none;
+  border-color: #007BEB;
+  box-shadow: 0 0 0 2px rgba(0, 123, 235, 0.1);
+}
+
+.mission-review-textarea::placeholder {
+  color: #adb5bd;
+  line-height: 1.5;
+}
+
+/* 하단 액션 */
+.mission-review-bottom {
+  padding: 20px;
+  background-color: #ffffff;
+  border-top: 1px solid #e9ecef;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.mission-review-skip-button {
+  background: none;
+  border: none;
+  color: #6c757d;
+  font-size: 14px;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 12px;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+}
+
+.mission-review-skip-button:hover {
+  background-color: #f8f9fa;
+}
+
+.mission-review-complete-button {
+  width: 100%;
+  padding: 16px 24px;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.mission-review-complete-button.active {
+  background-color: #007BEB;
+  color: white;
+}
+
+.mission-review-complete-button.active:hover {
+  background-color: #0056b3;
+}
+
+.mission-review-complete-button.disabled {
+  background-color: #e9ecef;
+  color: #adb5bd;
+  cursor: not-allowed;
+}
+
+/* 분위기 옵션 선택 */
+.mission-review-atmosphere-options {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-2xl);
+}
+
+.mission-review-atmosphere-option {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 12px;
+  background-color: white;
+  border: 1px solid #E1E4EB;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  height: 42px;
+  position: relative;
+  min-width: fit-content;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.mission-review-atmosphere-option:hover {
+  background-color: var(--color-bg-secondary);
+}
+
+.mission-review-atmosphere-option.selected {
+  border-color: transparent;
+  background-color: var(--color-border-primary);
+  color: white;
+}
+
+.mission-review-atmosphere-option.selected .mission-review-atmosphere-name {
+  color: white;
+}
+
+.mission-review-atmosphere-emoji {
+  font-size: 18px;
+  margin-right: var(--spacing-xs);
+  flex-shrink: 0;
+}
+
+.mission-review-atmosphere-name {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 480px) {
+  .mission-review-main {
+    padding: 20px 16px;
+  }
+  
+  .mission-review-bottom {
+    padding: 16px;
+  }
+  
+  .mission-review-section-title {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 375px) {
+  .mission-review-header {
+    padding: 12px 16px;
+  }
+  
+  .mission-review-main {
+    padding: 16px 12px;
+  }
+  
+  .mission-review-bottom {
+    padding: 12px;
+  }
+}

@@ -13,6 +13,7 @@ import RecommendationResult from './components/home/recommendation/Recommendatio
 import MissionAuthPage from './components/home/mission/MissionAuthPage'
 import MissionAuthResultPage from './components/home/mission/MissionAuthResultPage'
 import MissionAuthCompletePage from './components/home/mission/MissionAuthCompletePage'
+import MissionReviewPage from './components/home/mission/MissionReviewPage'
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
         <Route path="/home/mission/auth" element={<MissionAuthPage />} />
         <Route path="/home/mission/auth/result" element={<MissionAuthResultPage />} />
         <Route path="/mission-complete" element={<MissionAuthCompletePage />} />
+        <Route path="/mission-review" element={<MissionReviewPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Router>

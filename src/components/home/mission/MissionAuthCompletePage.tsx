@@ -12,8 +12,8 @@ const MissionAuthCompletePage: React.FC = () => {
   }
 
   const handleWriteReview = () => {
-    // TODO: 리뷰 작성 페이지로 이동 (다음 작업)
-    console.log('리뷰 작성 페이지로 이동')
+    // 리뷰 작성 페이지로 이동
+    navigate('/mission-review')
   }
 
   const handleGoHome = () => {
