@@ -3,31 +3,45 @@ import { useNavigate } from 'react-router-dom'
 import './MissionPage.css'
 import regionContribution from '../../../assets/region-contribution.png'
 import myContribution from '../../../assets/my-contribution.png'
-import type { Mission } from '../../../types/mission'
-import { 
-  getRandomSpecialMission,
-  getCurrentMissions
-} from '../../../types/mission'
+import type { APIMission, MissionResponse } from '../../../types/mission'
+import { missionAPI } from '../../../services/api'
 
 const MissionPage: React.FC = () => {
   const navigate = useNavigate()
   const [currentRankingIndex, setCurrentRankingIndex] = useState(0)
-  const [selectedSpecialMission, setSelectedSpecialMission] = useState<Mission | null>(null)
-  const [currentWeek, setCurrentWeek] = useState(0)
   const [touchStart, setTouchStart] = useState<number | null>(null)
   const [touchEnd, setTouchEnd] = useState<number | null>(null)
+  const [missionData, setMissionData] = useState<MissionResponse | null>(null)
+  const [loading, setLoading] = useState(true)
 
-  // 컴포넌트 마운트 시 랜덤 스페셜 미션 선택 및 주차 계산
+  // 컴포넌트 마운트 시 미션 데이터 가져오기
   useEffect(() => {
-    // 랜덤 스페셜 미션 선택
-    setSelectedSpecialMission(getRandomSpecialMission())
-    
-    // 현재 주차 계산
-    const startDate = new Date('2025-08-25')
-    const currentDate = new Date()
-    const weeksDiff = Math.floor((currentDate.getTime() - startDate.getTime()) / (7 * 24 * 60 * 60 * 1000))
-    setCurrentWeek(weeksDiff)
-    
+    const fetchMissionData = async () => {
+      try {
+        setLoading(true)
+        const data = await missionAPI.getMissions()
+        setMissionData(data)
+      } catch (error) {
+        console.error('미션 데이터를 가져오는데 실패했습니다:', error)
+        // 에러 발생 시 기본값 설정
+        setMissionData({
+          gugun: "노원구",
+          region: {
+            rank: 1,
+            score: 500000
+          },
+          me: {
+            rank: 13,
+            score: 50000
+          },
+          missions: []
+        })
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchMissionData()
   }, [])
 
   const handleMissionCertify = (missionId: string) => {
@@ -61,7 +75,25 @@ const MissionPage: React.FC = () => {
     setTouchEnd(null)
   }
 
-  const currentMissions = getCurrentMissions(selectedSpecialMission, currentWeek)
+  // API 미션 데이터를 컴포넌트에서 사용하는 형식으로 변환
+  const apiMissions = missionData?.missions.map((mission: APIMission) => {
+    const convertedMission = {
+      id: mission.id.toString(),
+      title: mission.title,
+      description: mission.body,
+      points: mission.score,
+      type: mission._special ? 'special' : 'normal',
+      isCompleted: mission.is_verified
+    }
+    console.log('API Mission:', mission)
+    console.log('Converted Mission:', convertedMission)
+    return convertedMission
+  }) || []
+
+  // API에서 미션 데이터를 가져온 경우 API 데이터 사용
+  const displayMissions = apiMissions
+  
+  console.log('Display Missions:', displayMissions)
 
   return (
     <div className="mission-page-container">
@@ -95,16 +127,16 @@ const MissionPage: React.FC = () => {
                 {currentRankingIndex === 0 ? (
                   <>
                     <div className="mission-page-ranking-header">
-                      <span className="mission-page-ranking-question">🏆 노원구의 지역기여도는 몇등?</span>
+                      <span className="mission-page-ranking-question">🏆 {missionData?.gugun || '노원구'}의 지역기여도는 몇등?</span>
                     </div>
-                    <div className="mission-page-ranking-score">1위 500,000 점</div>
+                    <div className="mission-page-ranking-score">{missionData?.region.rank || 1}위 {missionData?.region.score?.toLocaleString() || '500,000'} 점</div>
                   </>
                 ) : (
                   <>
                     <div className="mission-page-ranking-header">
                       <span className="mission-page-ranking-question">🏆 나의 지역기여도는?</span>
                     </div>
-                    <div className="mission-page-ranking-score">2,450 점</div>
+                    <div className="mission-page-ranking-score">{missionData?.me.score?.toLocaleString() || '2,450'} 점</div>
                   </>
                 )}
               </div>
@@ -120,26 +152,30 @@ const MissionPage: React.FC = () => {
       {/* 2섹션: 미션 리스트 (배경 없음) */}
       <section className="mission-list-section">
         <div className="mission-page-list">
-          {currentMissions.map((mission) => (
-            <div key={mission.id} className={`mission-page-card ${mission.type}`}>
-              <div className="mission-page-points">{mission.points}점</div>
-              <div className="mission-page-content-wrapper">
-                <div className="mission-page-text-wrapper">
-                  <h3 className="mission-page-title-text">
-                    {mission.type === 'special' ? '[Special] ' : ''}{mission.title}
-                  </h3>
-                  <p className="mission-page-description-text">{mission.description}</p>
+          {loading ? (
+            <div className="mission-loading">미션을 불러오는 중...</div>
+          ) : (
+            displayMissions.map((mission) => (
+              <div key={mission.id} className={`mission-page-card ${mission.type}`}>
+                <div className="mission-page-points">{mission.points}점</div>
+                <div className="mission-page-content-wrapper">
+                  <div className="mission-page-text-wrapper">
+                    <h3 className="mission-page-title-text">
+                      {mission.type === 'special' ? '[Special] ' : ''}{mission.title}
+                    </h3>
+                    <p className="mission-page-description-text">{mission.description}</p>
+                  </div>
+                  <button 
+                    className={`mission-page-certify-button ${mission.type}`}
+                    onClick={() => handleMissionCertify(mission.id)}
+                    disabled={mission.isCompleted}
+                  >
+                    {mission.isCompleted ? '완료' : '인증하기'}
+                  </button>
                 </div>
-                <button 
-                  className={`mission-page-certify-button ${mission.type}`}
-                  onClick={() => handleMissionCertify(mission.id)}
-                  disabled={mission.isCompleted}
-                >
-                  {mission.isCompleted ? '완료' : '인증하기'}
-                </button>
               </div>
-            </div>
-          ))}
+            ))
+          )}
         </div>
       </section>
     </div>

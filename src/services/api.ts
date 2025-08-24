@@ -16,6 +16,7 @@ import type {
   UpdateNicknameRequest,
   UpdateRegionRequest
 } from '../types/auth'
+import type { MissionResponse } from '../types/mission'
 
 // API 기본 설정
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
@@ -211,6 +212,19 @@ export const authAPI = {
       await api.post('/recommend/save', data)
     } catch (error: any) {
       throw new Error(error.response?.data?.message || '추천을 저장하는데 실패했습니다.')
+    }
+  }
+}
+
+// 미션 관련 API 함수들
+export const missionAPI = {
+  // 미션 데이터 가져오기
+  getMissions: async (): Promise<MissionResponse> => {
+    try {
+      const response = await api.get('/mission')
+      return response.data
+    } catch (error: any) {
+      throw new Error(error.response?.data?.message || '미션 데이터를 가져오는데 실패했습니다.')
     }
   }
 }
