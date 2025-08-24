@@ -7,6 +7,8 @@ import type {
   RefreshResponse,
   CheckIdRequest,
   RecommendationResponse,
+  RecommendationRequest,
+  TodayRecommendationResponse,
   ApiError 
 } from '../types/auth'
 
@@ -137,6 +139,46 @@ export const authAPI = {
       return response.data
     } catch (error: any) {
       throw new Error(error.response?.data?.message || '추천 데이터를 가져오는데 실패했습니다.')
+    }
+  },
+
+  // 오늘의 추천 받기 (조회용)
+  getTodayRecommendation: async (data: RecommendationRequest): Promise<TodayRecommendationResponse> => {
+    try {
+      const response = await api.post('/recommend/today', data)
+      
+      // 응답 데이터 유효성 검사
+      if (response.data && response.data.stores) {
+        // 추천 결과가 있는 경우
+        if (response.data.stores.length > 0) {
+          return response.data
+        } else {
+          // 추천 결과가 없는 경우
+          throw new Error('NO_RESULTS')
+        }
+      } else {
+        throw new Error('응답 데이터 형식이 올바르지 않습니다.')
+      }
+    } catch (error: any) {
+      // axios 에러가 아닌 경우
+      if (!error.response) {
+        throw new Error('네트워크 오류가 발생했습니다.')
+      }
+      
+      // HTTP 에러 응답
+      const status = error.response?.status
+      const message = error.response?.data?.message || '오늘의 추천을 가져오는데 실패했습니다.'
+      
+      throw new Error(`${message} (${status})`)
+    }
+  },
+
+  // 추천 저장 (최종저장용)
+  saveRecommendation: async (data: TodayRecommendationResponse): Promise<void> => {
+    try {
+      await api.post('/recommend/save', data)
+    } catch (error: any) {
+      throw new Error(error.response?.data?.message || '추천을 저장하는데 실패했습니다.')
     }
   }
 }

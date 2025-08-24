@@ -11,6 +11,7 @@ import RecommendationAtmosphereForm from './components/home/recommendation/Recom
 import RecommendationOptionsForm from './components/home/recommendation/RecommendationOptionsForm'
 import RecommendationLoading from './components/home/recommendation/RecommendationLoading'
 import RecommendationResult from './components/home/recommendation/RecommendationResult'
+import RecommendationNoResult from './components/home/recommendation/RecommendationNoResult'
 import MissionAuthPage from './components/home/mission/MissionAuthPage'
 import MissionAuthResultPage from './components/home/mission/MissionAuthResultPage'
 import MissionAuthCompletePage from './components/home/mission/MissionAuthCompletePage'
@@ -36,8 +37,9 @@ function App() {
           <Route path="/home/recommendation/category" element={<RecommendationCategoryForm />} />
           <Route path="/home/recommendation/atmosphere" element={<RecommendationAtmosphereForm />} />
           <Route path="/home/recommendation/options" element={<RecommendationOptionsForm />} />
-          <Route path="/home/recommendation/loading" element={<RecommendationLoading />} />
-          <Route path="/home/recommendation/result" element={<RecommendationResult />} />
+                  <Route path="/home/recommendation/loading" element={<RecommendationLoading />} />
+        <Route path="/home/recommendation/result" element={<RecommendationResult />} />
+        <Route path="/home/recommendation/no-result" element={<RecommendationNoResult />} />
           <Route path="/home/mission/auth" element={<MissionAuthPage />} />
           <Route path="/home/mission/auth/result" element={<MissionAuthResultPage />} />
           <Route path="/mission-complete" element={<MissionAuthCompletePage />} />

@@ -1,0 +1,98 @@
+.recommendation-no-result-container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background-color: #ffffff;
+  overflow: hidden;
+}
+
+.no-result-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.no-result-bg-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.no-result-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  padding: 20px;
+}
+
+.no-result-text-block {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.no-result-title {
+  font-size: 24px;
+  font-weight: 600;
+  color: #000000;
+  line-height: 1.4;
+  margin: 0 0 16px 0;
+}
+
+.no-result-subtitle {
+  font-size: 18px;
+  font-weight: 400;
+  color: #000000;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.no-result-action {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.retry-recommendation-button {
+  background-color: #007AFF;
+  color: #ffffff;
+  border: none;
+  border-radius: 12px;
+  padding: 16px 32px;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  min-width: 200px;
+}
+
+.retry-recommendation-button:hover {
+  background-color: #0056CC;
+}
+
+.retry-recommendation-button:active {
+  background-color: #004499;
+}
+
+/* 모바일 반응형 */
+@media (max-width: 768px) {
+  .no-result-title {
+    font-size: 22px;
+  }
+  
+  .no-result-subtitle {
+    font-size: 16px;
+  }
+  
+  .retry-recommendation-button {
+    font-size: 16px;
+    padding: 14px 28px;
+    min-width: 180px;
+  }
+}

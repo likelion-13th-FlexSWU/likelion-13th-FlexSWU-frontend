@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
+import { authAPI } from '../../../services/api'
+import type { RecommendationRequest } from '../../../types/auth'
 import './RecommendationOptionsForm.css'
 import backArrowIcon from '../../../assets/icons/icon-back-arrow.svg'
 import inactive1Icon from '../../../assets/icons/step-1-inactive.svg'
@@ -20,7 +22,15 @@ const OVERLAP_OPTIONS: OverlapOption[] = [
 
 const StoreOverlapForm: React.FC = () => {
   const navigate = useNavigate()
+  const location = useLocation()
   const [selectedOption, setSelectedOption] = useState<string | null>(null)
+  const [isLoading, setIsLoading] = useState(false)
+  
+  // 전달받은 이전 단계 정보
+  const selectedRegion = location.state?.selectedRegion
+  const userDistrict = location.state?.userDistrict
+  const selectedCategory = location.state?.selectedCategory
+  const selectedAtmospheres = location.state?.selectedAtmospheres
 
   const handleBack = () => {
     navigate(-1) // 이전 페이지로 이동
@@ -30,11 +40,33 @@ const StoreOverlapForm: React.FC = () => {
     setSelectedOption(optionId === selectedOption ? null : optionId) // 토글 기능
   }
 
-  const handleGetRecommendation = () => {
-    if (selectedOption) {
-      console.log('선택된 중복 옵션:', selectedOption)
-      // 로딩 화면으로 이동
-      navigate('/home/recommendation/loading')
+  const handleGetRecommendation = async () => {
+    if (selectedOption && selectedRegion && selectedCategory && selectedAtmospheres) {
+      try {
+        setIsLoading(true)
+        
+        // API 요청 데이터 구성
+        const requestData: RecommendationRequest = {
+          region: [userDistrict, selectedRegion.name],
+          place_category: selectedCategory.name, // 띄어쓰기까지
+          place_mood: selectedAtmospheres, // 최대 3개
+          duplicate: selectedOption === 'allow' // true: 중복 허용, false: 중복 비허용
+        }
+        
+        // 로딩 화면으로 이동 (API 호출 전에 먼저 이동)
+        navigate('/home/recommendation/loading', {
+          state: { 
+            recommendationRequest: requestData,
+            isInitialLoad: true
+          }
+        })
+        
+      } catch (error: any) {
+        console.error('추천 받기 실패:', error)
+        alert(error.message || '추천을 받는데 실패했습니다.')
+      } finally {
+        setIsLoading(false)
+      }
     }
   }
 
@@ -90,9 +122,9 @@ const StoreOverlapForm: React.FC = () => {
         <button
           className="store-overlap-recommend-button"
           onClick={handleGetRecommendation}
-          disabled={!selectedOption}
+          disabled={!selectedOption || isLoading}
         >
-          추천 받기
+          {isLoading ? '추천 받는 중...' : '추천 받기'}
         </button>
       </footer>
     </div>

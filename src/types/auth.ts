@@ -54,6 +54,30 @@ export interface StoreInfo {
   url: string
 }
 
+// 추천 요청 타입
+export interface RecommendationRequest {
+  region: string[]
+  place_category: string
+  place_mood: string[]
+  duplicate: boolean
+}
+
+// 추천 응답 타입
+export interface TodayRecommendationResponse {
+  place_mood: string[]
+  category: string
+  stores: TodayStoreInfo[]
+}
+
+// 오늘 추천 가게 정보 타입
+export interface TodayStoreInfo {
+  name: string
+  address_road: string
+  address_ex: string
+  phone: string
+  url: string
+}
+
 // API 에러 응답 타입
 export interface ApiError {
   message: string

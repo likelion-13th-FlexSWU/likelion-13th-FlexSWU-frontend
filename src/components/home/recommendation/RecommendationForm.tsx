@@ -1,14 +1,17 @@
 import React, { useState, useMemo } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import './RecommendationForm.css'
 import backArrowIcon from '../../../assets/icons/icon-back-arrow.svg'
 import { REGIONS } from '../../../types/location'
 
 const RecommendationForm: React.FC = () => {
   const navigate = useNavigate()
+  const location = useLocation()
   const [selectedRegion, setSelectedRegion] = useState<string>('nowon-all')
   const [searchTerm, setSearchTerm] = useState('')
-  const [currentDistrict] = useState('노원구')
+  
+  // 전달받은 사용자 구 정보 사용, 없으면 기본값
+  const currentDistrict = location.state?.userDistrict || '노원구'
 
   // 현재 구에 해당하는 동네들만 필터링
   const filteredRegions = useMemo(() => {
@@ -28,9 +31,17 @@ const RecommendationForm: React.FC = () => {
 
   const handleConfirm = () => {
     const selected = REGIONS.find(r => r.id === selectedRegion)
-    console.log('선택된 동네:', selected)
-    // 카테고리 선택 화면으로 이동
-    navigate('/home/recommendation/category')
+
+    
+    if (selected) {
+      // 선택된 동네 정보와 함께 카테고리 선택 화면으로 이동
+      navigate('/home/recommendation/category', {
+        state: {
+          selectedRegion: selected,
+          userDistrict: currentDistrict
+        }
+      })
+    }
   }
 
   const handleRegionSelect = (regionId: string) => {

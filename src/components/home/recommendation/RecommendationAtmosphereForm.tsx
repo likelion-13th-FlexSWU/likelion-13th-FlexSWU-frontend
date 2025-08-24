@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import './RecommendationAtmosphereForm.css'
 import backArrowIcon from '../../../assets/icons/icon-back-arrow.svg'
 import selected2Icon from '../../../assets/icons/step-2-active.svg'
@@ -24,7 +24,7 @@ const ATMOSPHERE_OPTIONS: AtmosphereOption[] = [
   { id: 'pets', name: '반려동물과 함께', emoji: '🐾' },
   { id: 'quiet', name: '조용해요', emoji: '🤫' },
   { id: 'overseas', name: '해외같아요', emoji: '🌍' },
-  { id: 'vegan', name: '비건 메뉴가 있어요', emoji: '🥑' },
+  { id: 'cozy', name: '🛋️ 아늑해요', emoji: '🛋️' },
   { id: 'concentrate', name: '집중하기 좋아요', emoji: '💻' },
   { id: 'view', name: '뷰가 좋아요', emoji: '🖼️' },
   { id: 'spacious', name: '매장이 넓어요', emoji: '✅' },
@@ -38,6 +38,12 @@ const ATMOSPHERE_OPTIONS: AtmosphereOption[] = [
 const StoreAtmosphereForm: React.FC = () => {
   const [selectedOptions, setSelectedOptions] = useState<string[]>([])
   const navigate = useNavigate()
+  const location = useLocation()
+  
+  // 전달받은 이전 단계 정보
+  const selectedRegion = location.state?.selectedRegion
+  const userDistrict = location.state?.userDistrict
+  const selectedCategory = location.state?.selectedCategory
 
   const handleBack = () => {
     window.history.back()
@@ -59,9 +65,21 @@ const StoreAtmosphereForm: React.FC = () => {
 
   const handleNext = () => {
     if (selectedOptions.length > 0) {
-      console.log('선택된 분위기:', selectedOptions)
-      // 중복 여부 선택 화면으로 이동
-      navigate('/home/recommendation/options')
+      const selectedAtmospheres = ATMOSPHERE_OPTIONS.filter(option => 
+        selectedOptions.includes(option.id)
+      ).map(option => option.name)
+      
+  
+      
+      // 선택된 정보와 함께 중복 여부 선택 화면으로 이동
+      navigate('/home/recommendation/options', {
+        state: {
+          selectedRegion,
+          userDistrict,
+          selectedCategory,
+          selectedAtmospheres
+        }
+      })
     }
   }
 

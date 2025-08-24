@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import './RecommendationCategoryForm.css'
 import backArrowIcon from '../../../assets/icons/icon-back-arrow.svg'
 import selected1Icon from '../../../assets/icons/step-1-active.svg'
@@ -29,6 +29,11 @@ const STORE_CATEGORIES: StoreCategory[] = [
 const RecommendationCategoryForm: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('')
   const navigate = useNavigate()
+  const location = useLocation()
+  
+  // 전달받은 동네 정보
+  const selectedRegion = location.state?.selectedRegion
+  const userDistrict = location.state?.userDistrict
 
   const handleBack = () => {
     window.history.back()
@@ -46,9 +51,17 @@ const RecommendationCategoryForm: React.FC = () => {
 
   const handleNext = () => {
     if (selectedCategory) {
-      console.log('선택된 카테고리:', selectedCategory)
-      // 분위기 선택 화면으로 이동
-      navigate('/home/recommendation/atmosphere')
+      const selectedCategoryData = STORE_CATEGORIES.find(cat => cat.id === selectedCategory)
+  
+      
+      // 선택된 정보와 함께 분위기 선택 화면으로 이동
+      navigate('/home/recommendation/atmosphere', {
+        state: {
+          selectedRegion,
+          userDistrict,
+          selectedCategory: selectedCategoryData
+        }
+      })
     }
   }
 
@@ -80,6 +93,14 @@ const RecommendationCategoryForm: React.FC = () => {
 
       {/* 메인 콘텐츠 */}
       <main className="recommendation-category-content">
+        {/* 동네 정보 표시 */}
+        {selectedRegion && (
+          <div className="selected-region-info">
+            <span className="region-district">{userDistrict} 전체</span>
+            <span className="region-name">{selectedRegion.name}</span>
+          </div>
+        )}
+        
         <div className="question-section">
           <h2 className="question-title">오늘 가고 싶은 장소는 어디인가요?</h2>
           <p className="question-note">* 중복 불가</p>

@@ -16,7 +16,7 @@
   position: relative;
   padding: var(--spacing-lg);
   padding-bottom: var(--spacing-2xl);
-  background-image: url('../../../assets/backgrounds/bg-hero-section.png');
+  background-image: url('../../../assets/backgrounds/bg-after.svg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -25,18 +25,7 @@
   justify-content: flex-start;
 }
 
-/* 섹션 하단 페이드아웃 효과 */
-.hero-banner-section::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 60px;
-  background: linear-gradient(to bottom, transparent 0%, var(--color-bg-primary) 100%);
-  pointer-events: none;
-  z-index: 1;
-}
+
 
 /* 1섹션 헤더 */
 .hero-title-wrapper {
@@ -56,7 +45,7 @@
 .hero-title-text h1 {
   font-size: var(--font-size-2xl);
   font-weight: var(--font-weight-semibold);
-  color: #4B4B4B;
+  color: white;
   margin: 0;
   line-height: 1.2;
 }
@@ -83,6 +72,99 @@
   z-index: 2;
   position: relative;
   overflow: hidden;
+}
+
+/* 오늘의 가게 추천 섹션 */
+.today-recommendation-section {
+  position: relative;
+  z-index: 2;
+}
+
+.today-store-grid {
+  display: flex;
+  gap: var(--spacing-md);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: var(--spacing-sm);
+}
+
+.today-store-grid::-webkit-scrollbar {
+  display: none;
+}
+
+.today-store-item-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.today-store-item {
+  position: relative;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  min-width: 280px;
+  flex-shrink: 0;
+  scroll-snap-align: start;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.today-store-bg {
+  position: relative;
+  height: 120px;
+  overflow: hidden;
+}
+
+.today-store-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.today-store-number {
+  position: absolute;
+  top: var(--spacing-sm);
+  left: var(--spacing-sm);
+  z-index: 2;
+}
+
+.today-store-number img {
+  width: 32px;
+  height: 32px;
+}
+
+.today-store-info {
+  padding: var(--spacing-md);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.today-store-name {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: #ffffff;
+  margin-bottom: var(--spacing-xs);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
+}
+
+.today-store-address {
+  font-size: var(--font-size-sm);
+  color: #ffffff;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
+}
+
+.today-store-arrow {
+  position: absolute;
+  top: var(--spacing-sm);
+  right: var(--spacing-sm);
+  z-index: 2;
+}
+
+.today-store-arrow img {
+  width: 24px;
+  height: 24px;
 }
 
 /* 그라데이션 오버레이 효과 */
