@@ -14,6 +14,7 @@ import MissionAuthPage from './components/home/mission/MissionAuthPage'
 import MissionAuthResultPage from './components/home/mission/MissionAuthResultPage'
 import MissionAuthCompletePage from './components/home/mission/MissionAuthCompletePage'
 import MissionReviewPage from './components/home/mission/MissionReviewPage'
+import MyInfoPage from './components/home/mypage/MyInfoPage'
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
         <Route path="/home/mission/auth/result" element={<MissionAuthResultPage />} />
         <Route path="/mission-complete" element={<MissionAuthCompletePage />} />
         <Route path="/mission-review" element={<MissionReviewPage />} />
+        <Route path="/home/mypage" element={<MyInfoPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Router>
