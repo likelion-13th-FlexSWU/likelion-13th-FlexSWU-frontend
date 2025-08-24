@@ -237,9 +237,44 @@ export const missionAPI = {
   // 미션 인증
   checkMission: async (data: MissionCheckRequest): Promise<void> => {
     try {
-      await api.post('/mission/check', data)
+      const response = await api.post('/mission/check', data)
+      return response.data
     } catch (error: any) {
-      throw new Error(error.response?.data?.message || '미션 인증에 실패했습니다.')
+      // Axios 에러인지 확인
+      if (error.isAxiosError) {
+        const status = error.response?.status
+        const errorData = error.response?.data
+        
+        if (status === 400) {
+          throw new Error(`잘못된 요청입니다: ${errorData?.message || '데이터 형식이 올바르지 않습니다.'}`)
+        } else if (status === 401) {
+          throw new Error('인증이 필요합니다. 다시 로그인해주세요.')
+        } else if (status === 403) {
+          throw new Error('권한이 없습니다.')
+        } else if (status === 404) {
+          throw new Error('요청한 리소스를 찾을 수 없습니다.')
+        } else if (status >= 500) {
+          throw new Error('서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.')
+        } else {
+          throw new Error(`요청 실패 (${status}): ${errorData?.message || '알 수 없는 오류'}`)
+        }
+      } else if (error.response) {
+        // 일반적인 HTTP 에러
+        const status = error.response.status
+        const errorData = error.response.data
+        
+        if (status === 400) {
+          throw new Error(`잘못된 요청입니다: ${errorData?.message || '데이터 형식이 올바르지 않습니다.'}`)
+        } else {
+          throw new Error(`요청 실패 (${status}): ${errorData?.message || '알 수 없는 오류'}`)
+        }
+      } else if (error.request) {
+        // 요청은 보냈지만 응답을 받지 못한 경우
+        throw new Error('서버에 연결할 수 없습니다. 네트워크 연결을 확인해주세요.')
+      } else {
+        // 요청 자체를 보내지 못한 경우
+        throw new Error(`요청 설정 오류: ${error.message}`)
+      }
     }
   },
 

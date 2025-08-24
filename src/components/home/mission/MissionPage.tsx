@@ -45,8 +45,8 @@ const MissionPage: React.FC = () => {
   }, [])
 
   const handleMissionCertify = (missionId: string) => {
-    // 미션 인증 페이지로 이동
-    navigate('/home/mission/auth')
+    // 미션 인증 페이지로 이동 (미션 ID와 함께)
+    navigate('/home/mission/auth', { state: { missionId: parseInt(missionId) } })
   }
 
   // 터치 이벤트 핸들러

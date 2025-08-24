@@ -1,10 +1,12 @@
 import React, { useState, useRef } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import './MissionAuthPage.css'
 import receiptImage from '../../../assets/reciept.png'
 
 const MissionAuthPage: React.FC = () => {
   const navigate = useNavigate()
+  const location = useLocation()
+  const missionId = location.state?.missionId
   const [selectedImage, setSelectedImage] = useState<string | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
@@ -25,8 +27,10 @@ const MissionAuthPage: React.FC = () => {
       const imageUrl = URL.createObjectURL(file)
       setSelectedImage(imageUrl)
       
-      // OCR 결과 페이지로 이동
-      navigate(`/home/mission/auth/result?image=${encodeURIComponent(imageUrl)}`)
+      // OCR 결과 페이지로 이동 (미션 ID와 함께)
+      navigate(`/home/mission/auth/result?image=${encodeURIComponent(imageUrl)}`, { 
+        state: { missionId } 
+      })
     }
   }
 
@@ -35,6 +39,12 @@ const MissionAuthPage: React.FC = () => {
       // TODO: 인증 처리 로직 구현
       navigate(-1)
     }
+  }
+
+  // 미션 ID가 없으면 이전 페이지로 이동
+  if (!missionId) {
+    navigate(-1)
+    return null
   }
 
   return (
