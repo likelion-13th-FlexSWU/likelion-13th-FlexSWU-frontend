@@ -33,6 +33,7 @@ function App() {
           <Route path="/signup" element={<SignupForm />} />
           <Route path="/login" element={<LoginForm />} />
           <Route path="/home" element={<Home />} />
+          <Route path="/home/mypage" element={<Home defaultTab="myinfo" />} />
           <Route path="/home/recommendation" element={<RecommendationForm />} />
           <Route path="/home/recommendation/category" element={<RecommendationCategoryForm />} />
           <Route path="/home/recommendation/atmosphere" element={<RecommendationAtmosphereForm />} />
@@ -44,12 +45,11 @@ function App() {
           <Route path="/home/mission/auth/result" element={<MissionAuthResultPage />} />
           <Route path="/home/mission/auth/complete" element={<MissionAuthCompletePage />} />
           <Route path="/home/mission/review" element={<MissionReviewPage />} />
-          <Route path="/home/mypage" element={<MyInfoPage />} />
-          <Route path="/home/mypage/coupon" element={<CouponPage />} />
-          <Route path="/home/mypage/setting" element={<SettingPage />} />
+          <Route path="/home/mypage/coupon" element={<Home defaultTab="myinfo" />} />
+          <Route path="/home/mypage/setting" element={<Home defaultTab="myinfo" />} />
           <Route path="/home/mypage/profile-change" element={<NicknameChangePage />} />
           <Route path="/home/mypage/region-change" element={<RegionChangePage />} />
-          <Route path="/home/mypage/reviews" element={<MyReviewsPage />} />
+          <Route path="/home/mypage/reviews" element={<Home defaultTab="myinfo" />} />
           <Route path="/home/notice" element={<ComingSoonPage title="공지사항" description="공지사항은 아직 준비 중이에요!" />} />
           <Route path="/home/terms" element={<ComingSoonPage title="이용약관" description="이용약관은 아직 준비 중이에요!" />} />
           <Route path="/home/privacy" element={<ComingSoonPage title="개인정보 처리방침" description="개인정보 처리방침은 아직 준비 중이에요!" />} />
