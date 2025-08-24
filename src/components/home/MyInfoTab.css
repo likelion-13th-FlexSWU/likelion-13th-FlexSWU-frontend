@@ -1,0 +1,25 @@
+.myinfo-tab {
+  padding: var(--spacing-lg);
+  padding-bottom: 100px;
+  background-color: var(--color-bg-secondary);
+  min-height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.myinfo-header {
+  text-align: center;
+}
+
+.myinfo-header h2 {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-md);
+}
+
+.myinfo-header p {
+  font-size: var(--font-size-md);
+  color: var(--color-text-secondary);
+}

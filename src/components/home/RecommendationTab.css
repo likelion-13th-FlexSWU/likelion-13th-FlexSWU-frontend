@@ -1,0 +1,328 @@
+/* 추천 탭 컨테이너 */
+.recommendation-tab {
+  padding: 0;
+  background-color: var(--color-bg-primary);
+  min-height: 100%;
+  position: relative;
+  overflow-y: auto; /* 세로 스크롤 허용 */
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch; /* iOS 스크롤 최적화 */
+}
+
+/* ========================================
+    1섹션 스타일 (타이틀 + 추천 배너)
+    ======================================== */
+.hero-banner-section {
+  position: relative;
+  padding: var(--spacing-lg);
+  padding-bottom: var(--spacing-2xl);
+  background-image: url('../../assets/backgrounds/bg-hero-section.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+/* 섹션 하단 페이드아웃 효과 */
+.hero-banner-section::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: linear-gradient(to bottom, transparent 0%, var(--color-bg-primary) 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* 1섹션 헤더 */
+.hero-title-wrapper {
+  margin-bottom: var(--spacing-md);
+  position: relative;
+  z-index: 2;
+}
+
+.hero-title-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--spacing-sm);
+  margin-top: 35px;
+}
+
+.hero-title-text h1 {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-semibold);
+  color: #4B4B4B;
+  margin: 0;
+  line-height: 1.2;
+}
+
+/* 첫 번째 줄 (닉네임) */
+.hero-title-text h1:first-of-type {
+  font-weight: var(--font-weight-semibold);
+}
+
+/* 사용자 닉네임만 bold */
+.user-nickname {
+  font-weight: var(--font-weight-bold);
+}
+
+/* 1섹션 메인 추천 카드 */
+.hero-cta-card {
+  background: linear-gradient(90deg, #4DA9FF 0%, #77C7FF 78%, rgba(119, 199, 255, 0.9) 100%);
+  border-radius: var(--radius-2xl);
+  padding: var(--spacing-xl);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+  position: relative;
+  overflow: hidden;
+}
+
+/* 그라데이션 오버레이 효과 */
+.hero-cta-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(77, 169, 255, 0.1) 0%, rgba(119, 199, 255, 0.05) 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.hero-cta-content {
+  flex: 1;
+  position: relative;
+  z-index: 2;
+}
+
+/* 1섹션 배너 - 위치 텍스트 */
+.hero-location-text {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: white;
+  margin-bottom: var(--spacing-sm);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* 1섹션 배너 - 추천 텍스트 */
+.hero-cta-text {
+  font-size: var(--font-size-md);
+  color: rgba(255, 255, 255, 0.95);
+  line-height: 1.4;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* 1섹션 배너 - 화살표 아이콘 */
+.hero-arrow-button {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  z-index: 2;
+}
+
+.hero-arrow-button img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* ========================================
+    2섹션 스타일 (지난 추천 기반)
+    ======================================== */
+.history-recommendation-section {
+    padding: var(--spacing-3xl) var(--spacing-lg);
+}
+
+/* 지난 추천 기반 - 타이틀 */
+.history-section-title {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  color: #4B4B4B;
+  margin-bottom: var(--spacing-xs);
+}
+
+/* 지난 추천 기반 - 설명 */
+.history-section-desc {
+  font-size: var(--font-size-sm);
+  color: #5C6373;
+  line-height: 1.5;
+  margin: 0 0 var(--spacing-sm) 0;
+  font-weight: var(--font-weight-regular);
+}
+
+/* 지난 추천 가게 카드들 */
+.history-store-grid {
+  display: flex;
+  gap: var(--spacing-md);
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.history-store-grid::-webkit-scrollbar {
+  display: none;
+}
+
+/* 지난 추천 기반 - 개별 가게 카드 */
+.history-store-item {
+  position: relative;
+  min-width: 172px;
+  height: 172px;
+  border-radius: var(--radius-2xl);
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+/* 카드 배경 이미지 */
+.history-store-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.history-store-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 카드 위에 어두운 오버레이 */
+.history-store-bg::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #292A2E;
+  opacity: 0.6;
+  z-index: 2;
+}
+
+/* 카드 내용 (텍스트) */
+.history-store-info {
+  position: relative;
+  z-index: 10;
+  padding: 14px var(--spacing-sm);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* flex-end → flex-start로 변경하여 상단에 배치 */
+}
+
+/* 지난 추천 기반 - 가게 이름 */
+.history-store-name {
+  color: white;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  margin-bottom: var(--spacing-xs);
+}
+
+/* 지난 추천 기반 - 가게 주소 */
+.history-store-address {
+  color: white;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+}
+
+/* 카드 화살표 */
+.history-store-arrow {
+  position: absolute;
+  top: var(--spacing-md);
+  right: var(--spacing-md);
+  z-index: 3;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+}
+
+.history-store-arrow img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+/* ========================================
+    3섹션 스타일 (광고 가게 추천)
+    ======================================== */
+.sponsored-stores-section {
+  padding: 0 var(--spacing-lg);
+  padding-bottom: 120px; /* 하단 네비게이션바 높이(80px) +@ */
+}
+
+/* 광고 - 광고 라벨 */
+.sponsored-label {
+  background-color: var(--color-bg-secondary);
+  color: #4B4B4B;
+  font-size: 10px;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-sm);
+  font-weight: var(--font-weight-regular);
+  display: inline-block;
+}
+
+/* 광고 - 광고 제목 */
+.sponsored-title {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-xs);
+}
+
+/* 가게 카드들 */
+.sponsored-store-grid {
+  display: flex;
+  gap: var(--spacing-md);
+  overflow-x: auto;
+  padding: var(--spacing-sm) 0;
+  padding-bottom: var(--spacing-lg);
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+/* 광고 - 추천 가게 카드 이미지 스크롤바 숨기기 */          
+.sponsored-store-grid::-webkit-scrollbar {
+  display: none;
+}
+
+/* 광고 - 추천 가게 카드 이미지 */
+.sponsored-store-item {
+  width: 172px;
+  height: 172px;
+  object-fit: cover;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+/* 반응형 조정 */
+@media (max-width: 393px) {
+  .recommendation-tab {
+    overflow-y: auto !important; /* 모바일에서 강제로 스크롤 허용 */
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .ad-section {
+    padding-bottom: 160px; /* 모바일에서 하단 네비게이션바 가림 방지 */
+  }
+}
