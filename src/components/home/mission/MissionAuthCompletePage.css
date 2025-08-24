@@ -1,0 +1,194 @@
+/* 미션 인증 완료 페이지 컨테이너 */
+.mission-auth-complete-container {
+  min-height: 100vh;
+  background-color: #f8f9fa;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+/* 메인 콘텐츠 */
+.mission-auth-complete-main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  max-width: 400px;
+  width: 100%;
+}
+
+/* 로고 캐릭터 */
+.mission-auth-complete-logo {
+  margin-bottom: 32px;
+}
+
+.mission-auth-complete-logo-image {
+  width: 120px;
+  height: 120px;
+  object-fit: contain;
+}
+
+/* 완료 메시지 */
+.mission-auth-complete-message {
+  margin-bottom: 48px;
+}
+
+.mission-auth-complete-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #4B4B4B;
+  margin: 0 0 16px 0;
+}
+
+.mission-auth-complete-subtitle {
+  font-size: 16px;
+  color: #6c757d;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* 리뷰 모달 */
+.mission-auth-complete-review-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 99999;
+  display: flex;
+  align-items: flex-end;
+}
+
+.mission-auth-complete-review-content {
+  background-color: white;
+  border-radius: 20px 20px 0 0;
+  width: 100%;
+  max-width: 393px;
+  margin: 0 auto;
+  padding: 20px 16px 32px;
+  position: relative;
+  z-index: 100000;
+}
+
+/* 모달 드래그 핸들 */
+.mission-auth-complete-review-drag-handle {
+  width: 40px;
+  height: 4px;
+  background-color: #D1D5DB;
+  border-radius: 2px;
+  margin: 0 auto 24px;
+}
+
+.mission-auth-complete-review-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #4B4B4B;
+  margin: 0 0 8px 0;
+}
+
+.mission-auth-complete-review-subtitle {
+  font-size: 14px;
+  color: #6c757d;
+  margin: 0 0 24px 0;
+}
+
+/* 리뷰 액션 버튼들 */
+.mission-auth-complete-review-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.mission-auth-complete-skip-button {
+  background: none;
+  border: none;
+  color: #6c757d;
+  font-size: 14px;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 8px;
+  transition: color 0.2s ease;
+}
+
+.mission-auth-complete-skip-button:hover {
+  color: #4B4B4B;
+}
+
+.mission-auth-complete-review-button {
+  background-color: #007BEB;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 16px 24px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.mission-auth-complete-review-button:hover {
+  background-color: #0056b3;
+}
+
+/* 홈으로 버튼 */
+.mission-auth-complete-home-button-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.mission-auth-complete-home-button {
+  background-color: #007BEB;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 16px 48px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  min-width: 200px;
+}
+
+.mission-auth-complete-home-button:hover {
+  background-color: #0056b3;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 480px) {
+  .mission-auth-complete-container {
+    padding: 16px;
+  }
+  
+  .mission-auth-complete-logo-image {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .mission-auth-complete-title {
+    font-size: 24px;
+  }
+  
+  .mission-auth-complete-review-modal {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 375px) {
+  .mission-auth-complete-logo-image {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .mission-auth-complete-title {
+    font-size: 22px;
+  }
+  
+  .mission-auth-complete-review-modal {
+    padding: 16px;
+  }
+}

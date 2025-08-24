@@ -273,7 +273,9 @@ const MissionAuthResultPage: React.FC = () => {
         total_price: parseInt(receiptData.totalAmount?.replace(/[^0-9]/g, '') || '0')
       }
       
-      navigate(-1)
+      // 미션 인증 완료 페이지로 이동
+      navigate('/mission-complete')
+    } else {
     }
   }
 

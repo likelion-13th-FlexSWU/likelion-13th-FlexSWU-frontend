@@ -12,6 +12,7 @@ import RecommendationLoading from './components/home/recommendation/Recommendati
 import RecommendationResult from './components/home/recommendation/RecommendationResult'
 import MissionAuthPage from './components/home/mission/MissionAuthPage'
 import MissionAuthResultPage from './components/home/mission/MissionAuthResultPage'
+import MissionAuthCompletePage from './components/home/mission/MissionAuthCompletePage'
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
         <Route path="/home/recommendation/result" element={<RecommendationResult />} />
         <Route path="/home/mission/auth" element={<MissionAuthPage />} />
         <Route path="/home/mission/auth/result" element={<MissionAuthResultPage />} />
+        <Route path="/mission-complete" element={<MissionAuthCompletePage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Router>
