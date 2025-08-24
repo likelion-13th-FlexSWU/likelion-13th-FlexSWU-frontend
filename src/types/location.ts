@@ -8,6 +8,20 @@ export type CityName =
 // 구/군 이름 타입
 export type DistrictName = string
 
+// 기존 Location 타입 (회원가입용)
+export interface Location {
+  city: string
+  district: string
+}
+
+// 새로운 Region 타입 (동네 설정용)
+export interface Region {
+  id: string
+  name: string
+  district: string // 노원구, 도봉구, 강북구
+  type: 'district' | 'dong' // 'district': 구 전체, 'dong': 동
+}
+
 // 한국 행정구역 데이터
 export const cityData: Record<CityName, readonly DistrictName[]> = {
   '서울특별시': ['종로구', '중구', '용산구', '성동구', '광진구', '동대문구', '중랑구', '성북구', '강북구', '도봉구', '노원구', '은평구', '서대문구', '마포구', '양천구', '강서구', '구로구', '금천구', '영등포구', '동작구', '관악구', '서초구', '강남구', '송파구', '강동구'],
@@ -28,3 +42,28 @@ export const cityData: Record<CityName, readonly DistrictName[]> = {
   '경상남도': ['창원시', '진주시', '통영시', '사천시', '김해시', '밀양시', '거제시', '양산시', '의령군', '함안군', '창녕군', '고성군', '남해군', '하동군', '산청군', '함양군', '거창군', '합천군'],
   '제주특별자치도': ['제주시', '서귀포시']
 }
+
+// 동네 데이터
+export const REGIONS: Region[] = [
+  // 노원구
+  { id: 'nowon-all', name: '노원구 전체', district: '노원구', type: 'district' },
+  { id: 'wolgye', name: '월계동', district: '노원구', type: 'dong' },
+  { id: 'gongneung', name: '공릉동', district: '노원구', type: 'dong' },
+  { id: 'hagye', name: '하계동', district: '노원구', type: 'dong' },
+  { id: 'junggye', name: '중계동', district: '노원구', type: 'dong' },
+  { id: 'sanggye', name: '상계동', district: '노원구', type: 'dong' },
+  
+  // 도봉구
+  { id: 'dobong-all', name: '도봉구 전체', district: '도봉구', type: 'district' },
+  { id: 'dobong', name: '도봉동', district: '도봉구', type: 'dong' },
+  { id: 'banghak', name: '방학동', district: '도봉구', type: 'dong' },
+  { id: 'chang', name: '창동', district: '도봉구', type: 'dong' },
+  { id: 'ssangmun', name: '쌍문동', district: '도봉구', type: 'dong' },
+  
+  // 강북구
+  { id: 'gangbuk-all', name: '강북구 전체', district: '강북구', type: 'district' },
+  { id: 'beon', name: '번동', district: '강북구', type: 'dong' },
+  { id: 'suyu', name: '수유동', district: '강북구', type: 'dong' },
+  { id: 'ui', name: '우이동', district: '강북구', type: 'dong' },
+  { id: 'mia', name: '미아동', district: '강북구', type: 'dong' }
+]

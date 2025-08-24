@@ -1,0 +1,181 @@
+/* 가게 중복 여부 폼 컨테이너 */
+.store-overlap-container {
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--color-bg-primary);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* 상단 헤더 */
+.store-overlap-header {
+  display: flex;
+  align-items: center;
+  padding: 28px 16px;
+  position: relative;
+  background-color: var(--color-bg-primary);
+  /* border-bottom 제거 */
+}
+
+.store-overlap-back-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-sm);
+  border-radius: var(--radius-md);
+  transition: background-color 0.2s ease;
+}
+
+.store-overlap-back-button:hover {
+  background-color: var(--color-bg-secondary);
+}
+
+.store-overlap-title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.store-overlap-header-spacer {
+  width: 18px; /* 뒤로가기 버튼과 동일한 너비 */
+}
+
+/* 메인 콘텐츠 */
+.store-overlap-content {
+  flex: 1;
+  padding-bottom: 120px; /* 하단 버튼 영역 확보 */
+}
+
+/* 진행 단계 표시 (더 구체적인 클래스명 사용) */
+.store-overlap-progress-section {
+  padding: 0 var(--spacing-lg);
+  margin-bottom: var(--spacing-2xl);
+}
+
+.store-overlap-progress-steps {
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing-md);
+}
+
+.store-overlap-progress-step {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.store-overlap-progress-step img {
+  width: 32px;
+  height: 32px;
+}
+
+/* 질문 섹션 */
+.store-overlap-question-section {
+  margin-bottom: var(--spacing-2xl);
+}
+
+.store-overlap-question {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+  margin: 0;
+  line-height: 1.4;
+  padding: 0 var(--spacing-lg);
+  text-align: center; /* 가운데 정렬 */
+}
+
+/* 옵션 선택 */
+.store-overlap-options {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  padding: 0 var(--spacing-lg);
+}
+
+.store-overlap-item {
+  display: flex;
+  align-items: center;
+  padding: 16px 20px;
+  background-color: var(--color-bg-secondary);
+  border: 1px solid var(--color-border-secondary);
+  border-radius: var(--radius-lg); /* 이미지와 유사하게 둥근 사각형 */
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-height: 56px;
+  position: relative;
+}
+
+.store-overlap-item:hover {
+  background-color: var(--color-border-secondary);
+  transform: translateY(-1px);
+}
+
+.store-overlap-item.selected {
+  border-color: var(--color-button-primary);
+  background-color: #CCE8FF; /* 이미지의 선택된 배경색 */
+}
+
+.store-overlap-check-icon {
+  width: 24px;
+  height: 24px;
+  margin-right: var(--spacing-md);
+}
+
+.store-overlap-item.selected .store-overlap-check-icon {
+  /* 선택 시 체크된 아이콘 표시 */
+}
+
+.store-overlap-name {
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+  flex: 1;
+}
+
+.store-overlap-item.selected .store-overlap-name {
+  color: var(--color-button-primary); /* 선택 시 글자색 변경 */
+  font-weight: var(--font-weight-semibold);
+}
+
+/* 하단 푸터 */
+.store-overlap-footer {
+  height: 77px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-bg-primary);
+  /* border-top 제거 */
+  z-index: 1000;
+  padding: 0 15.5px;
+}
+
+.store-overlap-recommend-button {
+  width: 100%;
+  height: 49px;
+  border-radius: var(--radius-lg);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+  background-color: var(--color-button-primary);
+  color: white;
+}
+
+.store-overlap-recommend-button:disabled {
+  background-color: var(--color-bg-secondary);
+  color: var(--color-text-muted);
+  cursor: not-allowed;
+}

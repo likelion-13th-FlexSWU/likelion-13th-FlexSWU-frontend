@@ -1,16 +1,16 @@
 import React, { useState } from 'react'
 import './Home.css'
-import RecommendationTab from './RecommendationTab.tsx'
-import MissionTab from './MissionTab.tsx'
-import MyInfoTab from './MyInfoTab.tsx'
+import RecommendationTab from './tabs/RecommendationTab'
+import MissionTab from './tabs/MissionTab'
+import MyInfoTab from './tabs/MyInfoTab'
 
 // 네비게이션 아이콘 import
-import recommendationActive from '../../assets/icons/nav-recommendation-active.png'
-import recommendationInactive from '../../assets/icons/nav-recommendation-inactive.png'
-import missionActive from '../../assets/icons/nav-mission-active.png'
-import missionInactive from '../../assets/icons/nav-mission-inactive.png'
-import profileActive from '../../assets/icons/nav-profile-active.png'
-import profileInactive from '../../assets/icons/nav-profile-inactive.png'
+import recommendationActive from '../../assets/icons/nav-recommendation-active.svg'
+import recommendationInactive from '../../assets/icons/nav-recommendation-inactive.svg'
+import missionActive from '../../assets/icons/nav-mission-active.svg'
+import missionInactive from '../../assets/icons/nav-mission-inactive.svg'
+import profileActive from '../../assets/icons/nav-profile-active.svg'
+import profileInactive from '../../assets/icons/nav-profile-inactive.svg'
 
 const Home: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'recommendation' | 'mission' | 'myinfo'>('recommendation')

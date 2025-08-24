@@ -1,11 +1,17 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import './RecommendationTab.css'
-import arrowIcon from '../../assets/icons/icon-arrow-right.png'
+import arrowIcon from '../../../assets/icons/icon-arrow-right.svg'
 
 const RecommendationTab: React.FC = () => {
+  const navigate = useNavigate()
   // 임시 사용자 데이터 (TODO: 나중에 실제 데이터로 교체)
   const userNickname = "빌려온고양이"
   const userDistrict = "노원구"
+
+  const handleRecommendationClick = () => {
+    navigate('/home/recommendation')
+  }
 
   return (
     <div className="recommendation-tab">
@@ -17,7 +23,7 @@ const RecommendationTab: React.FC = () => {
             <h1>가치:가게</h1>
           </div>
         </div>
-        <div className="hero-cta-card">
+        <div className="hero-cta-card" onClick={handleRecommendationClick}>
           <div className="hero-cta-content">
             <div className="hero-location-text">{userDistrict}</div>
             <div className="hero-cta-text">오늘의 가게 추천 받기</div>

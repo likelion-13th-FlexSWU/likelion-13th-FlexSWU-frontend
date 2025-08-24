@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import './SignupForm.css'
-import BackArrowIcon from '../../assets/icons/icon-back-arrow.png'
-import UncheckedIcon from '../../assets/icons/icon-unchecked.png'
-import CheckedIcon from '../../assets/icons/icon-checked.png'
+import BackArrowIcon from '../../assets/icons/icon-back-arrow.svg'
+import UncheckedIcon from '../../assets/icons/icon-unchecked.svg'
+import CheckedIcon from '../../assets/icons/icon-checked.svg'
 import { cityData } from '../../types/location'
 import type { CityName, DistrictName } from '../../types/location'
 
