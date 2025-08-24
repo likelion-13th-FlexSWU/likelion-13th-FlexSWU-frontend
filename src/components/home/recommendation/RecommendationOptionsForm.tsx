@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import './StoreOverlapForm.css'
+import './RecommendationOptionsForm.css'
 import backArrowIcon from '../../../assets/icons/icon-back-arrow.svg'
 import inactive1Icon from '../../../assets/icons/step-1-inactive.svg'
 import inactive2Icon from '../../../assets/icons/step-2-inactive.svg'

@@ -9,6 +9,7 @@ import RecommendationCategoryForm from './components/home/recommendation/Recomme
 import RecommendationAtmosphereForm from './components/home/recommendation/RecommendationAtmosphereForm'
 import RecommendationOptionsForm from './components/home/recommendation/RecommendationOptionsForm'
 import RecommendationLoading from './components/home/recommendation/RecommendationLoading'
+import RecommendationResult from './components/home/recommendation/RecommendationResult'
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route path="/home/recommendation/atmosphere" element={<RecommendationAtmosphereForm />} />
         <Route path="/home/recommendation/options" element={<RecommendationOptionsForm />} />
         <Route path="/home/recommendation/loading" element={<RecommendationLoading />} />
+        <Route path="/home/recommendation/result" element={<RecommendationResult />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Router>

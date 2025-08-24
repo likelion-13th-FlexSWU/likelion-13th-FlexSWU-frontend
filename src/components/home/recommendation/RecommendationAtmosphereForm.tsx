@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import './StoreAtmosphereForm.css'
+import './RecommendationAtmosphereForm.css'
 import backArrowIcon from '../../../assets/icons/icon-back-arrow.svg'
 import selected2Icon from '../../../assets/icons/step-2-active.svg'
 import selected1Icon from '../../../assets/icons/step-1-inactive.svg'
@@ -61,7 +61,7 @@ const StoreAtmosphereForm: React.FC = () => {
     if (selectedOptions.length > 0) {
       console.log('선택된 분위기:', selectedOptions)
       // 중복 여부 선택 화면으로 이동
-      navigate('/home/recommendation/overlap')
+      navigate('/home/recommendation/options')
     }
   }
 

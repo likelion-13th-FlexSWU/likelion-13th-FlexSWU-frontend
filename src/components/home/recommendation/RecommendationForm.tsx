@@ -8,8 +8,7 @@ const RecommendationForm: React.FC = () => {
   const navigate = useNavigate()
   const [selectedRegion, setSelectedRegion] = useState<string>('nowon-all')
   const [searchTerm, setSearchTerm] = useState('')
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [currentDistrict, setCurrentDistrict] = useState('노원구')
+  const [currentDistrict] = useState('노원구')
 
   // 현재 구에 해당하는 동네들만 필터링
   const filteredRegions = useMemo(() => {

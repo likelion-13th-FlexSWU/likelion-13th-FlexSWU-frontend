@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import './StoreRecommendationForm.css'
+import './RecommendationCategoryForm.css'
 import backArrowIcon from '../../../assets/icons/icon-back-arrow.svg'
 import selected1Icon from '../../../assets/icons/step-1-active.svg'
 import unselected2Icon from '../../../assets/icons/step-2-inactive.svg'

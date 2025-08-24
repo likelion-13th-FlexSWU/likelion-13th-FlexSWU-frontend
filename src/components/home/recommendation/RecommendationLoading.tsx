@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import './RecommendationLoading.css'
 import loadingStep1Icon from '../../../assets/icons/loading-step-1.svg'
 import loadingStep2Icon from '../../../assets/icons/loading-step-2.svg'
@@ -6,6 +7,7 @@ import loadingStep3Icon from '../../../assets/icons/loading-step-3.svg'
 
 const RecommendationLoading: React.FC = () => {
   const [currentStep, setCurrentStep] = useState(0)
+  const navigate = useNavigate()
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -14,6 +16,15 @@ const RecommendationLoading: React.FC = () => {
 
     return () => clearInterval(interval)
   }, [])
+
+  useEffect(() => {
+    // 3초 후 추천 결과 페이지로 이동
+    const timer = setTimeout(() => {
+      navigate('/home/recommendation/result')
+    }, 3000)
+
+    return () => clearTimeout(timer)
+  }, [navigate])
 
   const getIconClass = (step: number) => {
     // 현재 활성화된 단계는 진한색, 나머지는 연한색
