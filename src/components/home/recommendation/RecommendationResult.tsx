@@ -81,7 +81,7 @@ const RecommendationResult: React.FC = () => {
 
         {/* 추천 결과 리스트 */}
         <div className="result-stores-list">
-          {RECOMMENDED_STORES.map((store, index) => (
+          {RECOMMENDED_STORES.map((store) => (
             <div key={store.id} className="result-store-card">
               {/* 티켓 가운데 점선 구분선 */}
               <div className="ticket-divider"></div>
