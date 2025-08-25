@@ -112,7 +112,7 @@ const MyInfoPage: React.FC = () => {
       console.log('최대 점수:', maxScore, '차트 최대값:', chartMaxScore)
       return result
     } else {
-      console.log('기본 데이터로 차트 생성')
+      console.log('기본 데이터로 차트 생성') 
       return [
         { month: '3', score: 25000, height: '41.7%' },
         { month: '4', score: 35000, height: '58.3%' },
