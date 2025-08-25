@@ -21,8 +21,9 @@ const MissionAuthResultPage: React.FC = () => {
   const missionId = location.state?.missionId
   const [isProcessing, setIsProcessing] = useState(true)
   const [receiptData, setReceiptData] = useState<ReceiptData | null>(null)
-  const [selectedImage, setSelectedImage] = useState<string | null>(null)
-  const [rawText, setRawText] = useState<string>('')
+  const [_selectedImage, setSelectedImage] = useState<string | null>(null)
+  const [_rawText, setRawText] = useState<string>('')
+
   
   // 편집 상태 관리
   const [editingField, setEditingField] = useState<string | null>(null)
@@ -164,8 +165,8 @@ const MissionAuthResultPage: React.FC = () => {
           canvas.height = img.height
           ctx.drawImage(img, 0, 0)
           
-  
-          const { data: { text, confidence } } = await worker.recognize(canvas)
+
+          const { data: { text } } = await worker.recognize(canvas)
           
           
           setRawText(text)
@@ -434,11 +435,11 @@ const MissionAuthResultPage: React.FC = () => {
       setEditTime(newTime)
     }, [value])
 
-    const handleEdit = () => {
-      if (!isEditMode) return
-      setIsEditing(true)
-      setEditingField(field)
-    }
+    // const handleEdit = () => {
+    //   if (!isEditMode) return
+    //   setIsEditing(true)
+    //   setEditingField(field)
+    // }
 
     const handleDateClick = () => {
       if (!isEditMode) return
@@ -452,20 +453,20 @@ const MissionAuthResultPage: React.FC = () => {
       setEditingField(field)
     }
 
-    const handleSave = () => {
-      const newDateTime = `${editDate} ${editTime}`.trim()
-      onSave(editDate, editTime)
-      setIsEditing(false)
-      setEditingField(null)
-      setHasModifications(true)
-    }
+    // const handleSave = () => {
+    //   const newDateTime = `${editDate} ${editTime}`.trim()
+    //   onSave(editDate, editTime)
+    //   setIsEditing(false)
+    //   setEditingField(null)
+    //   setHasModifications(true)
+    // }
 
-    const handleCancel = () => {
-      setEditDate(date)
-      setEditTime(time)
-      setIsEditing(false)
-      setEditingField(null)
-    }
+    // const handleCancel = () => {
+    //   setEditDate(date)
+    //   setEditTime(time)
+    //   setIsEditing(false)
+    //   setEditingField(null)
+    // }
 
     if (isEditing) {
       return (

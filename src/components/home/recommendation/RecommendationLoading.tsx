@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { authAPI } from '../../../services/api'
-import type { RecommendationRequest } from '../../../types/auth'
+
 import './RecommendationLoading.css'
 import loadingStep1Icon from '../../../assets/icons/loading-step-1.svg'
 import loadingStep2Icon from '../../../assets/icons/loading-step-2.svg'
@@ -9,7 +9,8 @@ import loadingStep3Icon from '../../../assets/icons/loading-step-3.svg'
 
 const RecommendationLoading: React.FC = () => {
   const [currentStep, setCurrentStep] = useState(0)
-  const [isLoading, setIsLoading] = useState(true)
+  const [_isLoading, setIsLoading] = useState(true)
+
   const [error, setError] = useState<string | null>(null)
   const navigate = useNavigate()
   const location = useLocation()

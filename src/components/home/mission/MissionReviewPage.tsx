@@ -37,7 +37,7 @@ const ATMOSPHERE_OPTIONS: AtmosphereOption[] = [
 const MissionReviewPage: React.FC = () => {
   const navigate = useNavigate()
   const location = useLocation()
-  const { missionId, receiptData } = location.state || {}
+  const { missionId } = location.state || {}
   const [selectedKeywords, setSelectedKeywords] = useState<string[]>([])
   const [reviewText, setReviewText] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
