@@ -131,10 +131,23 @@
 }
 
 .myinfo-taste-card {
-  background-color: #F1F2F4;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  background-color: transparent !important;
   border-radius: 16px;
   padding: 24px;
-  text-align: center;
+  text-align: left;
+  min-height: 120px;
+  position: relative;
+}
+
+/* 더 구체적인 선택자로 우선순위 높이기 */
+.myinfo-container .myinfo-taste-section .myinfo-taste-card {
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  background-color: transparent !important;
 }
 
 .myinfo-taste-emoji {
@@ -146,14 +159,17 @@
 .myinfo-taste-title {
   font-size: 18px;
   font-weight: 600;
-  color: #333;
+  color: white;
   margin: 0 0 8px 0;
+  text-align: left;
 }
 
 .myinfo-taste-description {
-  font-size: 14px;
-  color: #666;
+  font-size: 18px;
+  color: white;
   margin: 0;
+  text-align: left;
+  font-weight: 600;
 }
 
 /* 지역기여도 차트 섹션 */

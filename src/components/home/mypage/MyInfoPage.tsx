@@ -6,6 +6,7 @@ import witchIcon from '../../../assets/icons/witch.svg'
 import couponIcon from '../../../assets/icons/coupon.svg'
 import settingIcon from '../../../assets/icons/setting.svg'
 import mypageBg from '../../../assets/backgrounds/mypage-bg.svg'
+import bgType from '../../../assets/backgrounds/bg-type.png'
 import './MyInfoPage.css'
 
 
@@ -146,13 +147,28 @@ const MyInfoPage: React.FC = () => {
 
       {/* 2. 취향 유형 섹션 */}
       <section className="myinfo-taste-section">
-        <div className="myinfo-taste-card">
+        <div 
+          className="myinfo-taste-card"
+          style={{ 
+            backgroundImage: `url(${bgType})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+            backgroundColor: 'transparent'
+          }}
+        >
           <h2 className="myinfo-taste-title">
             🐧 나는 어떤 취향 유형일까?
           </h2>
-          <p className="myinfo-taste-description">
-            AI추천 10번 받으면 확인 가능해요!
-          </p>
+          {userInfo?.type ? (
+            <p className="myinfo-taste-description">
+              {userInfo.type}까치
+            </p>
+          ) : (
+            <p className="myinfo-taste-description">
+              AI추천 10번 받으면 확인 가능해요!
+            </p>
+          )}
         </div>
       </section>
 

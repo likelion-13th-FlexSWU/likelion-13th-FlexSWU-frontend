@@ -104,9 +104,7 @@ const MissionPage: React.FC = () => {
           <div className="mission-title-section">
             <h1 className="mission-title">주간 미션</h1>
             <p className="mission-subtitle">
-              미션인증을 하면 지역 기여도를 높일 수 있어요!
-            </p>
-            <p className="mission-description">
+              미션인증을 하면 지역 기여도를 높일 수 있어요!<br />
               우리 지역의 기여도를 높여보아요
             </p>
           </div>
