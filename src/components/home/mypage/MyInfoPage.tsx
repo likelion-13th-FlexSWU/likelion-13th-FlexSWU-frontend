@@ -72,7 +72,7 @@ const MyInfoPage: React.FC = () => {
   }
 
   // 지역기여도 차트 데이터 (6개월 전체 표시)
-  const BASE_MAX = 60000 // 기본 최대값: 6만점
+  // 기본 최대값 제거하고 실제 데이터 기준으로 높이 계산
   
   // API 데이터가 있는지 확인하고 디버깅
   console.log('현재 userInfo:', userInfo)
@@ -108,17 +108,20 @@ const MyInfoPage: React.FC = () => {
         }
       })
       
-      // 최대 점수 계산 (API 데이터 기준)
-      const dynamicMax = Math.max(...userInfo.monthly.map(item => item.score))
-      const maxScore = Math.max(BASE_MAX, dynamicMax)
+      // 최대 점수 계산 (실제 데이터 기준)
+      const maxScore = Math.max(...chartData.map(item => item.score))
+      
+      // 차트 높이를 적절하게 표시하기 위해 최대값에 여유분 추가 (20% 여유)
+      const chartMaxScore = maxScore > 0 ? maxScore * 1.2 : 1000
       
       // 높이 계산
       const result = chartData.map(item => ({
         ...item,
-        height: `${(item.score / maxScore) * 100}%`
+        height: `${(item.score / chartMaxScore) * 100}%`
       }))
       
       console.log('생성된 차트 데이터:', result) // 디버깅 로그
+      console.log('최대 점수:', maxScore, '차트 최대값:', chartMaxScore) // 디버깅 로그 추가
       return result
     } else {
       console.log('기본 데이터로 차트 생성') // 디버깅 로그
