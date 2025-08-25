@@ -2,6 +2,7 @@ import axios from 'axios'
 import type { AxiosInstance, AxiosResponse } from 'axios'
 import type { 
   SignupRequest, 
+  SignupResponse,
   LoginRequest, 
   LoginResponse, 
   CheckIdRequest,
@@ -30,6 +31,7 @@ const api: AxiosInstance = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
+  withCredentials: false, // CORS 문제 해결을 위해 추가
 })
 
 // 요청 인터셉터 - 토큰 자동 추가
@@ -91,9 +93,10 @@ api.interceptors.response.use(
 // 인증 관련 API 함수들
 export const authAPI = {
   // 회원가입
-  signup: async (data: SignupRequest): Promise<void> => {
+  signup: async (data: SignupRequest): Promise<SignupResponse> => {
     try {
-      await api.post('/user/signup', data)
+      const response = await api.post('/user/signup', data)
+      return response.data
     } catch (error: any) {
       throw new Error(error.response?.data?.message || '회원가입에 실패했습니다.')
     }

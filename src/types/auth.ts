@@ -8,6 +8,13 @@ export interface SignupRequest {
   marketing_agree?: boolean | null
 }
 
+// 회원가입 응답 타입 (로그인과 동일한 토큰 정보)
+export interface SignupResponse {
+  access_token: string
+  refresh_token: string
+  user_id: number
+}
+
 // 로그인 요청 타입
 export interface LoginRequest {
   identify: string

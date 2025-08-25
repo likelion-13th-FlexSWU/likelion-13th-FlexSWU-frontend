@@ -7,6 +7,7 @@ import CheckedIcon from '../../assets/icons/icon-checked.svg'
 import { cityData } from '../../types/location'
 import type { CityName, DistrictName } from '../../types/location'
 import { authAPI } from '../../services/api'
+import { useAuth } from '../../contexts/AuthContext'
 
 /**
  * 회원가입 폼 컴포넌트 (단계별 입력)
@@ -17,6 +18,9 @@ const SignupForm = () => {
   
   // 페이지 이동을 위해 사용하는 함수
   const navigate = useNavigate()
+  
+  // 인증 컨텍스트 사용
+  const { login } = useAuth()
   
   // 사용자가 입력한 폼 데이터를 저장하는 상태
   const [formData, setFormData] = useState<{
@@ -280,8 +284,14 @@ const SignupForm = () => {
       }
 
       // 회원가입 API 호출
-      await authAPI.signup(signupData)
+      const response = await authAPI.signup(signupData)
       
+      // 토큰 받아오기
+      const { access_token, refresh_token, user_id } = response
+
+      // 자동 로그인 처리
+      login(access_token, refresh_token, user_id)
+
       // 성공 시 회원가입 완료 단계로 이동
       setCurrentStep(4)
     } catch (error: any) {
