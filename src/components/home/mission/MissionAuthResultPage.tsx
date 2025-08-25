@@ -23,6 +23,7 @@ const MissionAuthResultPage: React.FC = () => {
   const [receiptData, setReceiptData] = useState<ReceiptData | null>(null)
   const [_selectedImage, setSelectedImage] = useState<string | null>(null)
   const [_rawText, setRawText] = useState<string>('')
+
   
   // 편집 상태 관리
   const [editingField, setEditingField] = useState<string | null>(null)
@@ -164,7 +165,7 @@ const MissionAuthResultPage: React.FC = () => {
           canvas.height = img.height
           ctx.drawImage(img, 0, 0)
           
-  
+
           const { data: { text } } = await worker.recognize(canvas)
           
           
