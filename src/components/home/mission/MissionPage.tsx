@@ -85,15 +85,13 @@ const MissionPage: React.FC = () => {
       type: mission._special ? 'special' : 'normal',
       isCompleted: mission.is_verified
     }
-    console.log('API Mission:', mission)
-    console.log('Converted Mission:', convertedMission)
+    
     return convertedMission
   }) || []
 
   // API에서 미션 데이터를 가져온 경우 API 데이터 사용
   const displayMissions = apiMissions
   
-  console.log('Display Missions:', displayMissions)
 
   return (
     <div className="mission-page-container">

@@ -22,7 +22,7 @@ export interface MissionCheckRequest {
 // 리뷰 작성 요청 타입
 export interface MissionReviewRequest {
   mission_id: number
-  tags: string[]
+  tags: number[]  // 숫자 배열로 변경
   content: string | null
 }
 

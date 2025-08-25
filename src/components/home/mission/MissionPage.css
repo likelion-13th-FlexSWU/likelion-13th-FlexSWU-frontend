@@ -116,6 +116,11 @@
   align-items: flex-start;
 }
 
+/* 도시 지역기여도 카드에만 배경색 추가 */
+.mission-page-ranking-card.region-bg {
+  background-color: white;
+}
+
 .mission-page-ranking-header,
 .mission-page-ranking-score {
   position: relative;
