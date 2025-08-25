@@ -53,6 +53,10 @@ const StoreOverlapForm: React.FC = () => {
           duplicate: selectedOption === 'allow' // true: 중복 허용, false: 중복 비허용
         }
         
+        // 디버깅을 위한 로그 추가
+        console.log('선택된 카테고리:', selectedCategory)
+        console.log('API 요청 데이터:', requestData)
+        
         // 로딩 화면으로 이동 (API 호출 전에 먼저 이동)
         navigate('/home/recommendation/loading', {
           state: { 
