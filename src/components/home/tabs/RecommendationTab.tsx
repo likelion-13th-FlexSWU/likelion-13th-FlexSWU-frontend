@@ -53,6 +53,22 @@ const RecommendationTab: React.FC = () => {
       try {
         setLoading(true)
         const data = await authAPI.getRecommendation()
+        console.log('🎯 [Tab] 전체 추천 데이터:', data)
+        console.log('🎯 [Tab] 오늘 추천 가게들:', data.today_recommend?.stores)
+        console.log('🎯 [Tab] 과거 추천 가게들:', data.past_recommend)
+        
+        if (data.today_recommend?.stores) {
+          data.today_recommend.stores.forEach((store: any, index: number) => {
+            console.log(`🎯 [Tab] 오늘 추천 가게 ${index + 1}:`, store.name, '카테고리:', store.category)
+          })
+        }
+        
+        if (data.past_recommend) {
+          data.past_recommend.forEach((store: any, index: number) => {
+            console.log(`🎯 [Tab] 과거 추천 가게 ${index + 1}:`, store.name, '카테고리:', store.category)
+          })
+        }
+        
         setRecommendationData(data)
         setError(null)
       } catch (err: any) {
@@ -83,20 +99,44 @@ const RecommendationTab: React.FC = () => {
 
   // 카테고리별 음식 이미지 반환
   const getCategoryFoodImage = (category: string) => {
-    // 카테고리별로 미리 정의된 이미지 매핑
+    // 디버깅 로그 추가
+    console.log('🔍 [Tab] 이미지 매핑 요청 - 카테고리:', category)
+    console.log('🔍 [Tab] 카테고리 타입:', typeof category)
+    
+    // 카테고리별로 미리 정의된 이미지 매핑 (API 응답과 정확히 일치)
     const foodImageMap: { [key: string]: any } = {
+      // 기본 카테고리
       '한식': [koreanFood1],
       '일식': [japaneseFood1, japaneseFood2, japaneseFood3],
       '중식': [chineseFood1, chineseFood2, chineseFood3],
       '양식': [westernFood1, westernFood2],
-      '카페': [cafeFood1, cafeFood2, cafeFood3],
+      '분식': [koreanFood1], // 분식은 한식 이미지 사용
       '커피': [cafeFood1, cafeFood2, cafeFood3],
+      '호프': [westernFood1], // 호프는 양식 이미지 사용
+      '일본식 주점': [japaneseFood1, japaneseFood2, japaneseFood3],
+      '제과점, 베이커리': [westernFood1], // 베이커리는 양식 이미지 사용
       '아이스크림': [icecreamFood1, icecreamFood2],
-      '선물샵': [giftshopFood1, giftshopFood2],
-      '오마카세': [omakaseFood1, omakaseFood2]
+      '소품샵': [giftshopFood1, giftshopFood2],
+      '오마카세': [omakaseFood1, omakaseFood2],
+      
+      // API 응답 카테고리명 추가
+      '한식당': [koreanFood1],
+      '일식당': [japaneseFood1, japaneseFood2, japaneseFood3],
+      '중식당': [chineseFood1, chineseFood2, chineseFood3],
+      '양식집': [westernFood1, westernFood2],
+      '분식집': [koreanFood1],
+      '커피 전문점': [cafeFood1, cafeFood2, cafeFood3],
+      '호프집': [westernFood1],
+      '아이스크림 가게': [icecreamFood1, icecreamFood2]
     }
     
+    console.log('🔍 [Tab] 매핑 테이블 키들:', Object.keys(foodImageMap))
+    console.log('🔍 [Tab] 카테고리가 매핑 테이블에 있는지:', category in foodImageMap)
+    
     const images = foodImageMap[category] || [koreanFood1]
+    console.log('🔍 [Tab] 선택된 이미지:', images)
+    console.log('🔍 [Tab] 최종 반환 이미지:', images[Math.floor(Math.random() * images.length)])
+    
     // 랜덤하게 1개 선택
     return images[Math.floor(Math.random() * images.length)]
   }
