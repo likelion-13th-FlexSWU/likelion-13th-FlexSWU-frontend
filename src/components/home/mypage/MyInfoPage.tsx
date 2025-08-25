@@ -17,7 +17,6 @@ const MyInfoPage: React.FC = () => {
   const [hoveredBar, setHoveredBar] = useState<number | null>(null)
   const [clickedBar, setClickedBar] = useState<number | null>(null)
 
-
   // API에서 사용자 정보 가져오기
   useEffect(() => {
     const fetchUserInfo = async () => {
@@ -39,11 +38,20 @@ const MyInfoPage: React.FC = () => {
     fetchUserInfo()
   }, [])
 
+  // 쿠폰 읽음 상태 확인
+  useEffect(() => {
+    const couponRead = localStorage.getItem('couponRead')
+    if (couponRead === 'true') {
+      setHasUnreadCoupon(false)
+    }
+  }, [])
+
   const handleCouponClick = () => {
     // 쿠폰 페이지로 이동
     navigate('/home/mypage/coupon')
     // 쿠폰을 봤으므로 빨간 점 제거
     setHasUnreadCoupon(false)
+    localStorage.setItem('couponRead', 'true')
   }
 
   const handleSettingClick = () => {

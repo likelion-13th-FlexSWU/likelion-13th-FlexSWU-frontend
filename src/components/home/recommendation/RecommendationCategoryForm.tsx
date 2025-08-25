@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
+import { authAPI } from '../../../services/api'
 import './RecommendationCategoryForm.css'
 import backArrowIcon from '../../../assets/icons/icon-back-arrow.svg'
 import selected1Icon from '../../../assets/icons/step-1-active.svg'
@@ -65,6 +66,25 @@ const RecommendationCategoryForm: React.FC = () => {
     }
   }
 
+  const handleWeatherBasedRecommendation = async () => {
+    try {
+      // 날씨 기반 추천 API 호출
+      const data = await authAPI.getWeatherBasedRecommendation([userDistrict, selectedRegion?.name])
+      
+      // 날씨 기반 추천 결과를 result 화면으로 이동
+      navigate('/home/recommendation/result', {
+        state: {
+          weatherRecommendation: true,
+          weatherData: data,
+          selectedRegion,
+          userDistrict
+        }
+      })
+    } catch (error: any) {
+      alert('날씨 기반 추천을 가져오는데 실패했습니다.')
+    }
+  }
+
   return (
     <div className="recommendation-category-container">
       {/* 상단 헤더 */}
@@ -93,14 +113,6 @@ const RecommendationCategoryForm: React.FC = () => {
 
       {/* 메인 콘텐츠 */}
       <main className="recommendation-category-content">
-        {/* 동네 정보 표시 */}
-        {selectedRegion && (
-          <div className="selected-region-info">
-            <span className="region-district">{userDistrict} 전체</span>
-            <span className="region-name">{selectedRegion.name}</span>
-          </div>
-        )}
-        
         <div className="question-section">
           <h2 className="question-title">오늘 가고 싶은 장소는 어디인가요?</h2>
           <p className="question-note">* 중복 불가</p>
@@ -123,6 +135,12 @@ const RecommendationCategoryForm: React.FC = () => {
 
       {/* 하단 버튼 */}
       <footer className="recommendation-category-footer">
+        <button 
+          className="weather-based-recommendation-button"
+          onClick={handleWeatherBasedRecommendation}
+        >
+          🌤️현재날씨 기반 추천 받기🌤️
+        </button>
         <button 
           className={`recommendation-category-next-button ${selectedCategory ? 'active' : 'disabled'}`}
           onClick={handleNext}

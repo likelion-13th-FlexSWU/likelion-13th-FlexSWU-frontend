@@ -15,7 +15,6 @@
   padding: 28px 16px;
   position: relative;
   background-color: var(--color-bg-primary);
-  /* border-bottom 제거 */
 }
 
 .store-overlap-back-button {

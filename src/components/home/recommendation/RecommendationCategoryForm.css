@@ -55,7 +55,7 @@
 
 .progress-steps {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   gap: var(--spacing-md);
 }
 
@@ -169,6 +169,24 @@
   padding-bottom: calc(24px + 20px);
   background-color: var(--color-bg-primary);
   /* border-top 제거 */
+}
+
+.weather-based-recommendation-button {
+  width: 100%;
+  background: none;
+  border: none;
+  color: #8A94A6;
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-medium);
+  text-decoration: underline;
+  cursor: pointer;
+  margin-bottom: var(--spacing-md);
+  text-align: center;
+  transition: color 0.2s ease;
+}
+
+.weather-based-recommendation-button:hover {
+  color: var(--color-text-primary);
 }
 
 .recommendation-category-next-button {

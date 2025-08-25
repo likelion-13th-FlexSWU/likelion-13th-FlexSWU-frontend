@@ -26,7 +26,7 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 // Axios 인스턴스 생성
 const api: AxiosInstance = axios.create({
   baseURL: API_BASE_URL,
-  timeout: 10000,
+  timeout: 50000,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -205,6 +205,24 @@ export const authAPI = {
       const message = error.response?.data?.message || '오늘의 추천을 가져오는데 실패했습니다.'
       
       throw new Error(`${message} (${status})`)
+    }
+  },
+
+  // 날씨 기반 추천 받기
+  getWeatherBasedRecommendation: async (region: string[]): Promise<any> => {
+    try {
+      const response = await api.post('/recommend/today?weather=true', {
+        region,
+        duplicate: false
+      })
+      return response.data
+    } catch (error: any) {
+      // 타임아웃 에러인지 확인
+      if (error.code === 'ECONNABORTED') {
+        throw new Error('요청 시간이 초과되었습니다. 서버 응답이 느리거나 엔드포인트가 존재하지 않을 수 있습니다.')
+      }
+      
+      throw new Error(error.response?.data?.message || '날씨 기반 추천을 가져오는데 실패했습니다.')
     }
   },
 
