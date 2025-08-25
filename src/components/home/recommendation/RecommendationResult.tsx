@@ -47,20 +47,29 @@ const RecommendationResult: React.FC = () => {
   const location = useLocation()
   const [recommendationData, setRecommendationData] = useState<TodayRecommendationResponse | null>(null)
   const [weatherData, setWeatherData] = useState<WeatherRecommendationData | null>(null)
-  const [isWeatherRecommendation, setIsWeatherRecommendation] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
 
-  // 전달받은 추천 데이터 또는 로컬 스토리지에서 가져오기
+  // 전달받은 데이터 확인
   useEffect(() => {
-    // 날씨 기반 추천인지 확인
-    if (location.state?.weatherRecommendation) {
-      setIsWeatherRecommendation(true)
-      setWeatherData(location.state.weatherData)
-    } else {
-      // 일반 추천 데이터
-      const data = location.state?.recommendationData || 
-                   JSON.parse(localStorage.getItem('recommendationData') || 'null')
+    const data = location.state?.recommendationData
+    const weather = location.state?.weatherData
+    
+    console.log('🎯 RecommendationResult - 전체 state 데이터:', location.state)
+    console.log('🎯 recommendationData:', data)
+    console.log('🎯 weatherData:', weather)
+    
+    if (data) {
       setRecommendationData(data)
+      console.log('🎯 가게 목록:', data.stores)
+      console.log('🎯 카테고리:', data.category)
+      data.stores.forEach((store: any, index: number) => {
+        console.log(`🎯 가게 ${index + 1}:`, store.name, '카테고리:', store.category)
+      })
+    }
+    
+    if (weather) {
+      setWeatherData(weather)
+      console.log('🎯 날씨 기반 추천 데이터:', weather)
     }
   }, [location.state])
 
@@ -115,20 +124,44 @@ const RecommendationResult: React.FC = () => {
 
   // 카테고리별 음식 이미지 반환
   const getCategoryFoodImage = (category: string) => {
-    // 카테고리별로 미리 정의된 이미지 매핑
+    // 디버깅 로그 추가
+    console.log('🔍 이미지 매핑 요청 - 카테고리:', category)
+    console.log('🔍 카테고리 타입:', typeof category)
+    
+    // 카테고리별로 미리 정의된 이미지 매핑 (API 응답과 정확히 일치)
     const foodImageMap: { [key: string]: any } = {
+      // 기본 카테고리
       '한식': [koreanFood1],
       '일식': [japaneseFood1, japaneseFood2, japaneseFood3],
       '중식': [chineseFood1, chineseFood2, chineseFood3],
       '양식': [westernFood1, westernFood2],
-      '카페': [cafeFood1, cafeFood2, cafeFood3],
-      '커피': [cafeFood1, cafeFood2],
+      '분식': [koreanFood1], // 분식은 한식 이미지 사용
+      '커피': [cafeFood1, cafeFood2, cafeFood3],
+      '호프': [westernFood1], // 호프는 양식 이미지 사용
+      '일본식 주점': [japaneseFood1, japaneseFood2, japaneseFood3],
+      '제과점, 베이커리': [westernFood1], // 베이커리는 양식 이미지 사용
       '아이스크림': [icecreamFood1, icecreamFood2],
       '소품샵': [giftshopFood1, giftshopFood2],
-      '오마카세': [omakaseFood1, omakaseFood2]
+      '오마카세': [omakaseFood1, omakaseFood2],
+      
+      // API 응답 카테고리명 추가
+      '한식당': [koreanFood1],
+      '일식당': [japaneseFood1, japaneseFood2, japaneseFood3],
+      '중식당': [chineseFood1, chineseFood2, chineseFood3],
+      '양식집': [westernFood1, westernFood2],
+      '분식집': [koreanFood1],
+      '커피 전문점': [cafeFood1, cafeFood2, cafeFood3],
+      '호프집': [westernFood1],
+      '아이스크림 가게': [icecreamFood1, icecreamFood2]
     }
     
+    console.log('🔍 매핑 테이블 키들:', Object.keys(foodImageMap))
+    console.log('🔍 카테고리가 매핑 테이블에 있는지:', category in foodImageMap)
+    
     const images = foodImageMap[category] || [koreanFood1]
+    console.log('🔍 선택된 이미지:', images)
+    console.log('🔍 최종 반환 이미지:', images[Math.floor(Math.random() * images.length)])
+    
     // 랜덤하게 1개 선택
     return images[Math.floor(Math.random() * images.length)]
   }
@@ -155,7 +188,7 @@ const RecommendationResult: React.FC = () => {
       <section className="result-hero-section">
         <div className="result-title-section">
           <h1 className="result-title">
-            {isWeatherRecommendation 
+            {weatherData?.place_mood 
               ? (
                 <>
                   오늘 날씨에 맞는<br />
@@ -171,10 +204,7 @@ const RecommendationResult: React.FC = () => {
             }
           </h1>
           <p className="result-subtitle">
-            총 {isWeatherRecommendation 
-              ? weatherData?.stores.length 
-              : recommendationData?.stores.length
-            }개
+            총 {weatherData?.stores.length || recommendationData?.stores.length}개
           </p>
         </div>
       </section>
@@ -184,7 +214,7 @@ const RecommendationResult: React.FC = () => {
 
         {/* 추천 결과 리스트 */}
         <div className="result-stores-list">
-          {(isWeatherRecommendation ? weatherData?.stores : recommendationData?.stores)?.map((store, index) => (
+          {(weatherData?.stores || recommendationData?.stores)?.map((store, index) => (
             <div key={index} className="result-store-card">
               {/* 티켓 가운데 점선 구분선 */}
               <div className="ticket-divider"></div>
@@ -194,7 +224,7 @@ const RecommendationResult: React.FC = () => {
                 {/* 음식 이미지 */}
                 <div className="store-image-container">
                   <img 
-                    src={getCategoryFoodImage(isWeatherRecommendation ? '한식' : '한식')} 
+                    src={getCategoryFoodImage(weatherData?.category || '한식')} 
                     alt="음식" 
                     className="store-image"
                   />
@@ -235,7 +265,7 @@ const RecommendationResult: React.FC = () => {
 
         {/* 하단 버튼들 */}
         <div className="result-buttons">
-          {!isWeatherRecommendation && (
+          {!weatherData?.place_mood && (
             <button 
               className="retry-button" 
               onClick={handleRetry}
@@ -245,13 +275,13 @@ const RecommendationResult: React.FC = () => {
             </button>
           )}
           <button 
-            className={`confirm-button ${isWeatherRecommendation ? 'home-button' : ''}`}
-            onClick={isWeatherRecommendation ? () => navigate('/home') : handleConfirm}
+            className={`confirm-button ${weatherData?.place_mood ? 'home-button' : ''}`}
+            onClick={weatherData?.place_mood ? () => navigate('/home') : handleConfirm}
             disabled={isLoading}
           >
             {isLoading 
-              ? (isWeatherRecommendation ? '이동 중...' : '저장 중...') 
-              : (isWeatherRecommendation ? '홈으로' : '추천받기')
+              ? (weatherData?.place_mood ? '이동 중...' : '저장 중...') 
+              : (weatherData?.place_mood ? '홈으로' : '추천받기')
             }
           </button>
         </div>
