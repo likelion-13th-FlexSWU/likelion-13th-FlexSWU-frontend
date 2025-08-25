@@ -24,7 +24,7 @@ import giftshopFood2 from '../../../assets/foods/category-giftshop-2.jpeg'
 import omakaseFood1 from '../../../assets/foods/category-omakase-1.jpeg'
 import omakaseFood2 from '../../../assets/foods/category-omakase-2.jpeg'
 
-import bgbg from '../../../assets/backgrounds/bgbg.svg'
+
 import callIcon from '../../../assets/icons/call.svg'
 import houseIcon from '../../../assets/icons/house.svg'
 import arrowIcon from '../../../assets/icons/icon-arrow.svg'
