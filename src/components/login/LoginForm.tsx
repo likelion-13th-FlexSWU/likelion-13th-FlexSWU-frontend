@@ -2,12 +2,15 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import './LoginForm.css'
 import logo from '../../assets/logo.png'
+import { authAPI } from '../../services/api'
+import { useAuth } from '../../contexts/AuthContext'
 
 /**
  * 로그인 폼 컴포넌트
  */
 const LoginForm = () => {
   const navigate = useNavigate()
+  const { login } = useAuth()
   const [formData, setFormData] = useState({
     id: '',
     password: ''
@@ -43,7 +46,7 @@ const LoginForm = () => {
   }
 
   // 로그인 제출 핸들러
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     
     // 유효성 검사
@@ -62,14 +65,22 @@ const LoginForm = () => {
       return
     }
     
-    // TODO: 실제 로그인 API 호출
-    console.log('로그인 시도:', formData)
-    
-    // 임시 로그인 실패 시뮬레이션 (API 연동 후 제거)
-    setTimeout(() => {
+    try {
+      // 로그인 API 호출
+      const response = await authAPI.login({
+        identify: formData.id,
+        password: formData.password
+      })
+      
+      // AuthContext를 통해 로그인 처리
+      login(response.access_token, response.refresh_token, response.user_id)
+      
+      // 로그인 성공 시 홈 페이지로 이동
+      navigate('/home')
+    } catch (error: any) {
       setIsLoginError(true)
-      setLoginErrorMessage('아이디 또는 비밀번호 오류입니다.')
-    }, 1000)
+      setLoginErrorMessage(error.message || '아이디 또는 비밀번호 오류입니다.')
+    }
   }
 
   // 회원가입 페이지로 이동
@@ -79,10 +90,10 @@ const LoginForm = () => {
 
   // 아이디 & 비밀번호 찾기 (기능 미구현)
   const handleFindId = () => {
-    console.log('아이디 찾기')
+    // TODO: 아이디 찾기 기능 구현
   }
   const handleFindPassword = () => {
-    console.log('비밀번호 찾기')
+    // TODO: 비밀번호 찾기 기능 구현
   }
 
   return (

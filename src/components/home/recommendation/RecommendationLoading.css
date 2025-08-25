@@ -1,0 +1,55 @@
+/* 로딩 화면 컨테이너 */
+.recommendation-loading-container {
+  width: 100%;
+  min-height: 100vh;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 var(--spacing-lg);
+}
+
+/* 로딩 아이콘들 */
+.loading-icons {
+  display: flex;
+  gap: var(--spacing-lg);
+  margin-bottom: var(--spacing-2xl);
+}
+
+.loading-icon {
+  width: 48px;
+  height: 48px;
+  transition: all 1s ease; /* 0.3초에서 1초로 변경 */
+}
+
+.loading-icon.active {
+  opacity: 1;
+  /* transform 제거 - 위치 변화 없이 색상만 변경 */
+}
+
+.loading-icon.inactive {
+  opacity: 0.3;
+  /* transform 제거 - 위치 변화 없이 색상만 변경 */
+}
+
+/* 로딩 텍스트 */
+.loading-text {
+  text-align: center;
+}
+
+.loading-title {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+  margin: 0 0 var(--spacing-md) 0;
+  line-height: 1.4;
+}
+
+.loading-subtitle {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+  margin: 0;
+  line-height: 1.5;
+}

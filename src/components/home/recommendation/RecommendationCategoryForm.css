@@ -1,0 +1,197 @@
+/* 가게 카테고리 폼 컨테이너 */
+.recommendation-category-container {
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--color-bg-primary);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* 상단 헤더 */
+.recommendation-category-header {
+  display: flex;
+  align-items: center;
+  padding: 28px 16px;
+  position: relative;
+  background-color: var(--color-bg-primary);
+}
+
+.recommendation-category-back-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-sm);
+  border-radius: var(--radius-md);
+  transition: background-color 0.2s ease;
+}
+
+.recommendation-category-back-button:hover {
+  background-color: var(--color-bg-secondary);
+}
+
+.recommendation-category-title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.recommendation-category-header-spacer {
+  width: 18px;
+}
+
+/* 진행 단계 표시 */
+.progress-section {
+  padding: 0 var(--spacing-lg);
+  margin-bottom: var(--spacing-xl);
+}
+
+.progress-steps {
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing-md);
+}
+
+.progress-step {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.progress-step img {
+  width: 32px;
+  height: 32px;
+}
+
+.progress-step.active {
+  background-color: var(--color-button-primary);
+  color: white;
+}
+
+/* 메인 콘텐츠 */
+.recommendation-category-content {
+  flex: 1;
+  padding: 0 var(--spacing-lg);
+}
+
+.question-section {
+  margin-bottom: var(--spacing-2xl);
+}
+
+.question-title {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin: 0 0 var(--spacing-sm) 0;
+  line-height: 1.4;
+}
+
+.question-note {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+/* 가게 카테고리 그리드 */
+.category-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-2xl);
+  width: 100%;
+  max-width: 100%;
+  padding: 0 var(--spacing-sm);
+  justify-content: flex-start;
+}
+
+/* 스크롤바 숨기기 */
+.category-grid::-webkit-scrollbar {
+  display: none;
+}
+
+.category-grid {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.category-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 12px;
+  background-color: white;
+  border: 1px solid #E1E4EB;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  height: 42px;
+  position: relative;
+  min-width: fit-content;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.category-item.selected {
+  border-color: transparent;
+  background-color: var(--color-border-primary);
+  color: white;
+}
+
+.category-item.selected .category-name {
+  color: white;
+}
+
+.category-emoji {
+  font-size: 18px;
+  margin-right: var(--spacing-xs);
+  flex-shrink: 0;
+}
+
+.category-name {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 하단 버튼 */
+.recommendation-category-footer {
+  padding: 24px 16px;
+  padding-bottom: calc(24px + 20px);
+  background-color: var(--color-bg-primary);
+  /* border-top 제거 */
+}
+
+.recommendation-category-next-button {
+  width: 100%;
+  height: 49px;
+  background-color: var(--color-bg-secondary);
+  color: var(--color-text-secondary);
+  border: none;
+  border-radius: var(--radius-lg);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.recommendation-category-next-button.active {
+  background-color: var(--color-button-primary);
+  color: white;
+  cursor: pointer;
+}
+
+.recommendation-category-next-button.disabled {
+  background-color: var(--color-bg-secondary);
+  color: var(--color-text-secondary);
+  cursor: not-allowed;
+}
