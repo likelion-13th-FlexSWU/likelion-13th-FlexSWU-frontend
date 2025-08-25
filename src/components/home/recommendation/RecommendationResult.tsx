@@ -8,17 +8,39 @@ import callIcon from '../../../assets/icons/call.svg'
 import houseIcon from '../../../assets/icons/house.svg'
 import arrowIcon from '../../../assets/icons/icon-arrow.svg'
 
+// 날씨 기반 추천 데이터 타입 정의
+interface WeatherRecommendationData {
+  place_mood: null
+  category: string
+  stores: Array<{
+    name: string
+    phone: string
+    url: string
+    address_road: string
+    address_ex: string
+  }>
+}
+
 const RecommendationResult: React.FC = () => {
   const navigate = useNavigate()
   const location = useLocation()
   const [recommendationData, setRecommendationData] = useState<TodayRecommendationResponse | null>(null)
+  const [weatherData, setWeatherData] = useState<WeatherRecommendationData | null>(null)
+  const [isWeatherRecommendation, setIsWeatherRecommendation] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
 
   // 전달받은 추천 데이터 또는 로컬 스토리지에서 가져오기
   useEffect(() => {
-    const data = location.state?.recommendationData || 
-                 JSON.parse(localStorage.getItem('recommendationData') || 'null')
-    setRecommendationData(data)
+    // 날씨 기반 추천인지 확인
+    if (location.state?.weatherRecommendation) {
+      setIsWeatherRecommendation(true)
+      setWeatherData(location.state.weatherData)
+    } else {
+      // 일반 추천 데이터
+      const data = location.state?.recommendationData || 
+                   JSON.parse(localStorage.getItem('recommendationData') || 'null')
+      setRecommendationData(data)
+    }
   }, [location.state])
 
   const handleRetry = async () => {
@@ -78,7 +100,7 @@ const RecommendationResult: React.FC = () => {
   }
 
   // 데이터가 없으면 로딩 표시
-  if (!recommendationData) {
+  if (!recommendationData && !weatherData) {
     return (
       <div className="recommendation-result-container">
         <div className="loading-message">추천 데이터를 불러오는 중...</div>
@@ -98,15 +120,32 @@ const RecommendationResult: React.FC = () => {
         {/* 타이틀 섹션 */}
         <div className="result-title-section">
           <h1 className="result-title">
-            취향과 무드에 맞는<br />
-            가게를 찾았어요!
+            {isWeatherRecommendation 
+              ? (
+                <>
+                  오늘 날씨에 맞는<br />
+                  가게를 찾았어요!
+                </>
+              )
+              : (
+                <>
+                  취향과 무드에 맞는<br />
+                  가게를 찾았어요!
+                </>
+              )
+            }
           </h1>
-          <p className="result-subtitle">총 {recommendationData.stores.length}개</p>
+          <p className="result-subtitle">
+            총 {isWeatherRecommendation 
+              ? weatherData?.stores.length 
+              : recommendationData?.stores.length
+            }개
+          </p>
         </div>
 
         {/* 추천 결과 리스트 */}
         <div className="result-stores-list">
-          {recommendationData.stores.map((store, index) => (
+          {(isWeatherRecommendation ? weatherData?.stores : recommendationData?.stores)?.map((store, index) => (
             <div key={index} className="result-store-card">
               {/* 티켓 가운데 점선 구분선 */}
               <div className="ticket-divider"></div>
@@ -148,19 +187,24 @@ const RecommendationResult: React.FC = () => {
 
         {/* 하단 버튼들 */}
         <div className="result-buttons">
+          {!isWeatherRecommendation && (
+            <button 
+              className="retry-button" 
+              onClick={handleRetry}
+              disabled={isLoading}
+            >
+              {isLoading ? '처리 중...' : '다시하기'}
+            </button>
+          )}
           <button 
-            className="retry-button" 
-            onClick={handleRetry}
+            className={`confirm-button ${isWeatherRecommendation ? 'home-button' : ''}`}
+            onClick={isWeatherRecommendation ? () => navigate('/home') : handleConfirm}
             disabled={isLoading}
           >
-            {isLoading ? '처리 중...' : '다시하기'}
-          </button>
-          <button 
-            className="confirm-button" 
-            onClick={handleConfirm}
-            disabled={isLoading}
-          >
-            {isLoading ? '저장 중...' : '추천받기'}
+            {isLoading 
+              ? (isWeatherRecommendation ? '이동 중...' : '저장 중...') 
+              : (isWeatherRecommendation ? '홈으로' : '추천받기')
+            }
           </button>
         </div>
       </div>

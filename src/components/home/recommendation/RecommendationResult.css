@@ -50,6 +50,14 @@
   margin: 0;
 }
 
+.weather-info {
+  font-size: 14px;
+  font-weight: 500;
+  color: #8A94A6;
+  margin: 8px 0 0 0;
+  text-align: center;
+}
+
 .result-stores-list {
   display: flex;
   flex-direction: column;
