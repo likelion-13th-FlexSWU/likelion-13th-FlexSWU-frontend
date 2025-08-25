@@ -142,8 +142,11 @@ const SignupOnboarding = () => {
             <div className="login-button" onClick={() => navigate('/login')}>로그인</div>
             {/* 메인 타이틀 - 현재 슬라이드에 따라 동적으로 변경 */}
             <div className="main-title">
-              <h1>{slides[currentSlide].title}</h1>
-              <h2>{slides[currentSlide].subtitle}</h2>
+              <h1>
+                {slides[currentSlide].title}
+                <br />
+                {slides[currentSlide].subtitle}
+              </h1>
             </div>
           </div>
 
