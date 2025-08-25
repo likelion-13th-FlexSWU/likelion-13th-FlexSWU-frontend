@@ -14,6 +14,21 @@
   z-index: 1;
   display: flex;
   flex-direction: column;
+  /* iOS 상태바 영역까지 배경색 확장 */
+  padding-top: env(safe-area-inset-top);
+  margin-top: calc(-1 * env(safe-area-inset-top));
+}
+
+/* iOS 상태바 영역 스타일링 */
+.mobile-container::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: env(safe-area-inset-top);
+  background-color: var(--color-bg-secondary);
+  z-index: 9999;
 }
 
 /* 메인 콘텐츠 영역 */
@@ -31,13 +46,13 @@
 .header {
   padding: var(--spacing-lg);
   position: relative;
-  padding-top: var(--spacing-lg);
+  padding-top: calc(var(--spacing-lg) + env(safe-area-inset-top));
 }
 
 /* 우측 상단 로그인 버튼 */
 .login-button {
   position: absolute;
-  top: var(--spacing-lg);
+  top: calc(var(--spacing-lg) + env(safe-area-inset-top));
   right: var(--spacing-lg);
   color: var(--color-button-primary);
   font-size: var(--font-size-md);
@@ -244,12 +259,12 @@
   /* 모바일에서 헤더 패딩 조정 */
   .header {
     padding: 12px;
-    padding-top: 12px;
+    padding-top: calc(12px + env(safe-area-inset-top));
   }
   
   /* 모바일에서 로그인 버튼 위치 조정 */
   .login-button {
-    top: 24x;
+    top: calc(24px + env(safe-area-inset-top));
     right: 28px;
     font-size: 15px;
   }
