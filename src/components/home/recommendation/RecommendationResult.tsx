@@ -2,7 +2,28 @@ import React, { useState, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { authAPI } from '../../../services/api'
 import type { TodayRecommendationResponse } from '../../../types/auth'
+
 import './RecommendationResult.css'
+// 음식 카테고리별 이미지들
+import koreanFood1 from '../../../assets/foods/category-korean-1.jpeg'
+import japaneseFood1 from '../../../assets/foods/category-japanese-1.jpeg'
+import japaneseFood2 from '../../../assets/foods/category-japanese-2.jpeg'
+import japaneseFood3 from '../../../assets/foods/category-japanese-3.jpeg'
+import chineseFood1 from '../../../assets/foods/category-chinese-1.jpeg'
+import chineseFood2 from '../../../assets/foods/category-chinese-2.jpeg'
+import chineseFood3 from '../../../assets/foods/category-chinese-3.jpeg'
+import westernFood1 from '../../../assets/foods/category-western-1.jpeg'
+import westernFood2 from '../../../assets/foods/category-western-2.jpeg'
+import cafeFood1 from '../../../assets/foods/category-cafe-1.jpeg'
+import cafeFood2 from '../../../assets/foods/category-cafe-2.jpeg'
+import cafeFood3 from '../../../assets/foods/category-cafe-3.jpeg'
+import icecreamFood1 from '../../../assets/foods/category-icecream-1.jpeg'
+import icecreamFood2 from '../../../assets/foods/category-icecream-2.jpeg'
+import giftshopFood1 from '../../../assets/foods/category-giftshop-1.jpeg'
+import giftshopFood2 from '../../../assets/foods/category-giftshop-2.jpeg'
+import omakaseFood1 from '../../../assets/foods/category-omakase-1.jpeg'
+import omakaseFood2 from '../../../assets/foods/category-omakase-2.jpeg'
+
 import bgbg from '../../../assets/backgrounds/bgbg.svg'
 import callIcon from '../../../assets/icons/call.svg'
 import houseIcon from '../../../assets/icons/house.svg'
@@ -92,6 +113,26 @@ const RecommendationResult: React.FC = () => {
     }
   }
 
+  // 카테고리별 음식 이미지 반환
+  const getCategoryFoodImage = (category: string) => {
+    // 카테고리별로 미리 정의된 이미지 매핑
+    const foodImageMap: { [key: string]: any } = {
+      '한식': [koreanFood1],
+      '일식': [japaneseFood1, japaneseFood2, japaneseFood3],
+      '중식': [chineseFood1, chineseFood2, chineseFood3],
+      '양식': [westernFood1, westernFood2],
+      '카페': [cafeFood1, cafeFood2, cafeFood3],
+      '커피': [cafeFood1, cafeFood2],
+      '아이스크림': [icecreamFood1, icecreamFood2],
+      '소품샵': [giftshopFood1, giftshopFood2],
+      '오마카세': [omakaseFood1, omakaseFood2]
+    }
+    
+    const images = foodImageMap[category] || [koreanFood1]
+    // 랜덤하게 1개 선택
+    return images[Math.floor(Math.random() * images.length)]
+  }
+
   const handleStoreClick = (storeUrl: string) => {
     // 카카오맵 주소로 이동
     if (storeUrl) {
@@ -110,14 +151,8 @@ const RecommendationResult: React.FC = () => {
 
   return (
     <div className="recommendation-result-container">
-      {/* 배경 이미지 */}
-      <div className="result-background">
-        <img src={bgbg} alt="배경" className="result-bg-image" />
-      </div>
-
-      {/* 메인 콘텐츠 */}
-      <div className="result-content">
-        {/* 타이틀 섹션 */}
+      {/* 1섹션: 타이틀 (배경 포함) */}
+      <section className="result-hero-section">
         <div className="result-title-section">
           <h1 className="result-title">
             {isWeatherRecommendation 
@@ -142,6 +177,10 @@ const RecommendationResult: React.FC = () => {
             }개
           </p>
         </div>
+      </section>
+
+      {/* 메인 콘텐츠 */}
+      <div className="result-content">
 
         {/* 추천 결과 리스트 */}
         <div className="result-stores-list">
@@ -150,8 +189,17 @@ const RecommendationResult: React.FC = () => {
               {/* 티켓 가운데 점선 구분선 */}
               <div className="ticket-divider"></div>
               
-              {/* 티켓 위쪽: 가게 이름 */}
+              {/* 티켓 위쪽: 음식 이미지 + 가게 이름 */}
               <div className="ticket-upper">
+                {/* 음식 이미지 */}
+                <div className="store-image-container">
+                  <img 
+                    src={getCategoryFoodImage(isWeatherRecommendation ? '한식' : '한식')} 
+                    alt="음식" 
+                    className="store-image"
+                  />
+                </div>
+                
                 <div className="store-name-container">
                   <h3 className="store-name">{store.name}</h3>
                 </div>
@@ -167,19 +215,19 @@ const RecommendationResult: React.FC = () => {
               
               {/* 티켓 아래쪽: 전화번호 + 주소 */}
               <div className="ticket-lower">
-                <div className="store-details">
-                  {store.phone && (
+                                  <div className="store-details">
                     <div className="store-detail-item">
                       <img src={callIcon} alt="전화" className="detail-icon" />
-                      <span className="detail-text">{store.phone}</span>
+                      <span className="detail-text">
+                        {store.phone || '전화번호가 없어요.'}
+                      </span>
                     </div>
-                  )}
-                  
-                  <div className="store-detail-item">
-                    <img src={houseIcon} alt="주소" className="detail-icon" />
-                    <span className="detail-text">{store.address_road}</span>
+                    
+                    <div className="store-detail-item">
+                      <img src={houseIcon} alt="주소" className="detail-icon" />
+                      <span className="detail-text">{store.address_road}</span>
+                    </div>
                   </div>
-                </div>
               </div>
             </div>
           ))}

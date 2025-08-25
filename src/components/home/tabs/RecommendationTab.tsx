@@ -5,9 +5,26 @@ import type { RecommendationResponse } from '../../../types/auth'
 import './RecommendationTab.css'
 import arrowIcon from '../../../assets/icons/icon-arrow-right.svg'
 import iconArrow from '../../../assets/icons/icon-arrow.svg'
-import cafeBg1 from '../../../assets/backgrounds/cafe-bg-1.png'
-import koreanBg1 from '../../../assets/backgrounds/korean-bg-1.png'
-import koreanBg2 from '../../../assets/backgrounds/korean-bg-2.png'
+
+// 음식 카테고리별 이미지들
+import koreanFood1 from '../../../assets/foods/category-korean-1.jpeg'
+import japaneseFood1 from '../../../assets/foods/category-japanese-1.jpeg'
+import japaneseFood2 from '../../../assets/foods/category-japanese-2.jpeg'
+import japaneseFood3 from '../../../assets/foods/category-japanese-3.jpeg'
+import chineseFood1 from '../../../assets/foods/category-chinese-1.jpeg'
+import chineseFood2 from '../../../assets/foods/category-chinese-2.jpeg'
+import chineseFood3 from '../../../assets/foods/category-chinese-3.jpeg'
+import westernFood1 from '../../../assets/foods/category-western-1.jpeg'
+import westernFood2 from '../../../assets/foods/category-western-2.jpeg'
+import cafeFood1 from '../../../assets/foods/category-cafe-1.jpeg'
+import cafeFood2 from '../../../assets/foods/category-cafe-2.jpeg'
+import cafeFood3 from '../../../assets/foods/category-cafe-3.jpeg'
+import icecreamFood1 from '../../../assets/foods/category-icecream-1.jpeg'
+import icecreamFood2 from '../../../assets/foods/category-icecream-2.jpeg'
+import giftshopFood1 from '../../../assets/foods/category-giftshop-1.jpeg'
+import giftshopFood2 from '../../../assets/foods/category-giftshop-2.jpeg'
+import omakaseFood1 from '../../../assets/foods/category-omakase-1.jpeg'
+import omakaseFood2 from '../../../assets/foods/category-omakase-2.jpeg'
 
 import store01 from '../../../assets/stores/store-01.png'
 import store02 from '../../../assets/stores/store-02.png'
@@ -63,30 +80,24 @@ const RecommendationTab: React.FC = () => {
     })
   }
 
-  // 카테고리별 배경 이미지 반환 (stores 이미지도 활용)
-  const getCategoryBackground = (category: string, index: number) => {
-    // stores 이미지들을 카테고리별로 매핑
-    const storeImages = [store01, store02, store03, store04, store05, store06, store07, store08]
-    
-    // 카테고리별로 다른 배경 이미지 사용
-    switch (category) {
-      case '한식':
-        return index % 2 === 0 ? koreanBg1 : koreanBg2
-      case '카페':
-      case '커피':
-        return cafeBg1
-      case '양식':
-        return index % 2 === 0 ? koreanBg2 : koreanBg1
-      case '분식':
-        return index % 2 === 0 ? store01 : store02
-      case '일식':
-        return index % 2 === 0 ? store03 : store04
-      case '중식':
-        return index % 2 === 0 ? store05 : store06
-      default:
-        // 기본적으로 stores 이미지와 배경 이미지를 번갈아가며 사용
-        return index % 2 === 0 ? storeImages[index % storeImages.length] : koreanBg1
+  // 카테고리별 음식 이미지 반환
+  const getCategoryFoodImage = (category: string) => {
+    // 카테고리별로 미리 정의된 이미지 매핑
+    const foodImageMap: { [key: string]: any } = {
+      '한식': [koreanFood1],
+      '일식': [japaneseFood1, japaneseFood2, japaneseFood3],
+      '중식': [chineseFood1, chineseFood2, chineseFood3],
+      '양식': [westernFood1, westernFood2],
+      '카페': [cafeFood1, cafeFood2, cafeFood3],
+      '커피': [cafeFood1, cafeFood2, cafeFood3],
+      '아이스크림': [icecreamFood1, icecreamFood2],
+      '선물샵': [giftshopFood1, giftshopFood2],
+      '오마카세': [omakaseFood1, omakaseFood2]
     }
+    
+    const images = foodImageMap[category] || [koreanFood1]
+    // 랜덤하게 1개 선택
+    return images[Math.floor(Math.random() * images.length)]
   }
 
   // 번호 아이콘 반환
@@ -118,8 +129,12 @@ const RecommendationTab: React.FC = () => {
                   className="today-store-item-link"
                 >
                   <div className="today-store-item">
+                    {/* 음식 이미지 */}
+                    <div className="today-store-food-image">
+                      <img src={getCategoryFoodImage(store.category)} alt={`${store.category} 음식`} />
+                    </div>
                     <div className="today-store-bg">
-                      <img src={getCategoryBackground(store.category, index)} alt={`${store.category} 배경`} />
+                      <img src={getCategoryFoodImage(store.category)} alt={`${store.category} 음식`} />
                     </div>
                     <div className="today-store-number">
                       <img src={getRecommendNumber(index)} alt={`${index + 1}번`} />
@@ -167,8 +182,12 @@ const RecommendationTab: React.FC = () => {
             <div className="history-store-grid">
               {recommendationData.past_recommend.slice(0, 3).map((store, index) => (
                 <div key={index} className="history-store-item">
+                  {/* 음식 이미지 */}
+                  <div className="history-store-food-image">
+                    <img src={getCategoryFoodImage(store.category)} alt={`${store.category} 음식`} />
+                  </div>
                   <div className="history-store-bg">
-                    <img src={getCategoryBackground(store.category, index)} alt={`${store.category} 배경`} />
+                    <img src={getCategoryFoodImage(store.category)} alt={`${store.category} 음식`} />
                   </div>
                   <div className="history-store-info">
                     <div className="history-store-name">{store.name}</div>

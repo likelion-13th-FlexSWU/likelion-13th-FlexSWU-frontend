@@ -99,6 +99,36 @@
   display: block;
 }
 
+.today-store-food-image {
+  width: 100%;
+  height: 80px;
+  overflow: hidden;
+  border-radius: 12px 12px 0 0;
+  position: relative;
+  z-index: 1;
+}
+
+.today-store-food-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.history-store-food-image {
+  width: 100%;
+  height: 80px;
+  overflow: hidden;
+  border-radius: 12px 12px 0 0;
+  position: relative;
+  z-index: 1;
+}
+
+.history-store-food-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .today-store-item {
   position: relative;
   border-radius: var(--radius-lg);

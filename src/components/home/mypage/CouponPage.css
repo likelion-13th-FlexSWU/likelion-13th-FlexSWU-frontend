@@ -50,6 +50,9 @@
 
 .coupon-section-header {
   margin-bottom: 20px;
+  width: 100%;
+  max-width: 400px;
+  text-align: left;
 }
 
 .coupon-section-title {
@@ -60,6 +63,10 @@
   display: flex;
   align-items: center;
   gap: 8px;
+}
+
+.coupon-section-title .coupon-count {
+  color: #007BEB;
 }
 
 .coupon-new-dot {
@@ -111,6 +118,7 @@
 .coupon-left {
   flex-shrink: 0;
   margin-right: 20px;
+
 }
 
 .coupon-image {
@@ -118,13 +126,20 @@
   height: 60px;
   border-radius: 50%;
   object-fit: cover;
+  margin-left: 12px;
 }
 
 .coupon-divider {
   width: 1px;
   height: 80px;
-  background-color: #d1d5db;
-  margin-left: 5px;
+  background: repeating-linear-gradient(
+    to bottom,
+    #d1d5db 0,
+    #d1d5db 4px,
+    transparent 4px,
+    transparent 8px
+  );
+  margin-left: -5px;
 }
 
 .coupon-right {
@@ -134,20 +149,20 @@
 .coupon-restaurant-name {
   font-size: 16px;
   font-weight: 600;
-  color: #4B4B4B;
+  color: #68707A;
   margin: 0 0 8px 0;
 }
 
 .coupon-discount {
   font-size: 18px;
   font-weight: 700;
-  color: #007BEB;
+  color: #1E2A38;
   margin: 0 0 8px 0;
 }
 
 .coupon-expiration {
   font-size: 14px;
-  color: #6c757d;
+  color: #68707A;
   margin: 0;
 }
 
