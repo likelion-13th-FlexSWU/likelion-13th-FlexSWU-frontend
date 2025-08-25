@@ -48,7 +48,7 @@ const NicknameChangePage: React.FC = () => {
         // 성공 토스트 표시 후 설정 페이지로 이동
         showToast('닉네임이 성공적으로 변경되었습니다!', 'success')
         setTimeout(() => {
-          navigate('/setting')
+          navigate('/home/mypage/setting')
         }, 1500) // 토스트가 보인 후 이동
       } catch (error: any) {
         // 에러 토스트 표시

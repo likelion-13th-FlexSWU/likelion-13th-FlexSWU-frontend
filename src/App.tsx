@@ -16,12 +16,8 @@ import MissionAuthPage from './components/home/mission/MissionAuthPage'
 import MissionAuthResultPage from './components/home/mission/MissionAuthResultPage'
 import MissionAuthCompletePage from './components/home/mission/MissionAuthCompletePage'
 import MissionReviewPage from './components/home/mission/MissionReviewPage'
-import MyInfoPage from './components/home/mypage/MyInfoPage'
-import CouponPage from './components/home/mypage/CouponPage'
-import SettingPage from './components/home/mypage/SettingPage'
 import NicknameChangePage from './components/home/mypage/NicknameChangePage'
 import RegionChangePage from './components/home/mypage/RegionChangePage'
-import MyReviewsPage from './components/home/mypage/MyReviewsPage'
 import ComingSoonPage from './components/common/ComingSoonPage'
 
 function App() {

@@ -60,7 +60,7 @@
 
 /* 타이틀 섹션 */
 .mission-title-section {
-  text-align: center;
+  text-align: left;
   margin-bottom: 8px;
 }
 
@@ -74,13 +74,6 @@
 
 .mission-subtitle {
   font-size: 16px;
-  color: #6C757D;
-  margin: 0 0 4px 0;
-  line-height: 1.4;
-}
-
-.mission-description {
-  font-size: 14px;
   color: #6C757D;
   margin: 0;
   line-height: 1.4;
@@ -111,7 +104,7 @@
   height: 120px;
   min-height: 120px;
   max-width: 343px;
-  text-align: center;
+  text-align: left;
   box-shadow: 0 4px 12px rgba(74, 144, 226, 0.2);
   cursor: pointer;
   transition: all 0.3s ease;
@@ -120,7 +113,12 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
+}
+
+/* 도시 지역기여도 카드에만 배경색 추가 */
+.mission-page-ranking-card.region-bg {
+  background-color: white;
 }
 
 .mission-page-ranking-header,
@@ -132,7 +130,7 @@
 .mission-page-ranking-header {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 8px;
   margin-bottom: 8px;
 }

@@ -4,7 +4,7 @@ import { createWorker } from 'tesseract.js'
 import './MissionAuthResultPage.css'
 import addressIcon from '../../../assets/icons/address.svg'
 import timeIcon from '../../../assets/icons/time.svg'
-import { missionAPI, ocrAPI } from '../../../services/api'
+import { missionAPI } from '../../../services/api'
 
 // 영수증 파싱 결과 타입
 interface ReceiptData {
@@ -23,7 +23,6 @@ const MissionAuthResultPage: React.FC = () => {
   const [receiptData, setReceiptData] = useState<ReceiptData | null>(null)
   const [selectedImage, setSelectedImage] = useState<string | null>(null)
   const [rawText, setRawText] = useState<string>('')
-  const [progress, setProgress] = useState<number>(0)
   
   // 편집 상태 관리
   const [editingField, setEditingField] = useState<string | null>(null)
@@ -51,7 +50,6 @@ const MissionAuthResultPage: React.FC = () => {
   const processImage = async (imageUrl: string) => {
     try {
       setIsProcessing(true)
-      setProgress(0)
       
       // Tesseract로 직접 처리
       await processImageWithTesseract(imageUrl)
@@ -142,17 +140,17 @@ const MissionAuthResultPage: React.FC = () => {
   // Tesseract 폴백 함수
   const processImageWithTesseract = async (imageUrl: string) => {
     try {
-      console.log('이미지 전처리 시작...')
+
       
       // 이미지 전처리
       const processedImageUrl = await preprocessImage(imageUrl)
-      console.log('이미지 전처리 완료')
+      
       
       // Tesseract 설정 - 한글 언어팩으로 최적화
       const worker = await createWorker('kor')
       
       // 한글 언어팩으로 한글 + 숫자 인식률 향상
-      console.log('Tesseract 한글 언어팩 로드 완료')
+      
       
       const img = new Image()
       img.crossOrigin = 'anonymous'
@@ -166,11 +164,10 @@ const MissionAuthResultPage: React.FC = () => {
           canvas.height = img.height
           ctx.drawImage(img, 0, 0)
           
-          console.log('Tesseract OCR 시작...')
+  
           const { data: { text, confidence } } = await worker.recognize(canvas)
           
-          console.log('Tesseract OCR 결과:', text)
-          console.log('신뢰도:', confidence)
+          
           setRawText(text)
           
           const parsedData = parseReceiptText(text)
@@ -213,25 +210,33 @@ const MissionAuthResultPage: React.FC = () => {
     }
   }
 
-  // OCR 텍스트 파싱 함수 - 시연용 영수증 특화
+  // OCR 텍스트 파싱 함수 - 실제 데이터 우선 사용
   const parseReceiptText = (ocrText: string): ReceiptData => {
     const cleanText = ocrText.replace(/\s+/g, ' ').replace(/\n+/g, '\n').trim()
     
-    console.log('OCR 원본 텍스트:', cleanText)
-    
-    // 1. 가게명 추출 (가장 중요한 정보)
+    // 1. 가게명 추출 
     const storeName = extractStoreName(cleanText)
-    console.log('추출된 가게명:', storeName)
     
-    // 2. 시연용 데이터에서 매칭
+    // 2. 실제 OCR 데이터로 파싱 시도
+    const actualData = fallbackParsing(cleanText)
+    
+    // 3. 시연용 데이터에서 누락된 정보 보완 (백업)
     if (storeName && DEMO_RECEIPTS[storeName]) {
-      console.log('시연용 데이터 매칭 성공:', storeName)
-      return DEMO_RECEIPTS[storeName]
+
+      const demoData = DEMO_RECEIPTS[storeName]
+      
+      // 실제 OCR에서 추출한 정보가 있으면 우선 사용, 없으면 시연용 데이터 사용
+      return {
+        storeName: actualData.storeName !== '알 수 없는 가게' ? actualData.storeName : demoData.storeName,
+        address: actualData.address !== '주소 정보 없음' ? actualData.address : demoData.address,
+        phoneNumber: actualData.phoneNumber !== '전화번호 정보 없음' ? actualData.phoneNumber : demoData.phoneNumber,
+        transactionDate: actualData.transactionDate !== new Date().toISOString() ? actualData.transactionDate : demoData.transactionDate,
+        totalAmount: actualData.totalAmount !== '0' ? actualData.totalAmount : demoData.totalAmount
+      }
     }
     
-    // 3. 매칭되지 않으면 기본 파싱 시도
-    console.log('시연용 데이터 매칭 실패, 기본 파싱 시도')
-    return fallbackParsing(cleanText)
+    // 4. 시연용 데이터가 없으면 실제 OCR 데이터만 사용
+    return actualData
   }
 
   // 가게명 추출 함수 (시연용 영수증에 최적화)
@@ -302,83 +307,7 @@ const MissionAuthResultPage: React.FC = () => {
     return result
   }
 
-  // OCR 품질 계산 (단순화)
-  const calculateOCRQuality = (text: string): number => {
-    if (!text || text.length < 10) return 0
-    
-    // 기본 품질 점수 계산
-    let score = 50
-    
-    // 가게명이 포함되어 있으면 점수 추가
-    if (text.includes('일향루') || text.includes('블라') || text.includes('신연마라탕')) {
-      score += 30
-    }
-    
-    // 주소 정보가 있으면 점수 추가
-    if (text.includes('서울') || text.includes('노원구')) {
-      score += 10
-    }
-    
-    // 전화번호가 있으면 점수 추가
-    if (text.match(/\d{2,3}-\d{3,4}-\d{4}/)) {
-      score += 10
-    }
-    
-    return Math.min(score, 100)
-  }
 
-  // 적응형 파싱 (단순화)
-  const adaptiveParsing = (parsedData: Partial<ReceiptData>, ocrText: string): ReceiptData => {
-    const ocrQuality = calculateOCRQuality(ocrText)
-    console.log('OCR 품질:', ocrQuality)
-    
-    // OCR 품질이 낮으면 기본값 사용
-    if (ocrQuality < 50) {
-      return {
-        storeName: parsedData.storeName || '알 수 없는 가게',
-        address: parsedData.address || '주소 정보 없음',
-        phoneNumber: parsedData.phoneNumber || '전화번호 정보 없음',
-        transactionDate: parsedData.transactionDate || new Date().toISOString(),
-        totalAmount: parsedData.totalAmount || '0'
-      }
-    }
-    
-    // 품질이 높으면 파싱된 데이터 사용
-    return {
-      storeName: parsedData.storeName || '알 수 없는 가게',
-      address: parsedData.address || '주소 정보 없음',
-      phoneNumber: parsedData.phoneNumber || '전화번호 정보 없음',
-      transactionDate: parsedData.transactionDate || new Date().toISOString(),
-      totalAmount: parsedData.totalAmount || '0'
-    }
-  }
-
-  // 유틸리티 함수들
-  const isValidAddress = (address: string): boolean => {
-    return Boolean(address && address.length > 5 && /[가-힣]/.test(address))
-  }
-
-  const isValidPhoneNumber = (phone: string): boolean => {
-    return Boolean(phone && /^\d{2,4}[-\s]?\d{3,4}[-\s]?\d{4}$/.test(phone))
-  }
-
-  const isValidDate = (date: string): boolean => {
-    return Boolean(date && /^\d{4}-\d{1,2}-\d{1,2}/.test(date))
-  }
-
-  const isValidAmount = (amount: string): boolean => {
-    return Boolean(amount && /^\d+원$/.test(amount))
-  }
-
-  const normalizeDateTime = (dateTime: string): string => {
-    // YYYY-MM-DD HH:MM:SS 형식을 ISO 형식으로 변환
-    return dateTime.replace(' ', 'T')
-  }
-
-  const normalizeAmount = (amount: string): string => {
-    // "1,000원" -> "1000"
-    return amount.replace(/[^\d]/g, '')
-  }
 
   const handleConfirm = async () => {
     if (!receiptData) {
@@ -387,14 +316,45 @@ const MissionAuthResultPage: React.FC = () => {
     }
 
     try {
+      // 데이터 유효성 검사
+      if (!receiptData.storeName || !receiptData.address || !receiptData.transactionDate || !receiptData.totalAmount) {
+        alert('영수증 정보가 불완전합니다. 모든 필드를 입력해주세요.')
+        return
+      }
+
+      // 날짜 형식 정규화 (ISO 형식으로 변환)
+      const normalizeDate = (dateStr: string): string => {
+        if (!dateStr) return new Date().toISOString()
+        
+        // "2025-08-25 19:13:11" -> "2025-08-25T19:13:11"
+        if (dateStr.includes(' ') && !dateStr.includes('T')) {
+          return dateStr.replace(' ', 'T')
+        }
+        
+        // "2025-08-25" -> "2025-08-25T00:00:00"
+        if (dateStr.match(/^\d{4}-\d{2}-\d{2}$/)) {
+          return `${dateStr}T00:00:00`
+        }
+        
+        return dateStr
+      }
+
+      // 금액 정규화 (숫자만 추출)
+      const normalizeAmount = (amountStr: string): number => {
+        if (!amountStr) return 0
+        const cleanAmount = amountStr.replace(/[^0-9]/g, '')
+        const parsedAmount = parseInt(cleanAmount)
+        return isNaN(parsedAmount) ? 0 : parsedAmount
+      }
+
       // API 요청 데이터 구성
       const requestData = {
         mission_id: missionId,
-        address: receiptData.address || '',
-        name: receiptData.storeName || '',
-        visited_at: receiptData.transactionDate || '',
-        phone_num: receiptData.phoneNumber || '',
-        total_price: parseInt(receiptData.totalAmount?.replace(/[^0-9]/g, '') || '0')
+        address: receiptData.address.trim(),
+        name: receiptData.storeName.trim(),
+        visited_at: normalizeDate(receiptData.transactionDate),
+        phone_num: receiptData.phoneNumber?.trim() || '',
+        total_price: normalizeAmount(receiptData.totalAmount)
       }
 
       // API 호출
@@ -409,6 +369,7 @@ const MissionAuthResultPage: React.FC = () => {
       })
       
     } catch (error: any) {
+      console.error('미션 인증 오류:', error)
       alert(`미션 인증에 실패했습니다: ${error.message}`)
     }
   }
@@ -648,17 +609,6 @@ const MissionAuthResultPage: React.FC = () => {
           <div className="mission-auth-result-loading">
             <div className="mission-auth-result-loading-spinner"></div>
             <p className="mission-auth-result-loading-text">영수증을 분석하고 있습니다...</p>
-            {progress > 0 && (
-              <div className="mission-auth-result-progress">
-                <div className="mission-auth-result-progress-bar">
-                  <div 
-                    className="mission-auth-result-progress-fill"
-                    style={{ width: `${progress}%` }}
-                  ></div>
-                </div>
-                <p className="mission-auth-result-progress-text">{progress}%</p>
-              </div>
-            )}
           </div>
         </main>
       </div>

@@ -13,22 +13,25 @@ interface AtmosphereOption {
 
 // 분위기 옵션 데이터
 const ATMOSPHERE_OPTIONS: AtmosphereOption[] = [
-  { id: 'solo', name: '혼밥 하기 편해요', emoji: '👤' },
-  { id: 'plants', name: '식물이 많아요', emoji: '🌿' },
-  { id: 'stay', name: '오래 머물기 좋아요', emoji: '🛋️' },
-  { id: 'diverse', name: '메뉴가 다양해요', emoji: '🍽️' },
-  { id: 'music', name: '음악 선정이 좋아요', emoji: '🎵' },
-  { id: 'reading', name: '책 읽기 좋아요', emoji: '📚' },
-  { id: 'photo', name: '사진찍기 좋아요', emoji: '📸' },
-  { id: 'lively', name: '활기찬 공간이에요', emoji: '🔥' },
-  { id: 'pets', name: '강아지/고양이가 있어요', emoji: '🐾' },
-  { id: 'quiet', name: '조용해요', emoji: '🤫' },
-  { id: 'overseas', name: '해외같아요', emoji: '🌍' },
-  { id: 'vegan', name: '비건 메뉴가 있어요', emoji: '🥑' },
-  { id: 'concentrate', name: '집중하기 좋아요', emoji: '💻' },
-  { id: 'view', name: '뷰가 좋아요', emoji: '🖼️' },
-  { id: 'spacious', name: '매장이 넓어요', emoji: '✅' },
-  { id: 'interior', name: '인테리어가 감성적이에요', emoji: '🪞' }
+    { id: 'solo', name: '혼밥 하기 편해요', emoji: '👤' },
+    { id: 'date', name: '데이트하기 좋아요', emoji: '👫' },
+    { id: 'family', name: '가족과 가기 좋아요', emoji: '🏠' },
+    { id: 'diverse', name: '메뉴가 다양해요', emoji: '🍽️' },
+    { id: 'music', name: '음악 선정이 좋아요', emoji: '🎵' },
+    { id: 'reading', name: '책 읽기 좋아요', emoji: '📚' },
+    { id: 'photo', name: '사진찍기 좋아요', emoji: '📸' },
+    { id: 'lively', name: '활기찬 공간이에요', emoji: '🔥' },
+    { id: 'pets', name: '반려동물과 함께', emoji: '🐾' },
+    { id: 'quiet', name: '조용해요', emoji: '🤫' },
+    { id: 'overseas', name: '해외같아요', emoji: '🌍' },
+    { id: 'cozy', name: '아늑해요', emoji: '🛋️' },
+    { id: 'concentrate', name: '집중하기 좋아요', emoji: '💻' },
+    { id: 'view', name: '뷰가 좋아요', emoji: '🖼️' },
+    { id: 'spacious', name: '매장이 넓어요', emoji: '✅' },
+    { id: 'plants', name: '식물이 많아요', emoji: '🌿' },
+    { id: 'stay', name: '오래 머물기 좋아요', emoji: '🧸' },
+    { id: 'trendy', name: '트렌디해요', emoji: '😎' },
+    { id: 'noisy', name: '시끌벅적해요', emoji: '🪩' },
 ]
 
 const MissionReviewPage: React.FC = () => {
@@ -64,9 +67,17 @@ const MissionReviewPage: React.FC = () => {
     try {
       setIsSubmitting(true)
       
+      // 선택된 키워드를 숫자 배열로 변환 (ATMOSPHERE_OPTIONS 배열 인덱스)
+      const convertTagsToNumbers = (selectedTags: string[]): number[] => {
+        return selectedTags.map(tagId => {
+          const index = ATMOSPHERE_OPTIONS.findIndex(option => option.id === tagId)
+          return index + 1  // 1부터 시작하는 인덱스
+        })
+      }
+
       const reviewData: MissionReviewRequest = {
         mission_id: missionId,
-        tags: selectedKeywords,
+        tags: convertTagsToNumbers(selectedKeywords),
         content: reviewText.trim() || null
       }
 
