@@ -156,8 +156,56 @@ export const authAPI = {
   getUserInfo: async (): Promise<UserInfo> => {
     try {
       const response = await api.get('/user')
-      return response.data
+      console.log('API 응답 전체:', response) // 전체 응답 로그
+      console.log('API 응답 데이터:', response.data) // 응답 데이터 로그
+      
+      // API 응답 구조가 예상과 다를 수 있으니 데이터 변환 로직 추가
+      const rawData = response.data
+      let transformedData: UserInfo
+      
+      // 응답 구조에 따라 데이터 변환
+      if (rawData.monthly && Array.isArray(rawData.monthly)) {
+        // 기존 구조와 동일한 경우
+        transformedData = rawData
+      } else if (rawData.contribution && rawData.contribution.monthly) {
+        // contribution.monthly 구조인 경우
+        transformedData = {
+          sido: rawData.sido || rawData.region?.sido || "서울",
+          gugun: rawData.gugun || rawData.region?.gugun || "노원구",
+          username: rawData.username || rawData.name || "사용자",
+          type: rawData.type || null,
+          monthly: rawData.contribution.monthly.map((item: any) => ({
+            month: item.month || item.period,
+            score: item.score || item.points || 0
+          }))
+        }
+      } else if (rawData.region_contribution) {
+        // region_contribution 구조인 경우
+        transformedData = {
+          sido: rawData.sido || rawData.region?.sido || "서울",
+          gugun: rawData.gugun || rawData.region?.gugun || "노원구",
+          username: rawData.username || rawData.name || "사용자",
+          type: rawData.type || null,
+          monthly: rawData.region_contribution.map((item: any) => ({
+            month: item.month || item.period,
+            score: item.score || item.points || 0
+          }))
+        }
+      } else {
+        // 기본 구조
+        transformedData = {
+          sido: rawData.sido || "서울",
+          gugun: rawData.gugun || "노원구",
+          username: rawData.username || "사용자",
+          type: rawData.type || null,
+          monthly: []
+        }
+      }
+      
+      console.log('변환된 데이터:', transformedData) // 변환된 데이터 로그
+      return transformedData
     } catch (error: any) {
+      console.error('getUserInfo API 에러:', error) // 에러 로그 추가
       throw new Error(error.response?.data?.message || '사용자 정보를 가져오는데 실패했습니다.')
     }
   },
