@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
 import { authAPI } from '../../../services/api'
 import type { UserInfo } from '../../../types/auth'
 import witchIcon from '../../../assets/icons/witch.svg'
@@ -58,7 +57,7 @@ const MyInfoPage: React.FC = () => {
 
   const formatMonth = (monthStr: string) => {
     const month = monthStr.split('-')[1]
-    return `${parseInt(month)}월`
+    return `${parseInt(month)}`
   }
 
   // 지역기여도 차트 데이터 (하이브리드 방식)
@@ -68,7 +67,14 @@ const MyInfoPage: React.FC = () => {
         const dynamicMax = Math.max(...userInfo.monthly.map(item => item.score))
         const maxScore = Math.max(BASE_MAX, dynamicMax) // 6만점 vs 실제 최대값
         
-        return userInfo.monthly.map(item => ({
+        // 월별 데이터 시간순으로 정렬(오름차순)
+        const sortedMonthly = [...userInfo.monthly].sort((a, b) => {
+          const aDate = new Date(a.month)
+          const bDate = new Date(b.month)
+          return aDate.getTime() - bDate.getTime()
+        })
+        
+        return sortedMonthly.map(item => ({
           month: formatMonth(item.month),
           score: item.score,
           height: `${(item.score / maxScore) * 100}%`
