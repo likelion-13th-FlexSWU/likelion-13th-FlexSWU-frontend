@@ -22,8 +22,10 @@ const MyInfoPage: React.FC = () => {
     const fetchUserInfo = async () => {
       try {
         const data = await authAPI.getUserInfo()
+        console.log('API에서 받아온 사용자 정보:', data) // 디버깅 로그 추가
         setUserInfo(data)
       } catch (err: any) {
+        console.error('사용자 정보 가져오기 실패:', err) // 에러 로그 추가
         // 에러 발생 시 기본값 설정
         setUserInfo({
           sido: "서울",
@@ -69,27 +71,58 @@ const MyInfoPage: React.FC = () => {
     return `${parseInt(month)}`
   }
 
-  // 지역기여도 차트 데이터 (하이브리드 방식)
+  // 지역기여도 차트 데이터 (6개월 전체 표시)
   const BASE_MAX = 60000 // 기본 최대값: 6만점
-  const chartData = userInfo?.monthly && userInfo.monthly.length > 0 
-    ? (() => {
-        const dynamicMax = Math.max(...userInfo.monthly.map(item => item.score))
-        const maxScore = Math.max(BASE_MAX, dynamicMax) // 6만점 vs 실제 최대값
-        
-        // 월별 데이터 시간순으로 정렬(오름차순)
-        const sortedMonthly = [...userInfo.monthly].sort((a, b) => {
-          const aDate = new Date(a.month)
-          const bDate = new Date(b.month)
-          return aDate.getTime() - bDate.getTime()
-        })
-        
-        return sortedMonthly.map(item => ({
-          month: formatMonth(item.month),
-          score: item.score,
-          height: `${(item.score / maxScore) * 100}%`
-        }))
-      })()
-    : [
+  
+  // API 데이터가 있는지 확인하고 디버깅
+  console.log('현재 userInfo:', userInfo)
+  console.log('monthly 데이터:', userInfo?.monthly)
+  
+  const chartData = (() => {
+    // 최근 6개월 데이터 생성 (현재 월 기준으로 역순)
+    const currentDate = new Date()
+    const months = []
+    
+    for (let i = 5; i >= 0; i--) {
+      const targetDate = new Date(currentDate.getFullYear(), currentDate.getMonth() - i, 1)
+      const monthStr = `${targetDate.getFullYear()}-${String(targetDate.getMonth() + 1).padStart(2, '0')}`
+      months.push(monthStr)
+    }
+    
+    if (userInfo?.monthly && userInfo.monthly.length > 0) {
+      console.log('API 데이터로 차트 생성') // 디버깅 로그
+      
+      // API 데이터를 월별로 매핑
+      const monthlyMap = new Map()
+      userInfo.monthly.forEach(item => {
+        monthlyMap.set(item.month, item.score)
+      })
+      
+      // 6개월 전체 데이터 생성 (API 데이터가 있으면 실제 점수, 없으면 0)
+      const chartData = months.map(month => {
+        const score = monthlyMap.get(month) || 0
+        return {
+          month: formatMonth(month),
+          score: score,
+          originalMonth: month
+        }
+      })
+      
+      // 최대 점수 계산 (API 데이터 기준)
+      const dynamicMax = Math.max(...userInfo.monthly.map(item => item.score))
+      const maxScore = Math.max(BASE_MAX, dynamicMax)
+      
+      // 높이 계산
+      const result = chartData.map(item => ({
+        ...item,
+        height: `${(item.score / maxScore) * 100}%`
+      }))
+      
+      console.log('생성된 차트 데이터:', result) // 디버깅 로그
+      return result
+    } else {
+      console.log('기본 데이터로 차트 생성') // 디버깅 로그
+      return [
         { month: '3', score: 25000, height: '41.7%' },  // 25000/60000 = 41.7%
         { month: '4', score: 35000, height: '58.3%' },  // 35000/60000 = 58.3%
         { month: '5', score: 50000, height: '83.3%' },  // 50000/60000 = 83.3%
@@ -97,6 +130,8 @@ const MyInfoPage: React.FC = () => {
         { month: '7', score: 42500, height: '70.8%' },  // 42500/60000 = 70.8%
         { month: '8', score: 50000, height: '83.3%' }   // 50000/60000 = 83.3%
       ]
+    }
+  })()
 
   // 막대 클릭 핸들러
   const handleBarClick = (index: number) => {
