@@ -26,6 +26,7 @@ import giftshopFood2 from '../../../assets/foods/category-giftshop-2.jpeg'
 import omakaseFood1 from '../../../assets/foods/category-omakase-1.jpeg'
 import omakaseFood2 from '../../../assets/foods/category-omakase-2.jpeg'
 
+
 import store01 from '../../../assets/stores/store-01.png'
 import store02 from '../../../assets/stores/store-02.png'
 import store03 from '../../../assets/stores/store-03.png'
