@@ -336,7 +336,7 @@ export const tokenUtils = {
 // OCR 관련 API 함수들
 export const ocrAPI = {
   // Tesseract.js를 사용한 OCR (클라이언트 사이드)
-  tesseractOCR: async (imageUrl: string): Promise<string> => {
+  tesseractOCR: async (_imageUrl: string): Promise<string> => {
     // 이 함수는 클라이언트 사이드에서 직접 호출
     // Tesseract.js를 사용하여 OCR 처리
     return ''

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { authAPI } from '../../../services/api'
+
 import type { RecommendationRequest } from '../../../types/auth'
 import './RecommendationOptionsForm.css'
 import backArrowIcon from '../../../assets/icons/icon-back-arrow.svg'
