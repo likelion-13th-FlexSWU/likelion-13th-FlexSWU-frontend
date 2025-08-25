@@ -84,7 +84,7 @@
 .slide-container {
   position: relative;
   width: 100%;
-  height: 100px;
+  height: auto;
   overflow: hidden;
 }
 
