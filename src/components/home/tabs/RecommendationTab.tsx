@@ -222,22 +222,30 @@ const RecommendationTab: React.FC = () => {
             </p>
             <div className="history-store-grid">
               {recommendationData.past_recommend.slice(0, 3).map((store, index) => (
-                <div key={index} className="history-store-item">
-                  {/* 음식 이미지 */}
-                  <div className="history-store-food-image">
-                    <img src={getCategoryFoodImage(store.category)} alt={`${store.category} 음식`} />
+                <a 
+                  key={index} 
+                  href={store.url} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="history-store-item-link"
+                >
+                  <div className="history-store-item">
+                    {/* 음식 이미지 */}
+                    <div className="history-store-food-image">
+                      <img src={getCategoryFoodImage(store.category)} alt={`${store.category} 음식`} />
+                    </div>
+                    <div className="history-store-bg">
+                      <img src={getCategoryFoodImage(store.category)} alt={`${store.category} 음식`} />
+                    </div>
+                    <div className="history-store-info">
+                      <div className="history-store-name">{store.name}</div>
+                      <div className="history-store-address">{store.address}</div>
+                    </div>
+                    <div className="history-store-arrow">
+                      <img src={arrowIcon} alt="화살표" />
+                    </div>
                   </div>
-                  <div className="history-store-bg">
-                    <img src={getCategoryFoodImage(store.category)} alt={`${store.category} 음식`} />
-                  </div>
-                  <div className="history-store-info">
-                    <div className="history-store-name">{store.name}</div>
-                    <div className="history-store-address">{store.address}</div>
-                  </div>
-                  <div className="history-store-arrow">
-                    <img src={arrowIcon} alt="화살표" />
-                  </div>
-                </div>
+                </a>
               ))}
             </div>
           </>
